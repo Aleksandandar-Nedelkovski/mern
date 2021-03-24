@@ -3,6 +3,9 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const passport = require("passport");
 
+//load validation
+const validateProfileInput = require("../../validation/profile");
+
 //load profile model
 const Profile = require("../../models/Profile");
 
@@ -23,6 +26,7 @@ router.get(
   (req, res) => {
     const errors = {};
     Profile.findOne({ user: req.user.id })
+      .populate("user", ["name", "avatar"])
       .then((profile) => {
         if (!profile) {
           res.status(404).json();
@@ -40,13 +44,21 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateProfileInput(req.body);
+
+    //check validation
+    if (!isValid) {
+      //return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
     const profileFields = {};
     profileFields.user = req.user.id;
     if (req.body.handle) profileFields.handle = req.body.handle;
     if (req.body.company) profileFields.company = req.body.company;
     if (req.body.website) profileFields.website = req.body.website;
     if (req.body.location) profileFields.location = req.body.location;
-    if (req.bintoody.bio) profileFields.bio = req.body.bio;
+    if (req.body.bio) profileFields.bio = req.body.bio;
     if (req.body.status) profileFields.status = req.body.status;
     if (req.body.githubusername)
       profileFields.githubusername = req.body.githubusername;
@@ -67,6 +79,7 @@ router.post(
     Profile.findOne({ user: req.user.id }).then((profile) => {
       if (profile) {
         //update
+        mongoose.set("useFindAndModify", false);
         Profile.findOneAndUpdate(
           { user: req.user.id },
           { $set: profileFields },
