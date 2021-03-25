@@ -9,7 +9,7 @@ npm install
 ### Run
 
 ```
-# Run frontend (:3000)
+# Run mongoDB (:27018)
 sudo mongod --port 27018
 ```
 
