@@ -1,16 +1,18 @@
-import Nav from "./Nav.js";
-import NavItem from "./NavItem";
+import { Component } from "react";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import Landing from "./components/layout/Landing";
 
-import "./App.css";
-
-export default function App({ recipes }) {
-  return (
-    <Nav>
-      <NavItem href="/featured" isActive>
-        Featured
-      </NavItem>
-      <NavItem href="/popular">Popular</NavItem>
-      <NavItem href="/recent">Recent</NavItem>
-    </Nav>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Navbar />
+        <Landing />
+        <Footer />
+      </div>
+    );
+  }
 }
+
+export default App;
