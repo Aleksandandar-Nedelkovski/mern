@@ -1,17 +1,21 @@
 {
-  "name": "MERN",
+  "name": "mern",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
+    "client-install": "npm i --prefix public",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix public",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Aleksandar Nedelkovski",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "concurrently": "^6.0.0",
     "express": "^4.17.1",
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
