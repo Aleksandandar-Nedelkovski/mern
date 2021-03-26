@@ -1,8 +1,16 @@
-import React from "react";
+import Nav from "./Nav.js";
+import NavItem from "./NavItem";
+
 import "./App.css";
 
-function App() {
-  return <div className="App">Hello</div>;
+export default function App({ recipes }) {
+  return (
+    <Nav>
+      <NavItem href="/featured" isActive>
+        Featured
+      </NavItem>
+      <NavItem href="/popular">Popular</NavItem>
+      <NavItem href="/recent">Recent</NavItem>
+    </Nav>
+  );
 }
-
-export default App;
