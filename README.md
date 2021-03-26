@@ -13,9 +13,9 @@ npm install
 sudo mongod --port 27018
 ```
 
-start server
+### Start Dev Environment
 
 ```
-# Run frontend (:5000)
-npm run server
+# Run frontend React (:3000) and backend Express (:5000)
+npm run dev
 ```
