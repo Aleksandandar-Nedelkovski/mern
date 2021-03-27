@@ -5,7 +5,7 @@ import heroImage from "../../img/Characters-07.png";
 class Landing extends Component {
   render() {
     return (
-      <div class="pt-24">
+      <div className="pt-24">
         <div className="container mx-auto flex flex-wrap flex-col md:flex-row items-center">
           <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
             <p className="tracking-loose w-full">BUILT</p>
@@ -17,8 +17,12 @@ class Landing extends Component {
             </p>
             <Link to="/">Take Action</Link>
           </div>
-          <div class="w-full md:w-3/5 py-6 text-center">
-            <img src={heroImage} class="w-full md:w-4/5 z-50" />
+          <div className="w-full md:w-3/5 py-6 text-center">
+            <img
+              src={heroImage}
+              alt="Main Image"
+              className="w-full md:w-4/5 z-50"
+            />
           </div>
         </div>
       </div>
