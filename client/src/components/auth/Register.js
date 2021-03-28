@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import PropTypes from "prop-types";
+import classnames from "classnames";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+
+import { registerUser } from "../../actions/authActions";
 
 class Register extends Component {
   constructor() {
@@ -95,7 +100,7 @@ class Register extends Component {
                 type="password"
                 className={classnames(
                   "block border border-grey-light w-full p-3 rounded mb-4",
-                  { "border-red-500": errors.password }
+                  { "border-red-500": errors.password2 }
                 )}
                 name="password2"
                 placeholder="Confirm Password"
