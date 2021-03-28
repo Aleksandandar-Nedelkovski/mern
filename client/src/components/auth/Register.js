@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import classnames from "classnames";
 
 class Register extends Component {
   constructor() {
@@ -30,9 +31,16 @@ class Register extends Component {
       password2: this.state.password2,
     };
     console.log(newUser);
+
+    axios
+      .post("/api/users/register", newUser)
+      .then((res) => console.log(res.data))
+      .catch((err) => this.setState({ errors: err.response.data }));
   }
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="bg-grey-lighter min-h-screen flex flex-col">
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -40,35 +48,55 @@ class Register extends Component {
             <h1 className="mb-4 text-3xl text-center">Sign up</h1>
             <p className="mb-4 text-center">Create your BUILT account</p>
             <form onSubmit={this.onSubmit}>
+              {errors.name && <div className="text-red-500">{errors.name}</div>}
               <input
                 type="text"
-                className="block border border-grey-light w-full p-3 rounded mb-4"
+                className={classnames(
+                  "block border border-grey-light w-full p-3 rounded mb-4",
+                  { "border-red-500": errors.name }
+                )}
                 name="name"
                 placeholder="Name"
                 value={this.state.name}
                 onChange={this.onChange.bind(this)}
               />
+              {errors.name && (
+                <div className="text-red-500">{errors.email}</div>
+              )}
               <input
                 type="text"
-                className="block border border-grey-light w-full p-3 rounded mb-4"
+                className={classnames(
+                  "block border border-grey-light w-full p-3 rounded mb-4",
+                  { "border-red-500": errors.email }
+                )}
                 name="email"
                 placeholder="Email"
                 value={this.state.email}
                 onChange={this.onChange}
               />
-
+              {errors.name && (
+                <div className="text-red-500">{errors.password}</div>
+              )}
               <input
                 type="password"
-                className="block border border-grey-light w-full p-3 rounded mb-4"
+                className={classnames(
+                  "block border border-grey-light w-full p-3 rounded mb-4",
+                  { "border-red-500": errors.password }
+                )}
                 name="password"
                 placeholder="Password"
                 value={this.state.password}
                 onChange={this.onChange}
               />
-
+              {errors.name && (
+                <div className="text-red-500">{errors.password2}</div>
+              )}
               <input
                 type="password"
-                className="block border border-grey-light w-full p-3 rounded mb-4"
+                className={classnames(
+                  "block border border-grey-light w-full p-3 rounded mb-4",
+                  { "border-red-500": errors.password }
+                )}
                 name="password2"
                 placeholder="Confirm Password"
                 value={this.state.password2}
