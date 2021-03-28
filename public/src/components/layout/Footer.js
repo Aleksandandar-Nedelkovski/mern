@@ -13,7 +13,7 @@ export default function Footer() {
             to="/"
             className="text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
           >
-            link
+            To top
           </Link>
         </div>
       </div>
