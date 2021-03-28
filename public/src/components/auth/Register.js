@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import axios from "axios";
+import { withRouter } from "react-router-dom";
+
 import classnames from "classnames";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
@@ -21,6 +22,12 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -33,22 +40,14 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2,
     };
-    this.props.registerUser(newUser);
-
-    // axios
-    //   .post("/api/users/register", newUser)
-    //   .then((res) => console.log(res.data))
-    //   .catch((err) => this.setState({ errors: err.response.data }));
+    this.props.registerUser(newUser, this.props.history);
   }
 
   render() {
     const { errors } = this.state;
 
-    const { user } = this.props.auth;
-
     return (
       <div className="bg-grey-lighter min-h-screen flex flex-col">
-        {user ? user.name : null}
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-4 text-3xl text-center">Sign up</h1>
@@ -133,10 +132,12 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  errors: state.errors,
 });
 
-export default connect(mapStateToProps, { registerUser })(Register);
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
