@@ -60,7 +60,7 @@ class Register extends Component {
                 value={this.state.name}
                 onChange={this.onChange.bind(this)}
               />
-              {errors.name && (
+              {errors.email && (
                 <div className="text-red-500">{errors.email}</div>
               )}
               <input
@@ -74,7 +74,7 @@ class Register extends Component {
                 value={this.state.email}
                 onChange={this.onChange}
               />
-              {errors.name && (
+              {errors.password && (
                 <div className="text-red-500">{errors.password}</div>
               )}
               <input
@@ -88,7 +88,7 @@ class Register extends Component {
                 value={this.state.password}
                 onChange={this.onChange}
               />
-              {errors.name && (
+              {errors.password2 && (
                 <div className="text-red-500">{errors.password2}</div>
               )}
               <input
