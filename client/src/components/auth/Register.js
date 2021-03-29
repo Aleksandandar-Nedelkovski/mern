@@ -22,7 +22,7 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
