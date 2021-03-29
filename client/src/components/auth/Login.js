@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import classnames from "classnames";
+
+import { loginUser } from "../../actions/authActions";
 
 class Login extends Component {
   constructor() {
@@ -20,31 +25,53 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const userLogin = {
+    const userData = {
       email: this.state.email,
       password: this.state.password,
     };
-    console.log(userLogin);
+    this.props.loginUser(userData);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
   render() {
+    const { errors } = this.state;
     return (
       <div className="bg-grey-lighter min-h-screen flex flex-col">
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-4 text-3xl text-center">Log In</h1>
             <form onSubmit={this.onSubmit}>
+              {errors.email && (
+                <div className="text-red-500">{errors.email}</div>
+              )}
+
               <input
                 type="text"
-                className="block border border-grey-light w-full p-3 rounded mb-4"
+                className={classnames(
+                  "block border border-grey-light w-full p-3 rounded mb-4",
+                  { "border-red-500": errors.email }
+                )}
                 name="email"
                 placeholder="Email"
                 value={this.state.email}
                 onChange={this.onChange}
               />
-
+              {errors.password && (
+                <div className="text-red-500">{errors.password}</div>
+              )}
               <input
                 type="password"
-                className="block border border-grey-light w-full p-3 rounded mb-4"
+                className={classnames(
+                  "block border border-grey-light w-full p-3 rounded mb-4",
+                  { "border-red-500": errors.password }
+                )}
                 name="password"
                 placeholder="Password"
                 value={this.state.password}
@@ -72,4 +99,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);
