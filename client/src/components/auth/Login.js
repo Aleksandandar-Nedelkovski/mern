@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import classnames from "classnames";
-
 import { loginUser } from "../../actions/authActions";
+import TextFieldGroup from "../common/textFieldGroup";
 
 class Login extends Component {
   constructor() {
@@ -32,6 +31,12 @@ class Login extends Component {
     this.props.loginUser(userData);
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
@@ -48,34 +53,22 @@ class Login extends Component {
           <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-4 text-3xl text-center">Log In</h1>
             <form onSubmit={this.onSubmit}>
-              {errors.email && (
-                <div className="text-red-500">{errors.email}</div>
-              )}
-
-              <input
-                type="text"
-                className={classnames(
-                  "block border border-grey-light w-full p-3 rounded mb-4",
-                  { "border-red-500": errors.email }
-                )}
-                name="email"
+              <TextFieldGroup
                 placeholder="Email"
+                name="email"
+                type="email"
                 value={this.state.email}
                 onChange={this.onChange}
+                error={errors.email}
               />
-              {errors.password && (
-                <div className="text-red-500">{errors.password}</div>
-              )}
-              <input
-                type="password"
-                className={classnames(
-                  "block border border-grey-light w-full p-3 rounded mb-4",
-                  { "border-red-500": errors.password }
-                )}
-                name="password"
+
+              <TextFieldGroup
                 placeholder="Password"
+                name="password"
+                type="text"
                 value={this.state.password}
                 onChange={this.onChange}
+                error={errors.password}
               />
 
               <input

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import TextFieldGroup from "../common/textFieldGroup";
 
 import { registerUser } from "../../actions/authActions";
 
@@ -20,6 +20,12 @@ class Register extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,59 +59,33 @@ class Register extends Component {
             <h1 className="mb-4 text-3xl text-center">Sign up</h1>
             <p className="mb-4 text-center">Create your BUILT account</p>
             <form onSubmit={this.onSubmit}>
-              {errors.name && <div className="text-red-500">{errors.name}</div>}
-              <input
-                type="text"
-                className={classnames(
-                  "block border border-grey-light w-full p-3 rounded mb-4",
-                  { "border-red-500": errors.name }
-                )}
-                name="name"
+              <TextFieldGroup
                 placeholder="Name"
+                name="name"
                 value={this.state.name}
-                onChange={this.onChange.bind(this)}
+                onChange={this.onChange}
+                error={errors.name}
               />
-              {errors.email && (
-                <div className="text-red-500">{errors.email}</div>
-              )}
-              <input
-                type="text"
-                className={classnames(
-                  "block border border-grey-light w-full p-3 rounded mb-4",
-                  { "border-red-500": errors.email }
-                )}
-                name="email"
+              <TextFieldGroup
                 placeholder="Email"
+                name="email"
                 value={this.state.email}
                 onChange={this.onChange}
+                error={errors.email}
               />
-              {errors.password && (
-                <div className="text-red-500">{errors.password}</div>
-              )}
-              <input
-                type="password"
-                className={classnames(
-                  "block border border-grey-light w-full p-3 rounded mb-4",
-                  { "border-red-500": errors.password }
-                )}
-                name="password"
+              <TextFieldGroup
                 placeholder="Password"
+                name="password"
                 value={this.state.password}
                 onChange={this.onChange}
+                error={errors.password}
               />
-              {errors.password2 && (
-                <div className="text-red-500">{errors.password2}</div>
-              )}
-              <input
-                type="password"
-                className={classnames(
-                  "block border border-grey-light w-full p-3 rounded mb-4",
-                  { "border-red-500": errors.password2 }
-                )}
-                name="password2"
+              <TextFieldGroup
                 placeholder="Confirm Password"
+                name="password2"
                 value={this.state.password2}
                 onChange={this.onChange}
+                error={errors.password2}
               />
 
               <input

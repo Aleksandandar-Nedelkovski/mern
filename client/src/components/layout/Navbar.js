@@ -2,37 +2,31 @@ import React, { Component } from "react";
 import logo from "../../img/logo-white.png";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { logoutUser } from "../../actions/authActions";
 import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
+import { clearCurrentProfile } from "../../actions/profileAuctions";
 
 class Navbar extends Component {
   onLogoutClick(e) {
     e.preventDefault();
+    this.props.clearCurrentProfile();
     this.props.logoutUser();
   }
   render() {
     const { isAuthenticated, user } = this.props.auth;
 
     const authLinks = (
-      <div
-        className="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20"
-        id="nav-content"
-      >
-        <ul className="list-reset lg:flex justify-end flex-1 items-center">
-          <li
-            id="navAction"
-            className="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
-          >
-            <button onClick={this.onLogoutClick.bind(this)}>
-              <img
-                className="rounded"
-                src={user.avatar}
-                alt={user.name}
-                style={{ width: "25px", marginRight: "5px" }}
-                title="You must have a gravatar connected to your email to display an image"
-              />
-              Logout
-            </button>
+      <div className="flex-grow text-black p-4 ">
+        <ul className="lg:flex justify-end">
+          <li>
+            <img
+              className="rounded inline-block"
+              src={user.avatar}
+              alt={user.name}
+              style={{ width: "35px", marginRight: "10px" }}
+              title="You must have a gravatar connected to your email to display an image"
+            />
+            <button onClick={this.onLogoutClick.bind(this)}>Logout</button>
           </li>
         </ul>
       </div>
@@ -97,4 +91,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logoutUser })(Navbar);
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(
+  Navbar
+);
