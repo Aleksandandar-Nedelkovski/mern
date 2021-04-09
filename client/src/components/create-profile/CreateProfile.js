@@ -24,8 +24,30 @@ class CreateProfile extends Component {
       instagram: "",
       errors: {},
     };
+
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
+
+  onSubmit(e) {
+    e.preventDefault();
+    console.log("submit");
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
+    const { errors } = this.state;
+
+    //select options for status
+    const options = [
+      {
+        label: "* Select Status",
+        value: 0,
+      },
+    ];
     return (
       <div className="bg-grey-lighter min-h-screen flex flex-col">
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -36,9 +58,34 @@ class CreateProfile extends Component {
             </p>
             <small>* = required fields</small>
             <form onSubmit={this.onSubmit}>
-              <TextAreaFieldGroup />
+              <TextAreaFieldGroup
+                placeholder="* Profile Handle"
+                name="handle"
+                value={this.state.handle}
+                onChange={this.onChange}
+                error={errors.handle}
+                info="A unique handle for your profile URL. Your full name or nickname"
+              />
               {/* <SelectListGroup /> */}
               <InputGroup />
+              {/* 
+              
+              different groups
+              give a code to put in a group
+
+              start date
+              5 max per group
+              admin users
+
+              research assistant
+
+              parent and child name
+
+
+              information
+              schedule, videos
+
+              */}
             </form>
           </div>
         </div>

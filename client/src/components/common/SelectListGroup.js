@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
-const SelectListGroup = ({ name, value, error, onChange, options }) => {
+const SelectListGroup = ({ name, value, error, onChange, info, options }) => {
   const selectOptions = options.map((option) => (
     <option key={option.label} value={option.value}>
       {option.label}
@@ -11,6 +11,7 @@ const SelectListGroup = ({ name, value, error, onChange, options }) => {
   return (
     <div>
       {error && <div className="text-red-500">{error}</div>}
+      {info && <div className="text-red-500">{info}</div>}
       <select
         className={classnames(
           "block border border-grey-light w-full p-3 rounded mb-4",
@@ -19,6 +20,7 @@ const SelectListGroup = ({ name, value, error, onChange, options }) => {
         name={name}
         value={value}
         onChange={onChange}
+        info={info}
       >
         {selectOptions}
       </select>
