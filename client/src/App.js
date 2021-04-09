@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { logoutUser, setCurrentUser } from "./actions/authActions";
 
-import Navbar from "./components/layout/Navbar";
+// import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
@@ -17,6 +17,7 @@ import { clearCurrentProfile } from "./actions/profileAuctions";
 
 import PrivateRoute from "./components/common/PrivateRoute";
 
+import Navbar from "./components/layout/AuthNavbar";
 //check for token
 if (localStorage.jwtToken) {
   //set auth token header auth
@@ -44,6 +45,7 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
+            {/* <Navbar /> */}
             <Navbar />
             <Route exact path="/" component={Landing} />
             <div className="pt-24">
