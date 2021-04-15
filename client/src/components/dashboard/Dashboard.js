@@ -8,8 +8,9 @@ import DashboardActions from "./DashboardActions";
 // import HomeChallenges from "./HomeChallenges";
 import { getCurrentProfile, deleteAccount } from "../../actions/profile";
 import ProgressBar from "./ProgressBar";
+import ProgressData from "./ProgressData";
 
-const testData = [{ bgcolor: "#fff", completed: 63 }];
+const testData = [{ bgcolor: "#ff6900", completed: 63 }];
 
 const Dashboard = ({
   getCurrentProfile,
@@ -24,22 +25,23 @@ const Dashboard = ({
   return (
     <Fragment>
       <h1 className="large text-primary">Dashboard</h1>
-      <p className="lead">
+      <p className="lead text-primary">
         <i className="fas fa-user" /> Welcome, {user && user.name}
       </p>
       {profile !== null ? (
         <Fragment>
-          <DashboardActions />
+          {/* <DashboardActions /> */}
           {/* <Experience experience={profile.experience} />
           <Education education={profile.education} /> */}
-          <p>Current Progress</p>
-          {testData.map((item, idx) => (
+          <p className="text-primary">Current Progress</p>
+          <ProgressData />
+          {/* {testData.map((item, idx) => (
             <ProgressBar
               key={idx}
               bgcolor={item.bgcolor}
               completed={item.completed}
             />
-          ))}
+          ))} */}
           {/* <div className="my-2">
             <button className="btn btn-danger" onClick={() => deleteAccount()}>
               <i className="fas fa-user-minus" /> Delete My Account

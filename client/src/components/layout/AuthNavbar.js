@@ -18,6 +18,15 @@ const AuthNavbar = ({ auth: { isAuthenticated }, logout }) => {
         <Link to="/posts">Posts</Link>
       </li>
       <li>
+        <Link to="/prize-store">Prize Store</Link>
+      </li>
+      <li>
+        <Link to="/events">Events</Link>
+      </li>
+      <li>
+        <Link to="/home-challenges">Home Challenges</Link>
+      </li>
+      <li>
         <Link to="/edit-profile">
           <i className="fas fa-user" />
           <span className="hide-sm">Profile</span>
@@ -42,6 +51,9 @@ const AuthNavbar = ({ auth: { isAuthenticated }, logout }) => {
     <ul>
       <li>
         <Link to="/about">About</Link>
+      </li>
+      <li>
+        <Link to="/contact">Contact</Link>
       </li>
       <li>
         <Link to="/register">Register</Link>
