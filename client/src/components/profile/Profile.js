@@ -20,7 +20,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <Link to="/profiles" className="btn btn-light">
+          <Link to="/profiles" className="btn btn-orange">
             Back To Profiles
           </Link>
           {auth.isAuthenticated &&
@@ -34,7 +34,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
             <div className="profile-exp bg-white p-2">
-              <h2 className="text-primary">Experience</h2>
+              <h2 className="font-bold">Experience</h2>
               {profile.experience.length > 0 ? (
                 <Fragment>
                   {profile.experience.map((experience) => (
@@ -50,7 +50,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
             </div>
 
             <div className="profile-edu bg-white p-2">
-              <h2 className="text-primary">Education</h2>
+              <h2 className="font-bold">Education</h2>
               {profile.education.length > 0 ? (
                 <Fragment>
                   {profile.education.map((education) => (

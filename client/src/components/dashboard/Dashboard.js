@@ -9,6 +9,7 @@ import DashboardActions from "./DashboardActions";
 import { getCurrentProfile, deleteAccount } from "../../actions/profile";
 import ProgressBar from "./ProgressBar";
 import ProgressData from "./ProgressData";
+import GridDashboard from "./GridDashboard";
 
 const testData = [{ bgcolor: "#ff6900", completed: 63 }];
 
@@ -24,17 +25,23 @@ const Dashboard = ({
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Dashboard</h1>
-      <p className="lead text-primary">
-        <i className="fas fa-user" /> Welcome, {user && user.name}
+      <div>
+        <h1 className="large">Dashboard</h1>{" "}
+        <Link to="/edit-profile" className="btn btn-dark">
+          Edit Profile
+        </Link>
+      </div>
+      <p className="lead">
+        <i className="fas fa-user" /> Good afternoon, {user && user.name}
       </p>
+      <p className="lead"> Welcome to Week 1</p>
       {profile !== null ? (
         <Fragment>
           {/* <DashboardActions /> */}
           {/* <Experience experience={profile.experience} />
           <Education education={profile.education} /> */}
-          <p className="text-primary">Current Progress</p>
-          <ProgressData />
+          <GridDashboard />
+          {/* <ProgressData /> */}
           {/* {testData.map((item, idx) => (
             <ProgressBar
               key={idx}

@@ -6,9 +6,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import logo from "../../img/logo-white.png";
 
-import PagesDropdown from "./PagesDropdown";
-
-const AuthNavbar = ({ auth: { isAuthenticated }, logout }) => {
+const AuthNavbar = ({ auth: { isAuthenticated, user }, logout }) => {
   const authLinks = (
     <ul>
       <li>
@@ -27,7 +25,7 @@ const AuthNavbar = ({ auth: { isAuthenticated }, logout }) => {
         <Link to="/home-challenges">Home Challenges</Link>
       </li>
       <li>
-        <Link to="/edit-profile">
+        <Link to={"/profile"}>
           <i className="fas fa-user" />
           <span className="hide-sm">Profile</span>
         </Link>

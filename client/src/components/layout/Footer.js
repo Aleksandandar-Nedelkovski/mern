@@ -1,5 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+
+function ScrollToTopOnMount() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return null;
+}
 
 export default function Footer() {
   return (
@@ -10,12 +18,13 @@ export default function Footer() {
           Copyright &copy; {new Date().getUTCFullYear()} BUILT
         </div>
         <div className="flex-1 mb-4 text-black">
-          <Link
+          {/* <Link
             to="/"
             className="text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
           >
             To top
-          </Link>
+          </Link> */}
+          <ScrollToTopOnMount />
         </div>
       </div>
     </footer>

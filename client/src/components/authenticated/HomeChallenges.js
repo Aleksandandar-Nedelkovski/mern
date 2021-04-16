@@ -1,11 +1,33 @@
-import React, { Fragment } from "react";
-import MyMonthlyCalendar from "./MonthlyCalendar";
+import React, { Fragment, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getCurrentProfile } from "../../actions/profile";
 
-export default function HomeChallenges() {
+const HomeChallenges = ({
+  getCurrentProfile,
+  auth: { user },
+  profile: { profile },
+}) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
   return (
     <Fragment>
       <h1 className="large">Home Challenges</h1>
-      <MyMonthlyCalendar />
     </Fragment>
   );
-}
+};
+
+HomeChallenges.propTypes = {
+  getCurrentProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { getCurrentProfile })(HomeChallenges);

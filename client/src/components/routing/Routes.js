@@ -18,11 +18,13 @@ import Events from "../authenticated/Events";
 import HomeChallenges from "../authenticated/HomeChallenges";
 import About from "../common/About";
 import ContactUs from "../common/ContactUs";
+import ScrollToTop from "../common/ScrollToTop";
 
 const Routes = (props) => {
   return (
     <section className="container">
       <Alert />
+      <ScrollToTop />
       <Switch>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />

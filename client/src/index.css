@@ -9,7 +9,7 @@
 :root {
   --primary-color: #fff;
   --dark-color: #343a40;
-  --light-color: #c2b0b0;
+  --light-color: #e9e9e9;
   --danger-color: #dc3545;
   --success-color: #28a745;
   --orange-color: #ff6347;
@@ -22,9 +22,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-button.slick-arrow.slick-next {
-  margin: 30px;
 }
 
 body {
@@ -86,6 +83,10 @@ img {
 
 .text-dark {
   color: var(--dark-color);
+}
+
+.text-orange {
+  color: var(--orange-color);
 }
 
 /* Banner */
@@ -195,15 +196,23 @@ b.banner-red {
 .badge-primary,
 .alert-primary {
   background: var(--primary-color);
-  color: rgb(19, 19, 19);
+  color: #000;
 }
 
 .btn-light,
 .bg-light,
 .badge-light,
 .alert-light {
-  background: var(--orange-color);
+  background: var(--light-color);
   color: #333;
+}
+
+.btn-orange,
+.bg-orange,
+.badge-orange,
+.alert-orange {
+  background: var(--light-orange-color);
+  color: #fff;
 }
 
 .btn-dark,
@@ -466,8 +475,8 @@ img.logo {
 }
 
 .post .comment-count {
-  background: var(--light-color);
-  color: var(--primary-color);
+  background: var(--primary-color);
+  color: var(--dark-color);
   padding: 0.1rem 0.2rem;
   border-radius: 5px;
   font-size: 0.8rem;
@@ -563,6 +572,10 @@ img.logo {
 
   .profile-about .skills {
     flex-direction: column;
+  }
+
+  button.slick-arrow.slick-next {
+    margin: 30px;
   }
 
   .dash-buttons a {
