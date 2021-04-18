@@ -20,16 +20,16 @@ export default class CarouselWithDots extends Component {
     return (
       <Slider {...settings}>
         <div>
-          <img src={heroImage1} />
+          <img src={heroImage1} alt="hero-image1" />
         </div>
         <div>
-          <img src={heroImage2} />
+          <img src={heroImage2} alt="hero-image2" />
         </div>
         <div>
-          <img src={heroImage3} />
+          <img src={heroImage3} alt="hero-image3" />
         </div>
         <div>
-          <img src={heroImage4} />
+          <img src={heroImage4} alt="hero-image4" />
         </div>
       </Slider>
     );

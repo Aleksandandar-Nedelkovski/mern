@@ -26,34 +26,43 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Sign In</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Sign Into Your BUILT Account
-      </p>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Email Address"
-            name="email"
-            value={email}
-            onChange={onChange}
-          />
+      <div className="min-h-screen flex flex-col">
+        <div className="mx-auto flex-1 flex flex-col items-center justify-center px-2">
+          <div className="bg-white rounded px-6 py-8 shadow-md">
+            <h1 className="large">Sign In</h1>
+            <p className="lead">
+              <i className="fas fa-user" /> Sign Into Your BUILT Account
+            </p>
+            <form className="form" onSubmit={onSubmit}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  placeholder="Email Address"
+                  name="email"
+                  value={email}
+                  onChange={onChange}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  value={password}
+                  onChange={onChange}
+                />
+              </div>
+              <input type="submit" className="btn btn-orange" value="Login" />
+            </form>
+            <p className="my-1">
+              Don't have an account?{" "}
+              <Link className="text-black font-bold" to="/register">
+                Sign Up
+              </Link>
+            </p>
+          </div>
         </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={onChange}
-          />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Login" />
-      </form>
-      <p className="my-1">
-        Don't have an account? <Link to="/register">Sign Up</Link>
-      </p>
+      </div>
     </Fragment>
   );
 };

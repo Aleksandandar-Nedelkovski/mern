@@ -47,19 +47,19 @@ export default class ResponsiveSlider extends Component {
         <Slider {...settings}>
           <div>
             <h3>photo 1</h3>
-            <img src={heroImage1} />
+            <img src={heroImage1} alt="hero-image1" />
           </div>
           <div>
             <h3>photo 2</h3>
-            <img src={heroImage2} />
+            <img src={heroImage2} alt="hero-image2" />
           </div>
           <div>
             <h3>photo 2</h3>
-            <img src={heroImage3} />
+            <img src={heroImage3} alt="hero-image3" />
           </div>
           <div>
             <h3>photo 2</h3>
-            <img src={heroImage4} />
+            <img src={heroImage4} alt="hero-image4" />
           </div>
         </Slider>
       </div>

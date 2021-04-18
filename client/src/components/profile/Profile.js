@@ -7,9 +7,18 @@ import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
 import ProfileExperience from "./ProfileExperience";
 import ProfileEducation from "./ProfileEducation";
-import { getProfileById } from "../../actions/profile";
+import { getProfileById, deleteAccount } from "../../actions/profile";
+import DashboardActions from "../dashboard/DashboardActions";
+// import Experience from "../dashboard/Experience";
+// import Education from "../dashboard/Education";
 
-const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
+const Profile = ({
+  getProfileById,
+  deleteAccount,
+  profile: { profile },
+  auth,
+  match,
+}) => {
   useEffect(() => {
     getProfileById(match.params.id);
   }, [getProfileById, match.params.id]);
@@ -30,12 +39,16 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
                 Edit Profile
               </Link>
             )}
+          <DashboardActions />
+          {/* <Experience experience={profile.experience} />
+          <Education education={profile.education} /> */}
+
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
             <div className="profile-exp bg-white p-2">
               <h2 className="font-bold">Experience</h2>
-              {profile.experience.length > 0 ? (
+              {/* {profile.experience.length > 0 ? (
                 <Fragment>
                   {profile.experience.map((experience) => (
                     <ProfileExperience
@@ -46,12 +59,12 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
                 </Fragment>
               ) : (
                 <h4>No experience credentials</h4>
-              )}
+              )} */}
             </div>
 
             <div className="profile-edu bg-white p-2">
               <h2 className="font-bold">Education</h2>
-              {profile.education.length > 0 ? (
+              {/* {profile.education.length > 0 ? (
                 <Fragment>
                   {profile.education.map((education) => (
                     <ProfileEducation
@@ -62,8 +75,20 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
                 </Fragment>
               ) : (
                 <h4>No education credentials</h4>
-              )}
+              )} */}
             </div>
+            {auth.isAuthenticated &&
+              auth.loading === false &&
+              auth.user._id === profile.user._id && (
+                <div className="my-2">
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteAccount()}
+                  >
+                    <i className="fas fa-user-minus" /> Delete My Account
+                  </button>
+                </div>
+              )}
           </div>
         </Fragment>
       )}
@@ -74,6 +99,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
 Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
@@ -82,4 +108,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProfileById })(Profile);
+export default connect(mapStateToProps, { getProfileById, deleteAccount })(
+  Profile
+);

@@ -44,11 +44,19 @@ img {
   width: 100%;
 }
 
+ul.pagination.img {
+  height: 100px;
+}
+
 /* Utilities */
 .container {
   margin: 0 auto;
   padding: 2rem;
   background-color: rgba(255, 255, 255, 0.466);
+}
+
+.min-h-screen {
+  min-height: 70vh;
 }
 
 /* Text Styles*/
@@ -106,7 +114,7 @@ b.banner-red {
 }
 
 .banner {
-  background-color: #ffffff;
+  background-color: var(--dark-color);
 }
 
 /* Padding */

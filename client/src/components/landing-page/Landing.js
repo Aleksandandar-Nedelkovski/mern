@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -10,6 +10,7 @@ import LandingCards from "./LandingCards";
 import ResponsiveSlider from "./ResponsiveSlider";
 import Team from "./Team";
 import CenterMode from "./CenterMode";
+import GridLanding from "./GridLanding";
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
@@ -20,6 +21,7 @@ const Landing = ({ isAuthenticated }) => {
     <Fragment>
       <Banner />
       <CarouselWithDots />
+      <GridLanding />
       <LandingCards />
       <ResponsiveSlider />
       <Team />

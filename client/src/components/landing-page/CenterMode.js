@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import { baseUrlImg } from "../../config.js";
 
 import heroImage1 from "../../img/Slider/Hero-Image-1.jpg";
 import heroImage2 from "../../img/Slider/Hero-Image-2.jpg";
@@ -12,7 +11,9 @@ export default class CenterMode extends Component {
     const settings = {
       customPaging: function (i) {
         return (
-          <a>{/* <img src={`${baseUrlImg}/Hero-Image-${i + 1}.jpg`} /> */}</a>
+          <a href="/">
+            {/* <img src={`${baseUrlImg}/Hero-Image-${i + 1}.jpg`} /> */}
+          </a>
         );
       },
       dots: true,

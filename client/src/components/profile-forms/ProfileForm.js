@@ -5,18 +5,11 @@ import { connect } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
 
 const initialState = {
-  company: "",
-  website: "",
-  location: "",
   status: "",
-  skills: "",
-  githubusername: "",
+  child: "",
+  from: "",
+  to: "",
   bio: "",
-  twitter: "",
-  facebook: "",
-  linkedin: "",
-  youtube: "",
-  instagram: "",
 };
 
 const ProfileForm = ({
@@ -34,16 +27,10 @@ const ProfileForm = ({
       for (const key in profile) {
         if (key in profileData) profileData[key] = profile[key];
       }
-      for (const key in profile.social) {
-        if (key in profileData) profileData[key] = profile.social[key];
-      }
-      if (Array.isArray(profileData.skills))
-        profileData.skills = profileData.skills.join(", ");
-      setFormData(profileData);
     }
   }, [loading, getCurrentProfile, profile]);
 
-  const { company, location, status, skills, bio } = formData;
+  const { status, child, from, to, bio } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,64 +43,39 @@ const ProfileForm = ({
   return (
     <Fragment>
       <div className="profiles">
-        <h1 className="large text-primary">Edit Your Profile</h1>
+        <h1 className="large">Create Your Profile</h1>
         <p className="lead">
-          <i className="fas fa-user" /> Add some changes to your profile
+          <i className="fas fa-user" /> Let's get some information for your
+          profile
         </p>
         <small>* = required field</small>
         <form className="form" onSubmit={onSubmit}>
           <div className="form-group">
             <select name="status" value={status} onChange={onChange}>
-              <option>* Select Professional Status</option>
-              <option value="Developer">Developer</option>
-              <option value="Junior Developer">Junior Developer</option>
-              <option value="Senior Developer">Senior Developer</option>
-              <option value="Manager">Manager</option>
-              <option value="Student or Learning">Student or Learning</option>
+              <option>* Select Status</option>
+              <option value="Parent">Parent</option>
               <option value="Instructor">Instructor or Teacher</option>
-              <option value="Intern">Intern</option>
               <option value="Other">Other</option>
             </select>
-            <small className="form-text">
-              Give us an idea of where you are at in your career
-            </small>
+            <small className="form-text">What's is your role</small>
           </div>
           <div className="form-group">
             <input
               type="text"
-              placeholder="Company"
-              name="company"
-              value={company}
+              placeholder="Child Name"
+              name="child"
+              value={child}
               onChange={onChange}
             />
-            <small className="form-text">
-              Could be your own company or one you work for
-            </small>
-          </div>
-
-          <div className="form-group">
-            <input
-              type="text"
-              placeholder="Location"
-              name="location"
-              value={location}
-              onChange={onChange}
-            />
-            <small className="form-text">
-              City & state suggested (eg. Boston, MA)
-            </small>
+            <small className="form-text">Please enter your child's name</small>
           </div>
           <div className="form-group">
-            <input
-              type="text"
-              placeholder="* Skills"
-              name="skills"
-              value={skills}
-              onChange={onChange}
-            />
-            <small className="form-text">
-              Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
-            </small>
+            <h4>From Date</h4>
+            <input type="date" name="from" value={from} onChange={onChange} />
+          </div>
+          <div className="form-group">
+            <h4>To Date</h4>
+            <input type="date" name="to" value={to} onChange={onChange} />
           </div>
 
           <div className="form-group">
@@ -126,7 +88,7 @@ const ProfileForm = ({
             <small className="form-text">Tell us a little about yourself</small>
           </div>
 
-          <input type="submit" className="btn btn-primary my-1" />
+          <input type="submit" className="btn btn-orange my-1" />
           <Link className="btn btn-light my-1" to="/dashboard">
             Go Back
           </Link>

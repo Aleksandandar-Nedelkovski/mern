@@ -36,10 +36,6 @@ export default function Events() {
           </div>
         </div>
       </section>
-      <div className="text-center">
-        <h1 className="large font-bold"></h1>
-        <p className="lead"></p>
-      </div>
     </Fragment>
   );
 }
