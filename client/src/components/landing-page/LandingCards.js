@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import hero from "../../img/Slider/Hero-Image-3.jpg";
-import character2 from "../../img/Characters/Characters-12.png";
-import character3 from "../../img/Characters/Characters-13.png";
-import character1 from "../../img/Characters/Characters-11.png";
+// import character2 from "../../img/Characters/Characters-12.png";
+// import character3 from "../../img/Characters/Characters-13.png";
+// import character1 from "../../img/Characters/Characters-11.png";
 import workingWithUsPhoto from "../../img/Characters/Characters-10.jpg";
 
 export default function LandingCards() {

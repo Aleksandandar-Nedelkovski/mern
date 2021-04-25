@@ -25,6 +25,12 @@ const HomeChallenges = ({
           <p>Week 1</p>
           <YoutubeEmbed embedId="TGhNoDPb5eM" />
         </div>
+        <ul>
+          <li>hi</li>
+          <li>hi</li>
+          <li>hi</li>
+          <li>hi</li>
+        </ul>
         <br />
         <br />
         <br />

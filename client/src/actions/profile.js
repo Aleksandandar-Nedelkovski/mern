@@ -8,6 +8,8 @@ import {
   UPDATE_PROFILE,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
+  GROUPS_USER_LOADED,
+  GROUPS_FAIL,
 } from "./types";
 
 // Get current users profile
@@ -181,6 +183,22 @@ export const deleteEducation = (id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get the users groups
+export const getUserGroups = () => async (dispatch) => {
+  try {
+    const res = await api.get("/profile/groups");
+    dispatch({
+      type: GROUPS_USER_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GROUPS_FAIL,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

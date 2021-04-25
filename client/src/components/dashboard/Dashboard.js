@@ -1,45 +1,57 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getCurrentProfile } from "../../actions/profile";
-// import ProgressBar from "./ProgressBar";
-// import ProgressData from "./ProgressData";
-import GridDashboard from "./GridDashboard";
 
-// const testData = [{ bgcolor: "#ff6900", completed: 63 }];
+import GridDashboard from "./GridDashboard";
+import ProfileInvites from "../profile/ProfileInvites";
+import BuddyRequests from "../buddy/BuddyRequests";
+import BuddyList from "../buddy/BuddyList";
 
 const Dashboard = ({
   getCurrentProfile,
-
   auth: { user },
   profile: { profile },
 }) => {
   useEffect(() => {
     getCurrentProfile();
+    getHour();
   }, [getCurrentProfile]);
+  const [refreshBuddies, setRefreshBuddies] = useState(false);
+  const [hour, setHour] = useState(false);
 
+  const getHour = () => {
+    const date = new Date();
+    const hour = date.getHours();
+    setHour({
+      hour,
+    });
+  };
   return (
     <Fragment>
       <div className="min-h-screen flex flex-col">
         <div>
           <h1 className="large">Dashboard</h1>
           <p className="lead">
-            <i className="fas fa-user" /> Good afternoon, {user && user.name}
+            <i className="fas fa-user" />{" "}
+            {hour < 12
+              ? `Good morning, ${user && user.name}`
+              : `Good afternoon, ${user && user.name}`}
           </p>
           <p className="lead"> Welcome to Week 1</p>
         </div>
         {profile !== null ? (
           <Fragment>
+            <ProfileInvites />
+            <div className="dashboard-buddies">
+              <BuddyRequests setRefreshBuddies={setRefreshBuddies} />
+              <BuddyList
+                refreshBuddies={refreshBuddies}
+                setRefreshBuddies={setRefreshBuddies}
+              />
+            </div>
             <GridDashboard />
-            {/* <ProgressData /> */}
-            {/* {testData.map((item, idx) => (
-            <ProgressBar
-              key={idx}
-              bgcolor={item.bgcolor}
-              completed={item.completed}
-            />
-          ))} */}
           </Fragment>
         ) : (
           <Fragment>
@@ -58,11 +70,13 @@ Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  group: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
+  group: state.group,
 });
 
 export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);

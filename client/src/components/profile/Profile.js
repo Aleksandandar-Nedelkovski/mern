@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
-import ProfileExperience from "./ProfileExperience";
-import ProfileEducation from "./ProfileEducation";
+// import ProfileExperience from "./ProfileExperience";
+// import ProfileEducation from "./ProfileEducation";
 import { getProfileById, deleteAccount } from "../../actions/profile";
 import DashboardActions from "../dashboard/DashboardActions";
 // import Experience from "../dashboard/Experience";
@@ -37,9 +37,9 @@ const Profile = ({
             auth.user._id === profile.user._id && (
               <Link to="/edit-profile" className="btn btn-dark">
                 Edit Profile
+                <DashboardActions />
               </Link>
             )}
-          <DashboardActions />
           {/* <Experience experience={profile.experience} />
           <Education education={profile.education} /> */}
 
@@ -48,12 +48,15 @@ const Profile = ({
             <ProfileAbout profile={profile} />
             <div className="profile-exp bg-white p-2">
               <h2 className="font-bold">Experience</h2>
-              {/* {profile.experience.length > 0 ? (
+              {/* {profile.notification.map(notification, index) = () => {
+                return( <div>{notification} </div>)
+              }} */}
+              {/* {profile.notifications.length > 0 ? (
                 <Fragment>
-                  {profile.experience.map((experience) => (
+                  {profile.notification.map((notification) => (
                     <ProfileExperience
-                      key={experience._id}
-                      experience={experience}
+                      key={notification._id}
+                      notification={notification}
                     />
                   ))}
                 </Fragment>
@@ -63,7 +66,8 @@ const Profile = ({
             </div>
 
             <div className="profile-edu bg-white p-2">
-              <h2 className="font-bold">Education</h2>
+              <h2 className="font-bold">Buddies</h2>
+              {profile.buddies}
               {/* {profile.education.length > 0 ? (
                 <Fragment>
                   {profile.education.map((education) => (

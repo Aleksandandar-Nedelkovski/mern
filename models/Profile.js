@@ -5,21 +5,21 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  status: {
-    type: String,
+  bio: String,
+  courses: [String],
+  year: Number,
+  last_online: Date,
+  invites: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "group",
   },
-  child: {
-    type: String,
+  buddies: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "user",
   },
-
-  bio: {
-    type: String,
-  },
-  from: {
-    type: Date,
-  },
-  to: {
-    type: Date,
+  requests: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "user",
   },
 
   date: {

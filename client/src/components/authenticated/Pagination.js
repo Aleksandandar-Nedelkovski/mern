@@ -30,7 +30,9 @@ export default function Pagination() {
 
   const currentPageData = data
     .slice(offset, offset + PER_PAGE)
-    .map(({ thumburl }) => <img className="slider-img" src={thumburl} />);
+    .map(({ thumburl }) => (
+      <img className="slider-img" alt="" key={thumburl.id} src={thumburl} />
+    ));
 
   const pageCount = Math.ceil(data.length / PER_PAGE);
 
@@ -43,10 +45,10 @@ export default function Pagination() {
         pageCount={pageCount}
         onPageChange={handlePageClick}
         containerClassName={"pagination"}
-        // previousLinkClassName={"pagination__link"}
-        // nextLinkClassName={"pagination__link"}
-        // disabledClassName={"pagination__link--disabled"}
-        // activeClassName={"pagination__link--active"}
+        previousLinkClassName={"pagination__link"}
+        nextLinkClassName={"pagination__link"}
+        disabledClassName={"pagination__link--disabled"}
+        activeClassName={"pagination__link--active"}
       />
       {currentPageData}
     </div>

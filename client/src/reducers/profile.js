@@ -4,6 +4,17 @@ import {
   CLEAR_PROFILE,
   UPDATE_PROFILE,
   GET_PROFILES,
+  BUDDY_REQUEST_SENT,
+  PROFILE_NOT_EXISTS,
+  CLEAR_NOTIFICATIONS,
+  CLEAR_ERRORS,
+  CLEAR_PROMPTS,
+  LOGOUT,
+  PROFILE_RECIEVE_NOTIFICATION,
+  PROFILE_USER_LOADED,
+  PROFILE_USER_SUCCESS,
+  INITIATE_EDITING,
+  PROFILE_USER_FAIL,
 } from "../actions/types";
 
 const initialState = {
@@ -41,6 +52,80 @@ function profileReducer(state = initialState, action) {
       return {
         ...state,
         profile: null,
+      };
+    case PROFILE_USER_LOADED:
+      return {
+        ...state,
+        profile_exists: true,
+        profile: payload,
+        loading: false,
+      };
+
+    case PROFILE_NOT_EXISTS:
+      return {
+        ...state,
+        profile_exists: false,
+        loading: false,
+        error: payload,
+      };
+    case PROFILE_USER_SUCCESS:
+      return {
+        ...state,
+        editing_profile: false,
+      };
+
+    case INITIATE_EDITING:
+      return {
+        ...state,
+        editing_profile: true,
+      };
+
+    case PROFILE_USER_FAIL:
+      return {
+        ...state,
+        profile_exists: true,
+        error: payload,
+      };
+    case BUDDY_REQUEST_SENT:
+      return {
+        ...state,
+        prompt: payload,
+      };
+    case PROFILE_RECIEVE_NOTIFICATION:
+      return {
+        ...state,
+        notification: payload,
+      };
+
+    case LOGOUT:
+      return {
+        profile_exists: false,
+        editing_profile: false,
+        user_profile: null,
+        profiles: [],
+        loading: true,
+        peers_loaded: false,
+        error: null,
+        notification: null,
+        prompt: null,
+      };
+
+    case CLEAR_PROMPTS:
+      return {
+        ...state,
+        prompt: null,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    case CLEAR_NOTIFICATIONS:
+      return {
+        ...state,
+        notification: null,
       };
 
     default:
