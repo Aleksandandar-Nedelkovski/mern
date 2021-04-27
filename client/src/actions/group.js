@@ -8,6 +8,8 @@ import {
   CREATE_GROUP,
   GROUP_CREATE_FAIL,
   GROUPS_FILTER_COURSE,
+  GROUPS_SET_CURRENT,
+  GROUPS_USER_LOADED,
   // USER_LOADED,
   // AUTH_ERROR,
   // CREATE_GROUP,
@@ -18,31 +20,12 @@ import {
   // GROUPS_CLEAR_FILTER,
   // GROUPS_FILTER_SEARCH,
   // GROUPS_FILTER_CURRENT,
-  GROUPS_SET_CURRENT,
   // CLEAR_SUCCESS,
   // SEND_JOIN_REQUEST,
   // CLEAR_PROMPTS,
-  GROUPS_USER_LOADED,
   // GET_GROUP,
   // GROUP_ERROR,
 } from "./types";
-
-// Get the users groups
-export const getUserGroups = () => async (dispatch) => {
-  try {
-    const res = await api.get("/profile/groups");
-
-    dispatch({
-      type: GROUPS_USER_LOADED,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: GROUPS_FAIL,
-      payload: err.response.data.msg,
-    });
-  }
-};
 
 // Load Groups
 export const loadGroups = () => async (dispatch) => {
@@ -57,7 +40,6 @@ export const loadGroups = () => async (dispatch) => {
       payload: groups,
       // payload: res.data,
     });
-    dispatch(setAlert("Group Loaded", "success"));
   } catch (err) {
     dispatch({
       type: GROUPS_FAIL,
@@ -124,7 +106,6 @@ export const setGroupCurrent = (id) => async (dispatch) => {
       type: GROUPS_SET_CURRENT,
       payload: res.data,
     });
-    dispatch(setAlert("GROUPS SET CURRENT", "success"));
   } catch (err) {
     dispatch({
       type: GROUPS_FAIL,

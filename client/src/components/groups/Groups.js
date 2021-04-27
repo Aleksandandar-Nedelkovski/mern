@@ -16,11 +16,10 @@ const Groups = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-    if (profile) {
-      getUserGroups();
-    }
+    getUserGroups();
   }, [getCurrentProfile, getUserGroups]);
 
+  console.log("Groups", user_groups);
   // const cancelFilter = () => {
   //   clearFilter();
   // };
@@ -82,8 +81,8 @@ const Groups = ({
                   {filtered.length === 0 ? (
                     <Fragment>
                       {user_groups.map((group, index) => {
-                        if (index > 20) return;
-                        if (isHost(group)) return;
+                        if (index > 20) return null;
+                        if (isHost(group)) return null;
                         if (group.view === "normal") {
                           return (
                             <Group
@@ -106,8 +105,8 @@ const Groups = ({
                   ) : (
                     <Fragment>
                       {filtered.map((group, index) => {
-                        if (index > 20) return;
-                        if (isHost(group)) return;
+                        if (index > 20) return null;
+                        if (isHost(group)) return null;
                         if (group.view === "normal") {
                           return (
                             <Group

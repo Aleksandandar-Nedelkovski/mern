@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
+const auth = require("../../middleware/auth");
 
 const Group = require("../../models/Group");
-const Event = require("../../models/Event");
 const Profile = require("../../models/Profile");
-const User = require("../../models/User");
+// const Event = require("../../models/Event");
+// const User = require("../../models/User");
 
 // @route  GET api/groups
 // @desc   Get all groups
@@ -187,3 +187,5 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+module.exports = router;

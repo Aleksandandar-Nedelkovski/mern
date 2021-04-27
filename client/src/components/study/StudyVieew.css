@@ -1,0 +1,102 @@
+.study-member {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin: 0.8rem;
+  margin-left: auto;
+}
+
+.study-avatar {
+  border-radius: 75%;
+  width: 8%;
+  height: 8%;
+  margin-right: right;
+}
+
+.study-text {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.study-text-profile {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  text-align: center;
+  text-size-adjust: auto;
+}
+
+.profile-buddy-buttongroup {
+  display: flex;
+  margin-left: auto;
+}
+
+.study-btn-profile {
+  box-sizing: content-box;
+  text-align: center;
+  text-decoration: none;
+  margin: 0.3rem;
+  font-size: 0.6rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.1s;
+  height: 1.5rem;
+}
+
+.btn-buddy-profile {
+  border: 1px solid #ffffff;
+  background-color: #000;
+  color: #fff;
+}
+
+.btn-buddy-profile:hover {
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+}
+
+.btn-buddy-decline {
+  border: 1px solid #ff0000;
+  background-color: #ff0000;
+  color: #fff;
+}
+
+.btn-buddy-decline:hover {
+  border: 1px solid #ff0000;
+  background-color: #fff;
+  color: #ff0000;
+}
+
+.study-card {
+  flex-grow: 2;
+  width: 320px;
+  border: 1px solid #000;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.2);
+  -moz-box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.2);
+  box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.2);
+  padding: 15px;
+  margin: 15px;
+  background-color: rgb(244, 242, 239);
+}
+
+.study-card-sm {
+  flex-grow: 1;
+}
+
+.study-card-lg {
+  height: 340px;
+  width: 600px;
+  flex-grow: 3;
+  flex-shrink: 1;
+}
+.study-text {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.study-header {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+}

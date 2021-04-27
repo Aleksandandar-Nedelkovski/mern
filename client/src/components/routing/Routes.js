@@ -20,6 +20,7 @@ import About from "../common/About";
 import ContactUs from "../common/ContactUs";
 import ScrollToTop from "../common/ScrollToTop";
 import Groups from "../groups/Groups";
+import Study from "../study/Study";
 
 const Routes = (props) => {
   return (
@@ -42,7 +43,9 @@ const Routes = (props) => {
         <PrivateRoute exact path="/posts/:id" component={Post} />
         <PrivateRoute exact path="/events" component={Events} />
         <PrivateRoute exact path="/prize-store" component={PrizeStore} />
-        <PrivateRoute exact path="/groups" component={Groups} />
+        <PrivateRoute exact path="/admin/groups" component={Groups} />
+        <PrivateRoute exact path="/admin/study" component={Study} />
+
         <PrivateRoute
           exact
           path="/home-challenges"
