@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUserGroups, getCurrentProfile } from "../../actions/profile";
 import { setGroupCurrent } from "../../actions/group";
 
 import CreateGroup from "../groups/CreateGroup";
@@ -12,19 +11,10 @@ import StudyMembers from "./StudyMembers";
 import StudyInvite from "./StudyInvite";
 import "./StudyVieew.css";
 
-const StudyView = ({
-  setGroupCurrent,
-  getCurrentProfile,
-  getUserGroups,
-  auth: { user },
-  profile: { profile },
-  group,
-}) => {
+const StudyView = ({ setGroupCurrent, auth: { user }, group }) => {
   useEffect(() => {
     setGroupCurrent();
-    getCurrentProfile();
-    getUserGroups();
-  }, [getCurrentProfile, getUserGroups]);
+  }, [setGroupCurrent]);
   const { user_groups, current } = group;
 
   const [sidebar, collapse] = useState("sidebar-off");
@@ -59,8 +49,6 @@ const StudyView = ({
   useEffect(() => {
     setCurrent();
   }, [current]);
-
-  console.log("current", current);
 
   const beginEditing = () => {
     setEditing(true);
@@ -163,7 +151,7 @@ const StudyView = ({
               className="btn-close"
               onClick={() => collapseSidebar()}
             >
-              <i className="fas fa-times-circle btn-close-icon" />
+              <i className="fas fa-times-circle btn-close-icon"></i>
             </a>
             {user_groups.map((group) => (
               <h1
@@ -182,20 +170,14 @@ const StudyView = ({
 };
 
 StudyView.propTypes = {
-  getUserGroups: PropTypes.func.isRequired,
+  setGroupCurrent: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
-  // group: PropTypes.object.isRequired,
+  group: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile: state.profile,
   group: state.group,
 });
 
-export default connect(mapStateToProps, {
-  setGroupCurrent,
-  getCurrentProfile,
-  getUserGroups,
-})(StudyView);
+export default connect(mapStateToProps, { setGroupCurrent })(StudyView);

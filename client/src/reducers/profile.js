@@ -17,10 +17,22 @@ import {
   PROFILE_USER_FAIL,
 } from "../actions/types";
 
+// const initialState = {
+//   profile: null,
+//   profiles: [],
+//   loading: true,
+//   error: {},
+// };
+
 const initialState = {
-  profile: null,
+  // profile: null,
   profiles: [],
+  profile_exists: false,
+  editing_profile: false,
+  // user_profile: [],
   loading: true,
+  prompt: null,
+  notification: null,
   error: {},
 };
 

@@ -40,6 +40,9 @@ const Dashboard = ({
               : `Good afternoon, ${user && user.name}`}
           </p>
           <p className="lead"> Welcome to Week 1</p>
+          <Link to="/admin/dashboard">
+            <button className="btn btn-orange">Admin</button>
+          </Link>
           <Link to="/admin/groups">
             <button className="btn btn-orange">Groups</button>
           </Link>

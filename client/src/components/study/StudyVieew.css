@@ -100,3 +100,50 @@
   font-size: 1.6rem;
   margin-bottom: 0.8rem;
 }
+
+.sidebar {
+  height: 1920px;
+  width: 0;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0;
+  background-color: #ea3160;
+  padding-top: 30px;
+  transition: 0.4s;
+}
+
+.sidebar-link {
+  padding: 6px 6px 22px 25px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #fff;
+  display: block;
+  transition: 0.5s;
+}
+
+.sidebar-link:hover {
+  cursor: pointer;
+  color: gray;
+  transition: 0.3s;
+}
+
+.sidebar-on {
+  width: 350px;
+}
+
+.sidebar-off {
+  width: 0px;
+}
+
+.sidebar .btn-close {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  margin-left: 60px;
+}
+
+.sidebar .btn-close .btn-close-icon {
+  color: #fff;
+  font-size: 1.5rem;
+}

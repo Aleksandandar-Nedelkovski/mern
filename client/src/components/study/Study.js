@@ -54,6 +54,4 @@ const mapStateToProps = (state) => ({
   group: state.group,
 });
 
-export default connect(mapStateToProps, {
-  getUserGroups,
-})(Study);
+export default connect(mapStateToProps, { getUserGroups })(Study);

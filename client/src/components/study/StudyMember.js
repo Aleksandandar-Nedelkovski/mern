@@ -3,33 +3,8 @@ import { Link } from "react-router-dom";
 import api from "../../utils/api";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUserGroups, getCurrentProfile } from "../../actions/profile";
-import { loadGroups } from "../../actions/group";
-const StudyMember = ({
-  getCurrentProfile,
-  loadGroups,
-  profile: { profile },
-  auth: { user },
-  group,
-  userid,
-  kick,
-  isHost,
-}) => {
-  const { user_groups_loading, user_groups } = group;
-  const {} = user;
-  const { _id, name, avatar } = user;
-  console.log("====================================");
-  console.log("StudyMember group", group);
-  console.log("====================================");
 
-  console.log("====================================");
-  console.log("StudyMember user", user);
-  console.log("====================================");
-
-  useEffect(() => {
-    getCurrentProfile();
-    loadGroups();
-  }, [getCurrentProfile, loadGroups]);
+const StudyMember = ({ userid, kick, isHost }) => {
   const [profileState, setProfile] = useState({
     loading: true,
     exists: false,
@@ -55,49 +30,64 @@ const StudyMember = ({
       });
     }
   };
+
+  const { profile, loading, exists } = profileState;
+
   useEffect(() => {
     getProfile();
   }, []);
 
-  return (
-    <Fragment>
-      <div className="study-member">
-        <img className="study-avatar" src={avatar} alt="" />
-        <h2 className="study-text study-text-profile">{name}</h2>
-        <div className="profile-buddy-buttongroup">
-          {profile.user._id !== userid && (
-            <Fragment>
-              <Link
-                to={{
-                  pathname: `/profile/${_id}`,
-                  state: {
-                    goBack: `/studyview`,
-                  },
-                }}
-              >
-                <button className="study-btn-profile btn-buddy-profile">
-                  Profile
-                </button>
-              </Link>
+  const { _id, user } = profile;
+  const { name, avatar } = user;
 
-              {isHost && (
-                <button
-                  className="study-btn-profile btn-buddy-decline"
-                  onClick={() => kick(userid)}
+  return loading ? (
+    <Fragment>
+      <h2 className="study-text">Loading</h2>
+    </Fragment>
+  ) : (
+    <Fragment>
+      {exists ? (
+        <div className="study-member">
+          <img className="study-avatar" src={avatar} alt="" />
+          <h2 className="study-text study-text-profile">{name}</h2>
+          <div className="profile-buddy-buttongroup">
+            {profile.user._id !== userid && (
+              <Fragment>
+                <Link
+                  to={{
+                    pathname: `/profile/${_id}`,
+                    state: {
+                      goBack: `/studyview`,
+                    },
+                  }}
                 >
-                  Kick
-                </button>
-              )}
-            </Fragment>
-          )}
+                  <button className="study-btn-profile btn-buddy-profile">
+                    Profile
+                  </button>
+                </Link>
+
+                {isHost && (
+                  <button
+                    className="study-btn-profile btn-buddy-decline"
+                    onClick={() => kick(userid)}
+                  >
+                    Kick
+                  </button>
+                )}
+              </Fragment>
+            )}
+          </div>
         </div>
-      </div>{" "}
+      ) : (
+        <Fragment>
+          <h2 className="study-text">Error loading profile</h2>
+        </Fragment>
+      )}
     </Fragment>
   );
 };
 
 StudyMember.propTypes = {
-  getUserGroups: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   group: PropTypes.object.isRequired,
@@ -109,8 +99,4 @@ const mapStateToProps = (state) => ({
   group: state.group,
 });
 
-export default connect(mapStateToProps, {
-  getCurrentProfile,
-  getUserGroups,
-  loadGroups,
-})(StudyMember);
+export default connect(mapStateToProps)(StudyMember);

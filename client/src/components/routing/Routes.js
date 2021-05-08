@@ -14,13 +14,28 @@ import Post from "../post/Post";
 import NotFound from "../layout/NotFound";
 import PrivateRoute from "../routing/PrivateRoute";
 import PrizeStore from "../authenticated/PrizeStore";
-import Events from "../authenticated/Events";
+import Events from "../authenticated/EventList";
 import HomeChallenges from "../authenticated/HomeChallenges";
 import About from "../common/About";
 import ContactUs from "../common/ContactUs";
 import ScrollToTop from "../common/ScrollToTop";
 import Groups from "../groups/Groups";
 import Study from "../study/Study";
+import AdminDashboard from "../admin/AdminDashboard";
+import CreateGroup from "../groups/CreateGroup";
+
+import AddCourse from "../course/AddCourse";
+import CreateCategoryAdmin from "../admin/CreateCategoryAdmin";
+
+import Event from "../event/Event";
+import CreateEvent from "../createEvent/CreateEvent";
+import EditEvent from "../editEvent/EditEvent";
+
+import NewCourse from "../course/NewCourse";
+import Course from "../course/Course";
+import EditCourse from "../course/EditCourse";
+import Enrollment from "../enrollment/Enrollment";
+import AllCourses from "../course/AllCourses";
 
 const Routes = (props) => {
   return (
@@ -42,9 +57,19 @@ const Routes = (props) => {
         <PrivateRoute exact path="/posts" component={Posts} />
         <PrivateRoute exact path="/posts/:id" component={Post} />
         <PrivateRoute exact path="/events" component={Events} />
-        <PrivateRoute exact path="/prize-store" component={PrizeStore} />
+        <PrivateRoute
+          exact
+          path="/prizedashboard-store"
+          component={PrizeStore}
+        />
+        <PrivateRoute
+          exact
+          path="/admin/dashboard"
+          component={AdminDashboard}
+        />
         <PrivateRoute exact path="/admin/groups" component={Groups} />
         <PrivateRoute exact path="/admin/study" component={Study} />
+        <PrivateRoute exact path="/admin/newgroup" component={CreateGroup} />
 
         <PrivateRoute
           exact
@@ -52,6 +77,27 @@ const Routes = (props) => {
           component={HomeChallenges}
         />
 
+        <PrivateRoute exact path="/addcourse/:id" component={AddCourse} />
+        <Route
+          exact
+          path="/CreateCategoryAdmin"
+          component={CreateCategoryAdmin}
+        />
+
+        <Route exact path="/event/:eventId" component={Event} />
+        <PrivateRoute exact path="/create-event" component={CreateEvent} />
+        <PrivateRoute exact path="/edit-event/:id" component={EditEvent} />
+
+        <PrivateRoute path="/teach/course/new" component={NewCourse} />
+        <PrivateRoute
+          path="/teach/course/edit/:courseId"
+          component={EditCourse}
+        />
+        <Route path="/course/:courseId" component={Course} />
+        <PrivateRoute path="/teach/course/:courseId" component={Course} />
+        <PrivateRoute path="/all-courses" component={AllCourses} />
+
+        <PrivateRoute path="/learn/:enrollmentId" component={Enrollment} />
         <Route component={NotFound} />
       </Switch>
     </section>

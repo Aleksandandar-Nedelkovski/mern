@@ -4,8 +4,10 @@ import auth from "./auth";
 import profile from "./profile";
 import post from "./post";
 import group from "./group";
-import event from "./event";
+import events from "./eventsReducer";
 import peer from "./peer";
+import category from "./category";
+import course from "./course";
 
 export default combineReducers({
   alert,
@@ -14,5 +16,7 @@ export default combineReducers({
   post,
   group,
   peer,
-  event,
+  events,
+  category,
+  course,
 });
