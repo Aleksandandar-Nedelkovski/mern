@@ -11,7 +11,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Moment from "react-moment";
+// import Moment from "react-moment";
 // import GoogleMapReact from "google-map-react";
 // import Marker from "../../components/marker/Marker";
 import AttendeeItem from "../../components/attendeeItem/AttendeeItem";
@@ -24,8 +24,6 @@ import {
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import EventComments from "../../components/eventComments/EventComments";
-
-Moment.globalTimezone = "America/Los_Angeles";
 
 const Event = ({
   auth,
@@ -124,11 +122,13 @@ const Event = ({
               <Typography variant="body1">
                 Date:{" "}
                 <span>
-                  <Moment format="DD/MM/YYYY">{event.date}</Moment>
+                  {event.date}
+                  {/* <Moment format="DD/MM/YYYY">{event.date}</Moment> */}
                 </span>
                 Time:{" "}
                 <span>
-                  <Moment format="hh:mm">{event.time}</Moment>
+                  {event.time}
+                  {/* <Moment format="hh:mm">{event.time}</Moment> */}
                 </span>
               </Typography>
             </div>

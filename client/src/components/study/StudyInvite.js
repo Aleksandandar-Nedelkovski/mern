@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { setAlert } from "../../actions/alert";
 import api from "../../utils/api";
 import StudyFriend from "./StudyFriend";
@@ -85,10 +85,6 @@ const StudyInvite = ({ groupid, members, requests, reload }) => {
     await reload();
     getBuddies();
   };
-
-  useEffect(() => {
-    getBuddies();
-  }, []);
 
   return (
     <div className="study-card">

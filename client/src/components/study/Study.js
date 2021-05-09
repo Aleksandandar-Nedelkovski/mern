@@ -10,7 +10,7 @@ const Study = ({ getUserGroups, group }) => {
   const { user_groups_loading, user_groups } = group;
   useEffect(() => {
     getUserGroups();
-  }, []);
+  }, [getUserGroups]);
 
   return user_groups_loading ? (
     <Fragment>Loading</Fragment>

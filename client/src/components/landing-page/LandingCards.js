@@ -1,11 +1,5 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
 import hero from "../../img/Slider/Hero-Image-3.jpg";
-// import character2 from "../../img/Characters/Characters-12.png";
-// import character3 from "../../img/Characters/Characters-13.png";
-// import character1 from "../../img/Characters/Characters-11.png";
-import workingWithUsPhoto from "../../img/Characters/Characters-10.jpg";
-
 export default function LandingCards() {
   return (
     <Fragment>
@@ -14,26 +8,23 @@ export default function LandingCards() {
           <div className="flex flex-wrap items-center mt-32">
             <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
               <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
-                <img src={workingWithUsPhoto} alt="work-with-us" />
+                <img
+                  alt="..."
+                  className="align-middle border-none max-w-full h-auto rounded-lg"
+                  src={
+                    require("../../img/Characters/Characters-07.jpg").default
+                  }
+                />
               </div>
               <h3 className="text-3xl mb-2 font-semibold leading-normal">
-                Working with us is a pleasure
+                What We Are About
               </h3>
               <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Ducimus possimus ipsa vitae sequi? Magnam quaerat est ipsum
-                minus, accusamus voluptates accusantium perferendis cupiditate
-                quidem. Cumque veniam quidem saepe debitis similique.
+                BUILT is a family program specifically designed to incorporate
+                healthy behaviors into children’s daily routines. Research shows
+                eating well, sleeping well, and being physically active has
+                tremendous benefits on young people’s brains and behavior.
               </p>
-              <p className="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Delectus, nam et dolorem, qui esse iure iste perspiciatis optio
-                asperiores, quae repudiandae velit ad ratione cumque soluta
-                consequatur maxime animi impedit!
-              </p>
-              <Link to="/" className="font-bold text-blueGray-700 mt-8">
-                Check Something Out!
-              </Link>
             </div>
 
             <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
@@ -51,12 +42,12 @@ export default function LandingCards() {
                     className="absolute left-0 w-full block h-95-px -top-94-px"
                   ></svg>
                   <h4 className="text-xl font-bold text-black">
-                    Top Notch Services
+                    What You Can Expect
                   </h4>
                   <p className="text-md font-light mt-2 text-gray-500">
-                    The Arctic Ocean freezes every winter and much of the
-                    sea-ice then thaws every summer, and that process will
-                    continue whatever happens.
+                    This program is fun and is designed to reward children for
+                    incorporating routines into your lives with your family
+                    while experiencing the value for yourselves.
                   </p>
                 </blockquote>
               </div>

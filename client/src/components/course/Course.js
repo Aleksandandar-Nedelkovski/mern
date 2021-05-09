@@ -16,7 +16,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import { read, update } from "./api-course.js";
+import { update } from "./api-course.js";
 // import { enrollmentStats } from "./../enrollment/api-enrollment";
 import { Link, Redirect } from "react-router-dom";
 import DeleteCourse from "./DeleteCourse";
@@ -101,7 +101,7 @@ const Course = ({
   listPublishedCourses,
 }) => {
   const classes = useStyles();
-  const [stats, setStats] = useState({});
+  const [stats] = useState({});
   const [course, setCourse] = useState({ instructor: {} });
   const [values, setValues] = useState({
     redirect: false,
@@ -111,7 +111,7 @@ const Course = ({
   useEffect(() => {
     listPublishedCourses();
     const abortController = new AbortController();
-    const signal = abortController.signal;
+    // const signal = abortController.signal;
     console.log("courses", courses);
 
     // read({ courseId: match.params.courseId }, signal).then((data) => {
@@ -124,7 +124,7 @@ const Course = ({
     return function cleanup() {
       abortController.abort();
     };
-  }, [match.params.courseId, course, listPublishedCourses]);
+  }, [match.params.courseId, course, listPublishedCourses, courses]);
   console.log("courses", courses);
   useEffect(() => {
     const abortController = new AbortController();
@@ -188,7 +188,7 @@ const Course = ({
           }
           action={
             <>
-              {isAuthenticated && user._id == course.instructor._id && (
+              {isAuthenticated && user._id === course.instructor._id && (
                 <span className={classes.action}>
                   <Link to={"/teach/course/edit/" + course._id}>
                     <IconButton aria-label="Edit" color="secondary">
@@ -202,7 +202,7 @@ const Course = ({
                         variant="outlined"
                         onClick={clickPublish}
                       >
-                        {course.lessons.length == 0
+                        {course.lessons.length === 0
                           ? "Add atleast 1 lesson to publish"
                           : "Publish"}
                       </Button>
@@ -262,7 +262,7 @@ const Course = ({
             }
             action={
               isAuthenticated &&
-              user._id == course.instructor._id &&
+              user._id === course.instructor._id &&
               !course.published && (
                 <span className={classes.action}>
                   <NewLesson courseId={course._id} addLesson={addLesson} />

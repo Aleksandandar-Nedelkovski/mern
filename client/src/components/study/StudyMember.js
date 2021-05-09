@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
-import api from "../../utils/api";
+// import api from "../../utils/api";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 const StudyMember = ({ userid, kick, isHost }) => {
-  const [profileState, setProfile] = useState({
+  const [profileState] = useState({
     loading: true,
     exists: false,
     profile: {
@@ -13,29 +13,29 @@ const StudyMember = ({ userid, kick, isHost }) => {
     },
   });
 
-  const getProfile = async () => {
-    try {
-      const res = await api.get(`../api/profile/user/${userid}`);
+  // const getProfile = async () => {
+  //   try {
+  //     const res = await api.get(`../api/profile/user/${userid}`);
 
-      setProfile({
-        loading: false,
-        exists: true,
-        profile: res.data,
-      });
-    } catch (err) {
-      setProfile({
-        loading: false,
-        exists: false,
-        profile: null,
-      });
-    }
-  };
+  //     setProfile({
+  //       loading: false,
+  //       exists: true,
+  //       profile: res.data,
+  //     });
+  //   } catch (err) {
+  //     setProfile({
+  //       loading: false,
+  //       exists: false,
+  //       profile: null,
+  //     });
+  //   }
+  // };
 
   const { profile, loading, exists } = profileState;
 
-  useEffect(() => {
-    getProfile();
-  }, []);
+  // useEffect(() => {
+  //   getProfile();
+  // }, []);
 
   const { _id, user } = profile;
   const { name, avatar } = user;

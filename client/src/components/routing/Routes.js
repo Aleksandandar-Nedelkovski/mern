@@ -36,6 +36,9 @@ import Course from "../course/Course";
 import EditCourse from "../course/EditCourse";
 import Enrollment from "../enrollment/Enrollment";
 import AllCourses from "../course/AllCourses";
+import UploadVideoPage from "../video/UploadVideo";
+import AllVideos from "../video/AllVideos";
+import DetailVideoPage from "../video/DetailVideoPage";
 
 const Routes = (props) => {
   return (
@@ -98,6 +101,14 @@ const Routes = (props) => {
         <PrivateRoute path="/all-courses" component={AllCourses} />
 
         <PrivateRoute path="/learn/:enrollmentId" component={Enrollment} />
+        <PrivateRoute exact path="/video/upload" component={UploadVideoPage} />
+        <PrivateRoute exact path="/all-videos" component={AllVideos} />
+        <PrivateRoute
+          exact
+          path="/video/:videoId"
+          component={DetailVideoPage}
+        />
+
         <Route component={NotFound} />
       </Switch>
     </section>

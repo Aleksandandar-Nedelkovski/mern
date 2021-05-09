@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import api from "../../utils/api";
+// import api from "../../utils/api";
 
 const StudyRequest = ({
   profile: { profile, loading, exists },
@@ -12,35 +12,25 @@ const StudyRequest = ({
   const { _id, user } = profile;
   const { name, avatar } = user;
 
-  const [profileState, setProfile] = useState({
-    loading: true,
-    exists: false,
-    profile: {
-      user: {},
-    },
-  });
+  // useEffect(() => {
+  //   const getProfile = async () => {
+  //     try {
+  //       const res = await api.get(`../api/profile/user/${userid}`);
 
-  const getProfile = async () => {
-    try {
-      const res = await api.get(`../api/profile/user/${userid}`);
-
-      setProfile({
-        loading: false,
-        exists: true,
-        profile: res.data,
-      });
-    } catch (err) {
-      setProfile({
-        loading: false,
-        exists: false,
-        profile: null,
-      });
-    }
-  };
-
-  useEffect(() => {
-    getProfile();
-  }, []);
+  //       setProfile({
+  //         loading: false,
+  //         exists: true,
+  //         profile: res.data,
+  //       });
+  //     } catch (err) {
+  //       setProfile({
+  //         loading: false,
+  //         exists: false,
+  //         profile: null,
+  //       });
+  //     }
+  //   };
+  // }, []);
 
   return loading ? (
     <Fragment>

@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../../actions/profile";
 import YoutubeEmbed from "../common/YoutubeEmbed";
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
+// import { Link } from "react-router-dom";
 
 const HomeChallenges = ({
   getCurrentProfile,
@@ -25,16 +26,50 @@ const HomeChallenges = ({
           <p>Week 1</p>
           <YoutubeEmbed embedId="TGhNoDPb5eM" />
         </div>
-        <ul>
-          <li>hi</li>
-          <li>hi</li>
-          <li>hi</li>
-          <li>hi</li>
-        </ul>
+        <h2>Resources</h2>
+        <a
+          href="https://www.youtube.com/channel/UC0oO2ekgH83Zc3j7SOvT_2Q"
+          target="_blank"
+          rel="noreferrer"
+        >
+          MOMables{" "}
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCZxTHv4_G9RUqefQtIXorig/featured"
+          target="_blank"
+          rel="noreferrer"
+        >
+          MindOverMunch{" "}
+        </a>
+
+        <h2>Recipes</h2>
+        <a
+          href="https://www.youtube.com/watch?v=LexTnUKqTqU&list=PLrIqkvSyIic_Y3NvcNTa849PourTnTF5h&index=3"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Allergy Friendly Pancakes: Gluten-Free, Dairy-Free, Egg-Free{" "}
+        </a>
+        <a
+          href="https://www.youtube.com/watch?v=AE9-0ls53vE"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Smoothie Recipes{" "}
+        </a>
+
+        <a
+          href="https://www.youtube.com/watch?v=TIAB6-sAn6Q&list=PLrIqkvSyIic_Y3NvcNTa849PourTnTF5h&index=3"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Cauliflower Shrimp Fried Rice{" "}
+        </a>
+
         <br />
         <br />
         <br />
-        <Pagination />
+        {/* <Pagination /> */}
         {/* </div> */}
       </div>
     </Fragment>

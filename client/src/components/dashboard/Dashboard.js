@@ -40,7 +40,7 @@ const Dashboard = ({
               : `Good afternoon, ${user && user.name}`}
           </p>
           <p className="lead"> Welcome to Week 1</p>
-          <Link to="/admin/dashboard">
+          {/* <Link to="/admin/dashboard">
             <button className="btn btn-orange">Admin</button>
           </Link>
           <Link to="/admin/groups">
@@ -48,7 +48,7 @@ const Dashboard = ({
           </Link>
           <Link to="/admin/study">
             <button className="btn btn-orange">Study</button>
-          </Link>
+          </Link> */}
         </div>
         {profile !== null ? (
           <Fragment>

@@ -71,15 +71,12 @@ const AllCourses = ({ listPublishedCourses, auth: { user }, course }) => {
     listPublishedCourses();
   }, [listPublishedCourses]);
   const classes = useStyles();
-  const jwt = auth.isAuthenticated();
-  const [courses, setCourses] = useState([]);
-  const [enrolled, setEnrolled] = useState([]);
-  console.log("====================================");
-  console.log(courses);
-  console.log("====================================");
+  // const jwt = auth.isAuthenticated();
+  const [courses] = useState([]);
+  const [enrolled] = useState([]);
   useEffect(() => {
     const abortController = new AbortController();
-    const signal = abortController.signal;
+    // const signal = abortController.signal;
     // listPublished(signal).then((data) => {
     //   if (data.error) {
     //     console.log(data.error);
@@ -102,7 +99,7 @@ const AllCourses = ({ listPublishedCourses, auth: { user }, course }) => {
           >
             Courses you are enrolled in
           </Typography>
-          {enrolled.length != 0 ? (
+          {enrolled.length !== 0 ? (
             <Enrollments enrollments={enrolled} />
           ) : (
             <Typography variant="body1" className={classes.noTitle}>
@@ -115,7 +112,7 @@ const AllCourses = ({ listPublishedCourses, auth: { user }, course }) => {
         <Typography variant="h5" component="h2">
           All Courses
         </Typography>
-        {courses.length != 0 && courses.length != enrolled.length ? (
+        {courses.length !== 0 && courses.length !== enrolled.length ? (
           <Courses courses={courses} common={enrolled} />
         ) : (
           <Typography variant="body1" className={classes.noTitle}>

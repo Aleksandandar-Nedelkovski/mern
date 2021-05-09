@@ -14,7 +14,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { read, complete } from "./api-enrollment.js";
+import { complete } from "./api-enrollment.js";
 import { Link } from "react-router-dom";
 import auth from "./../auth/auth-helper";
 import Divider from "@material-ui/core/Divider";
@@ -132,7 +132,7 @@ export default function Enrollment({ match }) {
   const jwt = auth.isAuthenticated();
   useEffect(() => {
     const abortController = new AbortController();
-    const signal = abortController.signal;
+    // const signal = abortController.signal;
 
     // read({enrollmentId: match.params.enrollmentId}, {t: jwt.token}, signal).then((data) => {
     //   if (data.error) {
@@ -166,7 +166,7 @@ export default function Enrollment({ match }) {
       updatedData.lessonStatusId = lessonStatus[values.drawer]._id;
       updatedData.complete = true;
 
-      if (count == lessonStatus.length) {
+      if (count === lessonStatus.length) {
         updatedData.courseCompleted = Date.now();
       }
 
@@ -205,7 +205,7 @@ export default function Enrollment({ match }) {
             button
             onClick={selectDrawer(-1)}
             className={
-              values.drawer == -1 ? classes.selectedDrawer : classes.unselected
+              values.drawer === -1 ? classes.selectedDrawer : classes.unselected
             }
           >
             <ListItemIcon>
@@ -225,7 +225,7 @@ export default function Enrollment({ match }) {
               key={index}
               onClick={selectDrawer(index)}
               className={
-                values.drawer == index
+                values.drawer === index
                   ? classes.selectedDrawer
                   : classes.unselected
               }
@@ -258,7 +258,7 @@ export default function Enrollment({ match }) {
           </ListItem>
         </List>
       </Drawer>
-      {values.drawer == -1 && (
+      {values.drawer === -1 && (
         <Card className={classes.card}>
           <CardHeader
             title={enrollment.course.name}
@@ -276,7 +276,7 @@ export default function Enrollment({ match }) {
               </div>
             }
             action={
-              totalComplete == enrollment.lessonStatus.length && (
+              totalComplete === enrollment.lessonStatus.length && (
                 <span className={classes.action}>
                   <Button variant="contained" color="secondary">
                     <CheckCircle /> &nbsp; Completed
@@ -315,7 +315,7 @@ export default function Enrollment({ match }) {
               }
               action={
                 auth.isAuthenticated().user &&
-                auth.isAuthenticated().user._id ==
+                auth.isAuthenticated().user._id ===
                   enrollment.course.instructor._id && (
                   <span className={classes.action}></span>
                 )
@@ -340,7 +340,7 @@ export default function Enrollment({ match }) {
           </div>
         </Card>
       )}
-      {values.drawer != -1 && (
+      {values.drawer !== -1 && (
         <>
           <Typography variant="h5" className={classes.heading}>
             {enrollment.course.name}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -10,7 +10,6 @@ import Button from "@material-ui/core/Button";
 import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { addCourse } from "../../actions/course";

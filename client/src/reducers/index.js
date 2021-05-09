@@ -8,6 +8,7 @@ import events from "./eventsReducer";
 import peer from "./peer";
 import category from "./category";
 import course from "./course";
+import video from "./video";
 
 export default combineReducers({
   alert,
@@ -19,4 +20,5 @@ export default combineReducers({
   events,
   category,
   course,
+  video,
 });

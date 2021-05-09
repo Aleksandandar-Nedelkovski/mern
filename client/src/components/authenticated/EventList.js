@@ -70,7 +70,7 @@ const EventsList = ({ events: { events, loading }, getEvents }) => {
           <div className={classes.mediaContainer}>
             <img
               // src={require(`../../img/${event.type}.jpg`)}
-              src={require(`../../img/event/${event.type}.jpg`)}
+              src={require(`../../img/event/concert.jpg`)}
               className={classes.cardMedia}
               alt=""
             />

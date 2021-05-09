@@ -46,9 +46,9 @@ const StudyView = ({ setGroupCurrent, auth: { user }, group }) => {
     }
   };
 
-  useEffect(() => {
-    setCurrent();
-  }, [current]);
+  // useEffect(() => {
+  //   setCurrent();
+  // }, [setCurrent]);
 
   const beginEditing = () => {
     setEditing(true);

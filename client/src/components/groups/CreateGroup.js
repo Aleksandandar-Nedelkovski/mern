@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 import PropTypes from "prop-types";
@@ -35,7 +35,7 @@ const CreateGroup = ({
     if (group._id) {
       delete group._id;
     }
-  }, [uploadGroup]);
+  }, [uploadGroup, group._id]);
 
   useEffect(() => {
     if (profile_exists && profile.courses.length > 0) {
@@ -47,7 +47,7 @@ const CreateGroup = ({
         });
       }
     }
-  }, [profile]);
+  }, [profile, existingGroup.exists, group, profile_exists]);
 
   useEffect(() => {
     if (creation_error !== null) {
@@ -66,7 +66,15 @@ const CreateGroup = ({
         history.push("/studyview");
       }
     }
-  }, [creation_error, creation_success]);
+  }, [
+    creation_error,
+    creation_success,
+    clearErrors,
+    clearSuccess,
+    existingGroup.exists,
+    finish,
+    history,
+  ]);
 
   const onChange = (e) =>
     setGroup({
@@ -156,7 +164,7 @@ const CreateGroup = ({
               </div>
               {profile.courses.length > 0 ? (
                 <Fragment>
-                  <a href="#" className="register-btn">
+                  <a href="/" className="register-btn">
                     <input
                       type="submit"
                       value="Create"

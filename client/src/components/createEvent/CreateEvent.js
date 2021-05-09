@@ -45,11 +45,11 @@ const CreateEvent = ({ createEvent, history }) => {
     setFormData({ ...formData, time });
   };
 
-  const handleSelect = async () => {
-    setFormData({
-      ...formData,
-    });
-  };
+  // const handleSelect = async () => {
+  //   setFormData({
+  //     ...formData,
+  //   });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();

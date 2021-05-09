@@ -10,13 +10,13 @@ import { getUserGroups, getCurrentProfile } from "../../actions/profile";
 const ViewGroup = ({ group, closeLargeView }) => {
   const { _id, name, description, members, course, max_members } = group;
   const host = members[0];
-  const { loading, success, profile } = hostProfile;
 
   const [hostProfile, setHostProfile] = useState({
     loading: true,
     success: false,
     profile: null,
   });
+  const { loading, success, profile } = hostProfile;
 
   const getHostProfile = async (id) => {
     try {
@@ -38,7 +38,7 @@ const ViewGroup = ({ group, closeLargeView }) => {
 
   useEffect(() => {
     getHostProfile(host.user);
-  }, []);
+  }, [host.user]);
   return (
     <div className="card-md explore-group-card">
       <div className="profile-header">

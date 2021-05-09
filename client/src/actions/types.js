@@ -92,5 +92,6 @@ export const ADD_EVENT = "ADD_EVENT";
 export const EVENT_ERROR = "EVENT_ERROR";
 
 //to do
-export const GET_REPOS = "GET_REPOS";
-export const NO_REPOS = "NO_REPOS";
+export const GET_VIDEO = "GET_VIDEO";
+export const GET_VIDEOS = "GET_VIDEOS";
+export const VIDEO_ERROR = "VIDEO_ERROR";
