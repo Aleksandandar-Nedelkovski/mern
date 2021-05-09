@@ -7,13 +7,13 @@ export default function LandingCards() {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center mt-32">
             <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
-              <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
+              <div className="text-blueGray-500 justify-center mb-6 shadow-lg rounded-full bg-white">
                 <img
                   alt="..."
-                  className="align-middle border-none max-w-full h-auto rounded-lg"
                   src={
-                    require("../../img/Characters/Characters-07.jpg").default
+                    require("../../img/Characters/Characters-08.png").default
                   }
+                  className="shadow-lg rounded-full mx-auto max-w-120-px"
                 />
               </div>
               <h3 className="text-3xl mb-2 font-semibold leading-normal">

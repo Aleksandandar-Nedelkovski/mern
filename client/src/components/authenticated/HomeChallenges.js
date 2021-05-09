@@ -20,13 +20,11 @@ const HomeChallenges = ({
       <div className="min-h-screen flex flex-col">
         {/* <div className="mx-auto flex-1 flex flex-col items-center justify-center px-2"> */}
         <div className="bg-white rounded px-6 py-8 shadow-md">
-          <h1 className="x-large text-center">
-            <i className="fas fa-wrench" /> Home Challenges
-          </h1>
-          <p>Week 1</p>
+          <h1 className="x-large">Home Challenges</h1>
+          <p className="lead">Week 1</p>
           <YoutubeEmbed embedId="TGhNoDPb5eM" />
         </div>
-        <h2>Resources</h2>
+        <h2 className="lead">Resources</h2>
         <a
           href="https://www.youtube.com/channel/UC0oO2ekgH83Zc3j7SOvT_2Q"
           target="_blank"
@@ -41,8 +39,7 @@ const HomeChallenges = ({
         >
           MindOverMunch{" "}
         </a>
-
-        <h2>Recipes</h2>
+        <h2 className="lead">Recipes</h2>
         <a
           href="https://www.youtube.com/watch?v=LexTnUKqTqU&list=PLrIqkvSyIic_Y3NvcNTa849PourTnTF5h&index=3"
           target="_blank"
@@ -55,7 +52,7 @@ const HomeChallenges = ({
           target="_blank"
           rel="noreferrer"
         >
-          Smoothie Recipes{" "}
+          4 Kids Smoothies Recipes + Smoothie Bowls!
         </a>
 
         <a
@@ -66,11 +63,64 @@ const HomeChallenges = ({
           Cauliflower Shrimp Fried Rice{" "}
         </a>
 
-        <br />
-        <br />
-        <br />
-        {/* <Pagination /> */}
-        {/* </div> */}
+        <a
+          href="https://www.youtube.com/watch?v=SumKbntg-pU&list=PLrIqkvSyIic_Y3NvcNTa849PourTnTF5h&index=6"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Best Banana Oatmeal Muffins | Easy Blender Muffins{" "}
+        </a>
+
+        <a
+          href="https://www.youtube.com/watch?v=1XyFbSWHsKo&list=PLrIqkvSyIic_Y3NvcNTa849PourTnTF5h&index=7"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Healthy Keto Jambalaya with Cauliflower Rice
+        </a>
+
+        <a
+          href="https://www.youtube.com/watch?v=aLWak28w_WA&list=PLrIqkvSyIic_Y3NvcNTa849PourTnTF5h&index=9"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Healthy Blueberry Breakfast Cookie Recipe
+        </a>
+        <a
+          href="https://www.youtube.com/watch?v=gSPPfcedxsc&list=PLt2c0hX1aB8q3ARKPm0tLN2mMnthujdOg"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Healthy $1 Dessert Recipes - Easy Budget Meals!
+        </a>
+        <a
+          href="https://www.youtube.com/watch?v=rRT4Tqx-NBk&list=PLt2c0hX1aB8q3ARKPm0tLN2mMnthujdOg&index=9"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Bento Box Lunches | Healthy Recipes!
+        </a>
+        <a
+          href="https://www.youtube.com/watch?v=jKBuBCz09CE&list=PLt2c0hX1aB8q3ARKPm0tLN2mMnthujdOg&index=41"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Meal Prep: Healthy Dinner Back To School Ideas!
+        </a>
+        <a
+          href="https://www.youtube.com/watch?v=rRT4Tqx-NBk&list=PLt2c0hX1aB8q3ARKPm0tLN2mMnthujdOg&index=9"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Zucchini Lasagna!
+        </a>
+        <a
+          href="https://www.youtube.com/watch?v=b-gUTmxaf1U&list=PLt2c0hX1aB8q3ARKPm0tLN2mMnthujdOg&index=42"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Healthy Banana Bread In A Jar! - Gluten Free{" "}
+        </a>
       </div>
     </Fragment>
   );

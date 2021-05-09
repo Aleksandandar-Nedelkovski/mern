@@ -28,7 +28,7 @@ const EventComments = ({ event, auth, deleteComment, addComment }) => {
 
   return (
     <div className={classes.comments}>
-      <Typography variant="h3" color="secondary">
+      <Typography variant="h3" color="primary">
         Comment:
       </Typography>
 

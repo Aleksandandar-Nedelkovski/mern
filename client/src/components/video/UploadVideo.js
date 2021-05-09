@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Typography, Button, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import { setAlert } from "../../actions/alert";
+import Typography from "@material-ui/core/Typography";
 
-const { Title } = Typography;
 const { TextArea } = Input;
 
 const Private = [
@@ -123,7 +123,13 @@ function UploadVideoPage({ auth: { user } }) {
   return (
     <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <Title level={2}> Upload Video</Title>
+        <Typography
+          variant="h2"
+          color="primary"
+          style={{ marginBottom: "3rem" }}
+        >
+          Upload Video
+        </Typography>
       </div>
 
       <Form onSubmit={onSubmit}>
@@ -142,7 +148,7 @@ function UploadVideoPage({ auth: { user } }) {
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
-                <i class="fas fa-upload" style={{ fontSize: "4rem" }} />
+                <i class="fas fa-plus" style={{ fontSize: "4rem" }} />
                 {/* <Icon type="plus" style={{ fontSize: "3rem" }} /> */}
               </div>
             )}
@@ -150,7 +156,7 @@ function UploadVideoPage({ auth: { user } }) {
 
           {Thumbnail !== "" && (
             <div>
-              <img src={`http://localhost:5000/${Thumbnail}`} alt="haha" />
+              <img src={`http://localhost:5000/${Thumbnail}`} alt="success" />
             </div>
           )}
         </div>

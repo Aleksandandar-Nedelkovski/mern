@@ -33,194 +33,41 @@ router.get("/me", auth, async (req, res) => {
 // @route  POST api/profile
 // @desc   Create or update a user profile
 // @access Private
+
 router.post(
   "/",
-  [
-    auth,
-    [
-      check("courses", "Courses are required").not().isEmpty(),
-      check("year", "A year is required").not().isEmpty(),
-      check("bio", "Exceeded character limit of 300").custom(
-        (value) => value.length <= 300
-      ),
-    ],
-  ],
+  auth,
+  check("status", "Status is required").notEmpty(),
+  check("bio", "Bio is required").notEmpty(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      errorMsgs = errors.array().map((err) => err.msg);
-      return res.status(400).json({ msg: errorMsgs });
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    const { bio, courses, year } = req.body;
-    let bad = false;
+    // destructure the request
+    const { ...rest } = req.body;
 
-    const profileFields = {};
-    profileFields.user = req.user.id;
-
-    if (bio) profileFields.bio = bio;
-    if (year) {
-      if (year.length !== 4) {
-        return res.status(400).json({ msg: "Invalid year" });
-      }
-      for (var i = 0; i < year.length; i++) {
-        if (!(year.charAt(i) >= "0" && year.charAt(i) <= "9")) {
-          res.status(400).json({ msg: "Invalid year" });
-          bad = true;
-        }
-      }
-      profileFields.year = year;
-    }
-
-    if (bad) {
-      return;
-    }
-
-    let containsLetter = false;
-
-    if (courses) {
-      courses
-        .split(",")
-        .map((token) => token.trim())
-        .forEach((course) => {
-          containsLetter = false;
-          if (!bad) {
-            if (course === "" || course === " ") {
-              res
-                .status(400)
-                .json({ msg: "You've included an empty course entry" });
-              bad = true;
-              return;
-            }
-
-            for (var i = 0; i < course.length; i++) {
-              if (
-                !bad &&
-                !(course.charAt(i) >= "0" && course.charAt(i) <= "9") &&
-                course.charAt(i) === course.charAt(i).toLowerCase()
-              ) {
-                res.status(400).json({ msg: "No lowercase letters & spaces" });
-                bad = true;
-                return;
-              }
-              if (
-                !containsLetter &&
-                !(course.charAt(i) >= "0" && course.charAt(i) <= "9")
-              ) {
-                containsLetter = true;
-              }
-              if (
-                !bad &&
-                !containsLetter &&
-                course.charAt(i) >= "0" &&
-                course.charAt(i) <= "9"
-              ) {
-                res.status(400).json({ msg: "Invalid course entry" });
-                bad = true;
-                return;
-              }
-            }
-          }
-        });
-
-      if (bad) {
-        return;
-      }
-
-      if (!containsLetter) {
-        return res.status(400).json({ msg: "Invalid course entry" });
-      }
-
-      /* see if they included the same course twice */
-      let memo = [];
-      courses
-        .split(",")
-        .map((token) => token.trim())
-        .forEach((course) => {
-          if (memo.includes(course)) {
-            bad = true;
-            return res
-              .status(400)
-              .json({ msg: "Same course found multiple times" });
-          }
-          memo.push(course);
-        });
-
-      if (bad) {
-        return;
-      }
-
-      profileFields.courses = courses.split(",").map((course) => course.trim());
-    }
+    // build a profile
+    const profileFields = {
+      user: req.user.id,
+      ...rest,
+    };
 
     try {
-      let profile = await Profile.findOne({ user: req.user.id });
-
-      if (profile) {
-        let profile = await Profile.findOneAndUpdate(
-          {
-            user: req.user.id,
-          },
-          {
-            $set: profileFields,
-          },
-          {
-            new: true,
-          }
-        );
-
-        return res.json(profile);
-      }
-
-      profile = new Profile(profileFields);
-      await profile.save();
-      res.json(profile);
+      // Using upsert option (creates new doc if no match is found):
+      let profile = await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true, upsert: true, setDefaultsOnInsert: true }
+      );
+      return res.json(profile);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      return res.status(500).send("Server Error");
     }
   }
 );
-
-// @route    POST api/profile
-// @desc     Create or update user profile
-// @access   Private
-// router.post(
-//   "/",
-//   [
-//     auth,
-//     check("courses", "Courses are required").not().isEmpty(),
-//     check("year", "A year is required").not().isEmpty(),
-//     check("bio", "Exceeded character limit of 300").custom(
-//       (value) => value.length <= 300
-//     ),
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-
-//     // destructure the request
-//     const { bio, courses, year } = req.body;
-
-//     // build a profile
-//     const profileFields = {};
-
-//     try {
-//       // Using upsert option (creates new doc if no match is found):
-//       let profile = await Profile.findOneAndUpdate(
-//         { user: req.user.id },
-//         { $set: profileFields },
-//         { new: true, upsert: true, setDefaultsOnInsert: true }
-//       );
-//       return res.json(profile);
-//     } catch (err) {
-//       console.error(err.message);
-//       return res.status(500).send("Server Error");
-//     }
-//   }
-// );
 
 // @route    GET api/profile
 // @desc     Get all profiles
@@ -401,26 +248,26 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
   }
 });
 
-// @route  GET api/profile/buddyRequests
-// @desc   Get the profiles of a user's buddy requests
-// @access Private
-router.get("/buddyRequests", auth, async (req, res) => {
-  try {
-    // Get the user's profile and check if it exists
-    const profile = await Profile.findOne({ user: req.user.id });
-    if (!profile) {
-      return res.status(401).json({ msg: "You did not make your profile yet" });
-    }
+// // @route  GET api/profile/buddyRequests
+// // @desc   Get the profiles of a user's buddy requests
+// // @access Private
+// router.get("/buddyRequests", auth, async (req, res) => {
+//   try {
+//     // Get the user's profile and check if it exists
+//     const profile = await Profile.findOne({ user: req.user.id });
+//     if (!profile) {
+//       return res.status(401).json({ msg: "You did not make your profile yet" });
+//     }
 
-    const profiles = await Profile.find({
-      user: { $in: profile.requests },
-    }).populate("user", ["name", "avatar"]);
-    res.json(profiles);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
-  }
-});
+//     const profiles = await Profile.find({
+//       user: { $in: profile.requests },
+//     }).populate("user", ["name", "avatar"]);
+//     res.json(profiles);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server error");
+//   }
+// });
 
 // @route  GET api/profile/invites
 // @desc   Get the groups that sent an invite

@@ -8,7 +8,7 @@ import ProfileAbout from "./ProfileAbout";
 // import ProfileExperience from "./ProfileExperience";
 // import ProfileEducation from "./ProfileEducation";
 import { getProfileById, deleteAccount } from "../../actions/profile";
-import DashboardActions from "../dashboard/DashboardActions";
+// import DashboardActions from "../dashboard/DashboardActions";
 // import Experience from "../dashboard/Experience";
 // import Education from "../dashboard/Education";
 
@@ -32,55 +32,10 @@ const Profile = ({
           <Link to="/profiles" className="btn btn-orange">
             Back To Profiles
           </Link>
-          {auth.isAuthenticated &&
-            auth.loading === false &&
-            auth.user._id === profile.user._id && (
-              <Link to="/edit-profile" className="btn btn-dark">
-                Edit Profile
-                <DashboardActions />
-              </Link>
-            )}
-          {/* <Experience experience={profile.experience} />
-          <Education education={profile.education} /> */}
-
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
-            <div className="profile-exp bg-white p-2">
-              <h2 className="font-bold">Experience</h2>
-              {/* {profile.notification.map(notification, index) = () => {
-                return( <div>{notification} </div>)
-              }} */}
-              {/* {profile.notifications.length > 0 ? (
-                <Fragment>
-                  {profile.notification.map((notification) => (
-                    <ProfileExperience
-                      key={notification._id}
-                      notification={notification}
-                    />
-                  ))}
-                </Fragment>
-              ) : (
-                <h4>No experience credentials</h4>
-              )} */}
-            </div>
 
-            <div className="profile-edu bg-white p-2">
-              <h2 className="font-bold">Buddies</h2>
-              {profile.buddies}
-              {/* {profile.education.length > 0 ? (
-                <Fragment>
-                  {profile.education.map((education) => (
-                    <ProfileEducation
-                      key={education._id}
-                      education={education}
-                    />
-                  ))}
-                </Fragment>
-              ) : (
-                <h4>No education credentials</h4>
-              )} */}
-            </div>
             {auth.isAuthenticated &&
               auth.loading === false &&
               auth.user._id === profile.user._id && (

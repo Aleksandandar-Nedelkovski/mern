@@ -6,9 +6,6 @@ import { createProfile, getCurrentProfile } from "../../actions/profile";
 
 const initialState = {
   status: "",
-  child: "",
-  from: "",
-  to: "",
   bio: "",
 };
 
@@ -30,7 +27,7 @@ const ProfileForm = ({
     }
   }, [loading, getCurrentProfile, profile]);
 
-  const { status, child, from, to, bio } = formData;
+  const { status, bio } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -58,24 +55,6 @@ const ProfileForm = ({
               <option value="Other">Other</option>
             </select>
             <small className="form-text">What's is your role</small>
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              placeholder="Child Name"
-              name="child"
-              value={child}
-              onChange={onChange}
-            />
-            <small className="form-text">Please enter your child's name</small>
-          </div>
-          <div className="form-group">
-            <h4>From Date</h4>
-            <input type="date" name="from" value={from} onChange={onChange} />
-          </div>
-          <div className="form-group">
-            <h4>To Date</h4>
-            <input type="date" name="to" value={to} onChange={onChange} />
           </div>
 
           <div className="form-group">

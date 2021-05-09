@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getCurrentProfile } from "../../actions/profile";
-
 import GridDashboard from "./GridDashboard";
-import ProfileInvites from "../profile/ProfileInvites";
-import BuddyRequests from "../buddy/BuddyRequests";
-import BuddyList from "../buddy/BuddyList";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -18,7 +14,6 @@ const Dashboard = ({
     getCurrentProfile();
     getHour();
   }, [getCurrentProfile]);
-  const [refreshBuddies, setRefreshBuddies] = useState(false);
   const [hour, setHour] = useState(false);
 
   const getHour = () => {
@@ -40,26 +35,9 @@ const Dashboard = ({
               : `Good afternoon, ${user && user.name}`}
           </p>
           <p className="lead"> Welcome to Week 1</p>
-          {/* <Link to="/admin/dashboard">
-            <button className="btn btn-orange">Admin</button>
-          </Link>
-          <Link to="/admin/groups">
-            <button className="btn btn-orange">Groups</button>
-          </Link>
-          <Link to="/admin/study">
-            <button className="btn btn-orange">Study</button>
-          </Link> */}
         </div>
         {profile !== null ? (
           <Fragment>
-            <ProfileInvites />
-            <div className="dashboard-buddies">
-              <BuddyRequests setRefreshBuddies={setRefreshBuddies} />
-              <BuddyList
-                refreshBuddies={refreshBuddies}
-                setRefreshBuddies={setRefreshBuddies}
-              />
-            </div>
             <GridDashboard />
           </Fragment>
         ) : (
@@ -79,13 +57,11 @@ Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  group: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
-  group: state.group,
 });
 
 export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);

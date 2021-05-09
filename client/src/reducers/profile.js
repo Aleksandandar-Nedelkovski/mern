@@ -25,14 +25,9 @@ import {
 // };
 
 const initialState = {
-  // profile: null,
+  profile: null,
   profiles: [],
-  profile_exists: false,
-  editing_profile: false,
-  // user_profile: [],
   loading: true,
-  prompt: null,
-  notification: null,
   error: {},
 };
 

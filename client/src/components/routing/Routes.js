@@ -87,7 +87,7 @@ const Routes = (props) => {
           component={CreateCategoryAdmin}
         />
 
-        <Route exact path="/event/:eventId" component={Event} />
+        <PrivateRoute exact path="/event/:eventId" component={Event} />
         <PrivateRoute exact path="/create-event" component={CreateEvent} />
         <PrivateRoute exact path="/edit-event/:id" component={EditEvent} />
 

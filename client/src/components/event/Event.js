@@ -115,7 +115,7 @@ const Event = ({
         <Paper className={classes.container}>
           <img src={displayImage()} className={classes.media} alt="" />
           <div className={classes.eventContent}>
-            <Typography variant="h2" color="secondary">
+            <Typography variant="h2" color="primary">
               {event.eventName}
             </Typography>
             <div className={classes.eventDetails}>
@@ -153,7 +153,7 @@ const Event = ({
                   <Button
                     onClick={() => setModal(false)}
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                   >
                     Cancel
                   </Button>
@@ -169,7 +169,7 @@ const Event = ({
             )}
 
             <div className={classes.description}>
-              <Typography variant="h3" color="secondary">
+              <Typography variant="h3" color="primary">
                 Description:
               </Typography>
               <Typography variant="body1">{event.description}</Typography>
@@ -183,7 +183,7 @@ const Event = ({
       {/* Attendees */}
       <Grid item xs={12} lg={4}>
         <Paper className={classes.container}>
-          <Typography variant="h4" color="secondary">
+          <Typography variant="h4" color="primary">
             List of participants:
           </Typography>
           {!loading &&

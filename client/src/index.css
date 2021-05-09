@@ -604,3 +604,6 @@ img.logo {
 .fa-tiktok {
   padding: 20%;
 }
+button.slick-arrow.slick-next {
+  margin-right: 25px;
+}
