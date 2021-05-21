@@ -2,15 +2,18 @@ import api from "../utils/api";
 import { setAlert } from "./alert";
 import {
   ADD_COURSE,
+  GET_COURSE,
+  GET_COURSES,
   COURSE_ERROR,
-  LIST_PUBLISHED_COURSES,
-  LIST_PUBLISHED_COURSES_ERROR,
+  DELETE_COURSE,
+  ADD_LESSON,
+  LESSON_ERROR,
 } from "./types";
 
-// Add post
-export const addCourse = (formData, userId) => async (dispatch) => {
+// Add course
+export const addCourse = (formData) => async (dispatch) => {
   try {
-    const res = await api.post("/courses/by/" + userId, formData);
+    const res = await api.post("/courses", formData);
 
     dispatch({
       type: ADD_COURSE,
@@ -27,23 +30,74 @@ export const addCourse = (formData, userId) => async (dispatch) => {
   }
 };
 
-// listPublished
-export const listPublishedCourses = () => async (dispatch) => {
+// Get course
+export const getCourse = (id) => async (dispatch) => {
   try {
-    const res = await api.get("/courses/published");
+    const res = await api.get(`/courses/${id}`);
 
     dispatch({
-      type: LIST_PUBLISHED_COURSES,
+      type: GET_COURSE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: COURSE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// get courses
+export const getCourses = () => async (dispatch) => {
+  try {
+    const res = await api.get("/courses");
+    dispatch({
+      type: GET_COURSES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: COURSE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Delete course
+export const deleteCourse = (id) => async (dispatch) => {
+  try {
+    await api.delete(`/courses/${id}`);
+
+    dispatch({
+      type: DELETE_COURSE,
+      payload: id,
+    });
+
+    dispatch(setAlert("COURSE Removed", "success"));
+  } catch (err) {
+    dispatch({
+      type: COURSE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Add course
+export const addLesson = (formData, id) => async (dispatch) => {
+  try {
+    const res = await api.post(`/courses/${id}/lesson/new`, formData);
+
+    dispatch({
+      type: ADD_LESSON,
       payload: res.data,
     });
 
-    dispatch(setAlert("LIST_PUBLISHED_COURSES", "success"));
-    // history.push(`/course/${res.data._id}`);
+    dispatch(setAlert("Lesson Created", "success"));
   } catch (err) {
     dispatch({
-      type: LIST_PUBLISHED_COURSES_ERROR,
+      type: LESSON_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-    dispatch(setAlert("LIST_PUBLISHED_COURSES_ERROR", "danger"));
+    dispatch(setAlert("NO NO Lesson", "danger"));
   }
 };

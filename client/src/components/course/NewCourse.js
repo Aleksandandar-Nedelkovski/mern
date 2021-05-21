@@ -65,7 +65,6 @@ const NewCourse = ({ addCourse, auth: { user } }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addCourse(formData, user._id);
-    console.log(formData, user);
   };
 
   return (
@@ -142,12 +141,10 @@ const NewCourse = ({ addCourse, auth: { user } }) => {
 NewCourse.propTypes = {
   addCourse: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile: state.profile,
 });
 
 export default connect(mapStateToProps, { addCourse })(NewCourse);

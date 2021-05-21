@@ -16,9 +16,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import { read, update } from "./api-course.js";
 import { Link, Redirect } from "react-router-dom";
-import auth from "./../auth/auth-helper";
 import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditCourse({ match }) {
+export default function EditCourse({ match, auth: { user } }) {
   const classes = useStyles();
   const [course, setCourse] = useState({
     name: "",
@@ -90,27 +88,26 @@ export default function EditCourse({ match }) {
     instructor: {},
     lessons: [],
   });
-  const [values, setValues] = useState({
+  const [values] = useState({
     redirect: false,
     error: "",
   });
   useEffect(() => {
     const abortController = new AbortController();
-    const signal = abortController.signal;
+    // const signal = abortController.signal;
 
-    read({ courseId: match.params.courseId }, signal).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        data.image = "";
-        setCourse(data);
-      }
-    });
+    // read({ courseId: match.params.courseId }, signal).then((data) => {
+    //   if (data.error) {
+    //     setValues({ ...values, error: data.error });
+    //   } else {
+    //     data.image = "";
+    //     setCourse(data);
+    //   }
+    // });
     return function cleanup() {
       abortController.abort();
     };
   }, [match.params.courseId, values]);
-  const jwt = auth.isAuthenticated();
   const handleChange = (name) => (event) => {
     const value = name === "image" ? event.target.files[0] : event.target.value;
     setCourse({ ...course, [name]: value });
@@ -139,22 +136,20 @@ export default function EditCourse({ match }) {
     course.image && courseData.append("image", course.image);
     course.category && courseData.append("category", course.category);
     courseData.append("lessons", JSON.stringify(course.lessons));
-    update(
-      {
-        courseId: match.params.courseId,
-      },
-      {
-        t: jwt.token,
-      },
-      courseData
-    ).then((data) => {
-      if (data && data.error) {
-        console.log(data.error);
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({ ...values, redirect: true });
-      }
-    });
+
+    // update(
+    //   {
+    //     courseId: match.params.courseId,
+    //   },
+    //   courseData
+    // ).then((data) => {
+    //   if (data && data.error) {
+    //     console.log(data.error);
+    //     setValues({ ...values, error: data.error });
+    //   } else {
+    //     setValues({ ...values, redirect: true });
+    //   }
+    // });
   };
   if (values.redirect) {
     return <Redirect to={"/teach/course/" + course._id} />;
@@ -197,8 +192,8 @@ export default function EditCourse({ match }) {
             </div>
           }
           action={
-            auth.isAuthenticated().user &&
-            auth.isAuthenticated().user._id === course.instructor._id && (
+            user &&
+            user._id === course.instructor._id && (
               <span className={classes.action}>
                 <Button
                   variant="contained"

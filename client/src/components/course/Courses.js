@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import { Link } from "react-router-dom";
-import auth from "./../auth/auth-helper";
-import Enroll from "./../enrollment/Enroll";
+import Card from "@material-ui/core/Card";
+import Coursetem from "./CourseItem";
+import { getCourses } from "../../actions/course";
 
 const useStyles = makeStyles((theme) => ({
+  card: {
+    width: "90%",
+    margin: "auto",
+    marginTop: 20,
+    marginBottom: theme.spacing(2),
+    padding: 20,
+    backgroundColor: "#ffffff",
+  },
+  extraTop: {
+    marginTop: theme.spacing(12),
+  },
   title: {
     padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(
       2
@@ -21,84 +31,76 @@ const useStyles = makeStyles((theme) => ({
   gridList: {
     width: "100%",
     minHeight: 200,
-    padding: "16px 0 0px",
+    padding: "16px 0 10px",
   },
   tile: {
     textAlign: "center",
-    border: "1px solid #cecece",
-    backgroundColor: "#04040c",
   },
   image: {
     height: "100%",
   },
   tileBar: {
-    backgroundColor: "rgba(0, 0, 0, 0.85)",
+    backgroundColor: "rgba(0, 0, 0, 0.72)",
     textAlign: "left",
   },
-  tileTitle: {
-    fontSize: "1.1em",
-    marginBottom: "5px",
-    color: "#fffde7",
-    display: "block",
+  enrolledTitle: {
+    color: "#efefef",
+    marginBottom: 5,
   },
   action: {
     margin: "0 10px",
   },
+  enrolledCard: {
+    backgroundColor: "#616161",
+  },
+  divider: {
+    marginBottom: 16,
+    backgroundColor: "rgb(157, 157, 157)",
+  },
+  noTitle: {
+    color: "lightgrey",
+    marginBottom: 12,
+    marginLeft: 8,
+  },
 }));
 
-export default function Courses(props) {
+const Courses = ({ getCourses, course: { courses } }) => {
+  useEffect(() => {
+    getCourses();
+  }, [getCourses]);
+
   const classes = useStyles();
-  const findCommon = (course) => {
-    return !props.common.find((enrolled) => {
-      return enrolled.course._id === course._id;
-    });
-  };
+  const [enrolled] = useState([]);
+
   return (
-    <GridList cellHeight={220} className={classes.gridList} cols={2}>
-      {props.courses.map((course, i) => {
-        return (
-          findCommon(course) && (
-            <GridListTile
-              className={classes.tile}
-              key={i}
-              style={{ padding: 0 }}
-            >
-              <Link to={"/course/" + course._id}>
-                <img
-                  className={classes.image}
-                  src={"/api/courses/photo/" + course._id}
-                  alt={course.name}
-                />
-              </Link>
-              <GridListTileBar
-                className={classes.tileBar}
-                title={
-                  <Link
-                    to={"/course/" + course._id}
-                    className={classes.tileTitle}
-                  >
-                    {course.name}
-                  </Link>
-                }
-                subtitle={<span>{course.category}</span>}
-                actionIcon={
-                  <div className={classes.action}>
-                    {auth.isAuthenticated() ? (
-                      <Enroll courseId={course._id} />
-                    ) : (
-                      <Link to="/signin">Sign in to Enroll</Link>
-                    )}
-                  </div>
-                }
-              />
-            </GridListTile>
-          )
-        );
-      })}
-    </GridList>
+    <div className={classes.extraTop}>
+      <Card className={classes.card}>
+        <Typography variant="h5" component="h2">
+          All Courses
+        </Typography>
+        {courses.length !== 0 && courses.length !== enrolled.length ? (
+          <div className="courses">
+            {courses.map((course) => (
+              <Coursetem key={course._id} course={course} />
+            ))}
+          </div>
+        ) : (
+          <Typography variant="body1" className={classes.noTitle}>
+            No new courses.
+          </Typography>
+        )}
+      </Card>
+    </div>
   );
-}
+};
 
 Courses.propTypes = {
-  courses: PropTypes.array.isRequired,
+  getCourses: PropTypes.func.isRequired,
+  course: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  course: state.course,
+});
+
+export default connect(mapStateToProps, { getCourses })(Courses);

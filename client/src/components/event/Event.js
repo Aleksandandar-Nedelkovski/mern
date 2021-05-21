@@ -93,7 +93,7 @@ const Event = ({
             variant="contained"
             color="primary"
           >
-            <i className="fas fa-pen"></i> Join
+            <i className="fas fa-pen"></i> Confirm
           </Button>
           <Button
             onClick={() => unsubscribeEvent(event._id)}

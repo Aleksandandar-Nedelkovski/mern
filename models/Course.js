@@ -1,16 +1,18 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const lessonSchema = new mongoose.Schema({
+const LessonSchema = new Schema({
   title: String,
   content: String,
   resource_url: String,
 });
-const lesson = mongoose.model("lesson", lessonSchema);
-const courseSchema = new mongoose.Schema({
-  courseName: {
+module.exports = mongoose.model("lesson", LessonSchema);
+
+const CourseSchema = new Schema({
+  name: {
     type: String,
     trim: true,
-    required: true,
+    required: "Name is required",
   },
   image: {
     data: Buffer,
@@ -22,19 +24,19 @@ const courseSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: true,
+    required: "Category is required",
   },
-  updated: Date,
-  created: {
-    type: Date,
-    default: Date.now,
-  },
-  instructor: { type: mongoose.Schema.ObjectId, ref: "User" },
+
+  instructor: { type: Schema.Types.ObjectId },
   published: {
     type: Boolean,
     default: false,
   },
-  lessons: [lessonSchema],
+  lessons: [LessonSchema],
+  created: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-module.exports = Course = mongoose.model("course", courseSchema);
+module.exports = mongoose.model("course", CourseSchema);

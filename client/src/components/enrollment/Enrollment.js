@@ -16,7 +16,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { complete } from "./api-enrollment.js";
 import { Link } from "react-router-dom";
-import auth from "./../auth/auth-helper";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Info from "@material-ui/icons/Info";
@@ -118,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Enrollment({ match }) {
+export default function Enrollment({ match, auth: { user } }) {
   const classes = useStyles();
   const [enrollment, setEnrollment] = useState({
     course: { instructor: [] },
@@ -129,7 +128,6 @@ export default function Enrollment({ match }) {
     drawer: -1,
   });
   const [totalComplete, setTotalComplete] = useState(0);
-  const jwt = auth.isAuthenticated();
   useEffect(() => {
     const abortController = new AbortController();
     // const signal = abortController.signal;
@@ -174,9 +172,7 @@ export default function Enrollment({ match }) {
         {
           enrollmentId: match.params.enrollmentId,
         },
-        {
-          t: jwt.token,
-        },
+
         updatedData
       ).then((data) => {
         if (data && data.error) {
@@ -314,9 +310,8 @@ export default function Enrollment({ match }) {
                 </Typography>
               }
               action={
-                auth.isAuthenticated().user &&
-                auth.isAuthenticated().user._id ===
-                  enrollment.course.instructor._id && (
+                user &&
+                user._id === enrollment.course.instructor._id && (
                   <span className={classes.action}></span>
                 )
               }

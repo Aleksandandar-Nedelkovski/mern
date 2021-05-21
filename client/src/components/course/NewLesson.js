@@ -8,8 +8,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Add from "@material-ui/icons/AddBox";
 import { makeStyles } from "@material-ui/core/styles";
-import { newLesson } from "./api-course";
-import auth from "./../auth/auth-helper";
+import { addLesson } from "../../actions/course";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -17,43 +17,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewLesson(props) {
+function NewLesson({ addLesson, course: { course }, props }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [values, setValues] = useState({
+  const [formData, setFormData] = useState({
     title: "",
     content: "",
     resource_url: "",
   });
+  const { title, content, resource_url } = formData;
 
   const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
+    setFormData({ ...formData, [name]: event.target.value });
   };
-  const clickSubmit = () => {
-    const jwt = auth.isAuthenticated();
-    const lesson = {
-      title: values.title || undefined,
-      content: values.content || undefined,
-      resource_url: values.resource_url || undefined,
-    };
-    newLesson(
-      {
-        courseId: props.courseId,
-      },
-      {
-        t: jwt.token,
-      },
-      lesson
-    ).then((data) => {
-      if (data && data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        props.addLesson(data);
-        setValues({ ...values, title: "", content: "", resource_url: "" });
-        setOpen(false);
-      }
-    });
+  const clickSubmit = (e) => {
+    e.preventDefault();
+    addLesson(formData, course._id);
+    setOpen(false);
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -85,7 +67,7 @@ export default function NewLesson(props) {
               label="Title"
               type="text"
               fullWidth
-              value={values.title}
+              value={title}
               onChange={handleChange("title")}
             />
             <br />
@@ -96,7 +78,7 @@ export default function NewLesson(props) {
               multiline
               rows="5"
               fullWidth
-              value={values.content}
+              value={content}
               onChange={handleChange("content")}
             />
             <br />
@@ -105,7 +87,7 @@ export default function NewLesson(props) {
               label="Resource link"
               type="text"
               fullWidth
-              value={values.resource_url}
+              value={resource_url}
               onChange={handleChange("resource_url")}
             />
             <br />
@@ -124,7 +106,16 @@ export default function NewLesson(props) {
     </div>
   );
 }
+
 NewLesson.propTypes = {
-  courseId: PropTypes.string.isRequired,
   addLesson: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  course: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  course: state.course,
+});
+
+export default connect(mapStateToProps, { addLesson })(NewLesson);

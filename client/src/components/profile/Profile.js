@@ -5,8 +5,6 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
-// import ProfileExperience from "./ProfileExperience";
-// import ProfileEducation from "./ProfileEducation";
 import { getProfileById, deleteAccount } from "../../actions/profile";
 // import DashboardActions from "../dashboard/DashboardActions";
 // import Experience from "../dashboard/Experience";

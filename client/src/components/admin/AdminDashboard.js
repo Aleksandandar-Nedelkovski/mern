@@ -16,7 +16,7 @@ const AdminDashboard = ({
   auth: { loading },
   profile: { profile_exists, profile, editing_profile },
 }) => {
-  const profileLoading = profile.loading;
+  const profileLoading = loading;
 
   const [refreshBuddies, setRefreshBuddies] = useState(false);
 

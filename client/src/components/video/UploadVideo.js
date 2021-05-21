@@ -148,7 +148,7 @@ function UploadVideoPage({ auth: { user } }) {
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
-                <i class="fas fa-plus" style={{ fontSize: "4rem" }} />
+                <i className="fas fa-plus" style={{ fontSize: "4rem" }} />
                 {/* <Icon type="plus" style={{ fontSize: "3rem" }} /> */}
               </div>
             )}
@@ -156,7 +156,14 @@ function UploadVideoPage({ auth: { user } }) {
 
           {Thumbnail !== "" && (
             <div>
-              <img src={`http://localhost:5000/${Thumbnail}`} alt="success" />
+              <img
+                src={`http://localhost:5000/${Thumbnail}`.default()}
+                alt="success"
+              />
+              {/* <img
+              src={`http://localhost:5000/${Thumbnail}.default()`}
+              alt="success"
+            /> */}
             </div>
           )}
         </div>

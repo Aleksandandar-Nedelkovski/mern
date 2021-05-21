@@ -57,7 +57,6 @@ const EventsList = ({ events: { events, loading }, getEvents }) => {
     getEvents();
   }, [getEvents]);
 
-  console.log("Event List", events);
   return events !== null && !loading ? (
     <Fragment>
       {events.map((event) => (

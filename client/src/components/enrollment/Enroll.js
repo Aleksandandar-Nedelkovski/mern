@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 // import { makeStyles } from "@material-ui/core/styles";
 import { create } from "./api-enrollment";
-import auth from "./../auth/auth-helper";
+// import auth from "./../auth/auth-helper";
 import { Redirect } from "react-router-dom";
 
 // const useStyles = makeStyles((theme) => ({
@@ -19,16 +19,10 @@ export default function Enroll(props) {
     error: "",
     redirect: false,
   });
-  const jwt = auth.isAuthenticated();
   const clickEnroll = () => {
-    create(
-      {
-        courseId: props.courseId,
-      },
-      {
-        t: jwt.token,
-      }
-    ).then((data) => {
+    create({
+      courseId: props.courseId,
+    }).then((data) => {
       if (data && data.error) {
         setValues({ ...values, error: data.error });
       } else {

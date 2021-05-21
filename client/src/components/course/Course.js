@@ -1,34 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import Edit from "@material-ui/icons/Edit";
-import PeopleIcon from "@material-ui/icons/Group";
-import CompletedIcon from "@material-ui/icons/VerifiedUser";
+import { Link } from "react-router-dom";
+import { getCourse, deleteCourse } from "../../actions/course";
+import Spinner from "../layout/Spinner";
+import CourseItem from "./CourseItem";
+import NewLesson from "./NewLesson";
+
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import { update } from "./api-course.js";
-// import { enrollmentStats } from "./../enrollment/api-enrollment";
-import { Link, Redirect } from "react-router-dom";
-import DeleteCourse from "./DeleteCourse";
-import Divider from "@material-ui/core/Divider";
-import NewLesson from "./NewLesson";
+
+import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Enroll from "./../enrollment/Enroll";
-
-import { listPublishedCourses } from "../../actions/course";
+import Add from "@material-ui/icons/AddBox";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -94,238 +81,122 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Course = ({
-  auth: { isAuthenticated, user },
-  courses,
-  profile: { profile },
+  getCourse,
+  deleteCourse,
+  auth,
+  course: {
+    _id,
+    name,
+    description,
+    loading,
+    category,
+    user,
+    published,
+    lessons,
+  },
   match,
-  listPublishedCourses,
 }) => {
+  useEffect(() => {
+    getCourse(match.params.id);
+  }, [getCourse, match.params.id]);
+
   const classes = useStyles();
-  const [stats] = useState({});
-  const [course, setCourse] = useState({ instructor: {} });
-  const [values, setValues] = useState({
-    redirect: false,
-    error: "",
-  });
   const [open, setOpen] = useState(false);
-  useEffect(() => {
-    listPublishedCourses();
-    const abortController = new AbortController();
-    // const signal = abortController.signal;
-    console.log("courses", courses);
+  const [course, setCourse] = useState({ instructor: {} });
 
-    // read({ courseId: match.params.courseId }, signal).then((data) => {
-    //   if (data.error) {
-    //     setValues({ ...values, error: data.error });
-    //   } else {
-    //     setCourse(data);
-    //   }
-    // });
-    return function cleanup() {
-      abortController.abort();
-    };
-  }, [match.params.courseId, course, listPublishedCourses, courses]);
-  console.log("courses", courses);
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    return function cleanup() {
-      abortController.abort();
-    };
-  }, [match.params.courseId]);
-  const removeCourse = (course) => {
-    setValues({ ...values, redirect: true });
-  };
-  const addLesson = (course) => {
-    setCourse(course);
-  };
   const clickPublish = () => {
-    if (course.lessons.length > 0) {
+    if (lessons.length > 0) {
       setOpen(true);
     }
   };
-  const publish = () => {
-    let courseData = new FormData();
-    courseData.append("published", true);
-    update(
-      {
-        courseId: match.params.courseId,
-      },
-      courseData
-    ).then((data) => {
+
+  const [values, setValues] = useState({
+    title: "",
+    content: "",
+    resource_url: "",
+  });
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const clickSubmit = () => {
+    const lesson = {
+      title: values.title || undefined,
+      content: values.content || undefined,
+      resource_url: values.resource_url || undefined,
+    };
+    addLesson({ courseId: course._id }, lesson).then((data) => {
       if (data && data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setCourse({ ...course, published: true });
+        course.addLesson(data);
+        setValues({ ...values, title: "", content: "", resource_url: "" });
         setOpen(false);
       }
     });
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  if (values.redirect) {
-    return <Redirect to={"/teach/courses"} />;
-  }
-  const imageUrl = course._id
-    ? `/api/courses/photo/${course._id}?${new Date().getTime()}`
-    : "/api/courses/defaultphoto";
-  return (
-    <div className={classes.root}>
-      <Card className={classes.card}>
-        <CardHeader
-          title={course.name}
-          subheader={
-            <div>
-              <Link
-                to={"/user/" + course.instructor._id}
-                className={classes.sub}
-              >
-                By {course.instructor.name}
-              </Link>
-              <span className={classes.category}>{course.category}</span>
-            </div>
-          }
-          action={
-            <>
-              {isAuthenticated && user._id === course.instructor._id && (
-                <span className={classes.action}>
-                  <Link to={"/teach/course/edit/" + course._id}>
-                    <IconButton aria-label="Edit" color="secondary">
-                      <Edit />
-                    </IconButton>
-                  </Link>
-                  {!course.published ? (
-                    <>
-                      <Button
-                        color="secondary"
-                        variant="outlined"
-                        onClick={clickPublish}
-                      >
-                        {course.lessons.length === 0
-                          ? "Add atleast 1 lesson to publish"
-                          : "Publish"}
-                      </Button>
-                      <DeleteCourse course={course} onRemove={removeCourse} />
-                    </>
-                  ) : (
-                    <Button color="primary" variant="outlined">
-                      Published
-                    </Button>
-                  )}
-                </span>
-              )}
-              {course.published && (
-                <div>
-                  <span className={classes.statSpan}>
-                    <PeopleIcon /> {stats.totalEnrolled} enrolled{" "}
-                  </span>
-                  <span className={classes.statSpan}>
-                    <CompletedIcon /> {stats.totalCompleted} completed{" "}
-                  </span>
-                </div>
-              )}
-            </>
-          }
-        />
-        <div className={classes.flex}>
-          <CardMedia
-            className={classes.media}
-            image={imageUrl}
-            title={course.name}
-          />
-          <div className={classes.details}>
-            <Typography variant="body1" className={classes.subheading}>
-              {course.description}
-              <br />
-            </Typography>
 
-            {course.published && (
-              <div className={classes.enroll}>
-                <Enroll courseId={course._id} />
-              </div>
-            )}
-          </div>
-        </div>
-        <Divider />
-        <div>
-          <CardHeader
-            title={
-              <Typography variant="h6" className={classes.subheading}>
-                Lessons
-              </Typography>
-            }
-            subheader={
-              <Typography variant="body1" className={classes.subheading}>
-                {course.lessons && course.lessons.length} lessons
-              </Typography>
-            }
-            action={
-              isAuthenticated &&
-              user._id === course.instructor._id &&
-              !course.published && (
-                <span className={classes.action}>
-                  <NewLesson courseId={course._id} addLesson={addLesson} />
-                </span>
-              )
-            }
-          />
-          <List>
-            {course.lessons &&
-              course.lessons.map((lesson, index) => {
-                return (
-                  <span key={index}>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>{index + 1}</Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={lesson.title} />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                  </span>
-                );
-              })}
-          </List>
-        </div>
-      </Card>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Publish Course</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">
-            Publishing your course will make it live to students for enrollment.{" "}
-          </Typography>
-          <Typography variant="body1">
-            Make sure all lessons are added and ready for publishing.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary" variant="contained">
-            Cancel
-          </Button>
-          <Button onClick={publish} color="secondary" variant="contained">
-            Publish
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+  const addLesson = (course) => {
+    setCourse(course);
+  };
+
+  return loading || course === null ? (
+    <Spinner />
+  ) : (
+    <Fragment>
+      <Link to="/courses" className="btn">
+        Back To Courses
+      </Link>
+      <CourseItem course={course} showActions={false} />
+      <span className={classes.action}>
+        <NewLesson courseId={course._id} addLesson={addLesson} />
+      </span>
+
+      {!published ? (
+        <>
+          {/* <Button color="secondary" variant="outlined" onClick={clickPublish}>
+            {lessons.length === 0
+              ? "Add atleast 1 lesson to publish"
+              : "Publish"}
+          </Button> */}
+          {!auth.loading && user === auth.user._id && (
+            <button
+              onClick={() => deleteCourse(_id)}
+              type="button"
+              className="btn btn-danger"
+            >
+              <i className="fas fa-times" />
+            </button>
+          )}
+        </>
+      ) : (
+        <Button color="primary" variant="outlined">
+          Published
+        </Button>
+      )}
+    </Fragment>
   );
 };
 
 Course.propTypes = {
-  listPublishedCourses: PropTypes.object.isRequired,
+  getCourse: PropTypes.func.isRequired,
+  deleteCourse: PropTypes.func.isRequired,
+  course: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
-  courses: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  course: state.course,
   auth: state.auth,
-  profile: state.profile,
-  courses: state.courses,
 });
 
-export default connect(mapStateToProps, { listPublishedCourses })(Course);
+export default connect(mapStateToProps, { getCourse, deleteCourse })(Course);
