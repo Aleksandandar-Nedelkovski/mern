@@ -35,12 +35,11 @@ router.post(
         description,
         category,
         image,
-        // instructor: {
-        //   user: req.user.id,
-        //   name: user.name,
-        //   avatar: user.avatar,
-        //   educator: true,
-        // },
+        instructor: {
+          user: req.user.id,
+          name: user.name,
+          avatar: user.avatar,
+        },
       });
 
       const course = await newCourse.save();
