@@ -8,6 +8,7 @@ import {
   DELETE_COURSE,
   ADD_LESSON,
   LESSON_ERROR,
+  UPDATE_COURSE,
 } from "./types";
 
 // Add course
@@ -64,7 +65,7 @@ export const getCourses = () => async (dispatch) => {
 };
 
 // Delete course
-export const deleteCourse = (id) => async (dispatch) => {
+export const removeCourse = (id) => async (dispatch) => {
   try {
     await api.delete(`/courses/${id}`);
 
@@ -74,6 +75,25 @@ export const deleteCourse = (id) => async (dispatch) => {
     });
 
     dispatch(setAlert("COURSE Removed", "success"));
+  } catch (err) {
+    dispatch({
+      type: COURSE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Update course
+export const updateCourse = (id) => async (dispatch) => {
+  try {
+    await api.put(`/courses/${id}`);
+
+    dispatch({
+      type: UPDATE_COURSE,
+      payload: id,
+    });
+
+    dispatch(setAlert("Course Updated", "success"));
   } catch (err) {
     dispatch({
       type: COURSE_ERROR,

@@ -1,34 +1,28 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-// import { makeStyles } from "@material-ui/core/styles";
-import { create } from "./api-enrollment";
-// import auth from "./../auth/auth-helper";
+import { makeStyles } from "@material-ui/core/styles";
+import { createEnrollment } from "../../actions/enrollment";
 import { Redirect } from "react-router-dom";
 
-// const useStyles = makeStyles((theme) => ({
-//   form: {
-//     minWidth: 500,
-//   },
-// }));
+const useStyles = makeStyles((theme) => ({
+  form: {
+    minWidth: 500,
+  },
+}));
 
-export default function Enroll(props) {
-  // const classes = useStyles()
+function Enroll(props) {
+  const classes = useStyles();
   const [values, setValues] = useState({
     enrollmentId: "",
     error: "",
     redirect: false,
   });
+  console.log("====================================");
+  console.log("props", props);
+  console.log("====================================");
   const clickEnroll = () => {
-    create({
-      courseId: props.courseId,
-    }).then((data) => {
-      if (data && data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({ ...values, enrollmentId: data._id, redirect: true });
-      }
-    });
+    createEnrollment(props.courseId);
   };
 
   if (values.redirect) {
@@ -46,3 +40,5 @@ export default function Enroll(props) {
 Enroll.propTypes = {
   courseId: PropTypes.string.isRequired,
 };
+
+export default Enroll;

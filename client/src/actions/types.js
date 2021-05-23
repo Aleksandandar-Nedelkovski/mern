@@ -84,6 +84,7 @@ export const GET_COURSES = "GET_COURSES";
 export const GET_DEFAULT_PHOTO = "GET_DEFAULT_PHOTO";
 export const ADD_LESSON = "ADD_LESSON";
 export const LESSON_ERROR = "LESSON_ERROR";
+export const UPDATE_COURSE = "UPDATE_COURSE";
 
 //EVENT
 export const GET_EVENT = "GET_EVENT";
@@ -97,3 +98,8 @@ export const EVENT_ERROR = "EVENT_ERROR";
 export const GET_VIDEO = "GET_VIDEO";
 export const GET_VIDEOS = "GET_VIDEOS";
 export const VIDEO_ERROR = "VIDEO_ERROR";
+
+//enroll
+
+export const ENROLLMENT_ERROR = "ENROLLMENT_ERROR";
+export const CREATE_ENROLLMENT = "CREATE_ENROLLMENT";

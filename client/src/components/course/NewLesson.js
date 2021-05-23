@@ -94,10 +94,10 @@ function NewLesson({ addLesson, course: { course }, props }) {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={handleClose} color="primary" variant="contained">
+            <Button onClick={handleClose} color="secondary" variant="contained">
               Cancel
             </Button>
-            <Button onClick={clickSubmit} color="secondary" variant="contained">
+            <Button onClick={clickSubmit} color="primary" variant="contained">
               Add
             </Button>
           </DialogActions>

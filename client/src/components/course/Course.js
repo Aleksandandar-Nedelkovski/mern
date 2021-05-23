@@ -2,20 +2,17 @@ import React, { useEffect, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCourse, deleteCourse } from "../../actions/course";
+import { getCourse, updateCourse } from "../../actions/course";
 import Spinner from "../layout/Spinner";
-import CourseItem from "./CourseItem";
 import NewLesson from "./NewLesson";
 
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Add from "@material-ui/icons/AddBox";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -31,6 +28,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
+
+import DeleteCourse from "./DeleteCourse";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -97,17 +96,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Course = ({
   getCourse,
-  deleteCourse,
+  updateCourse,
   auth: { user },
   course: {
-    _id,
-    name,
-    description,
+    // _id,
     loading,
-    category,
     course,
-
-    published,
     lessons,
   },
   match,
@@ -122,9 +116,7 @@ const Course = ({
   console.log("====================================");
   console.log("Course", course);
   console.log("====================================");
-  // const imageUrl = course._id
-  //   ? `/api/courses/photo/${course._id}?${new Date().getTime()}`
-  //   : "/api/courses/defaultphoto";
+
   const imageUrl = require("../../img/logo.png").default;
   const clickPublish = () => {
     if (lessons.length > 0) {
@@ -138,12 +130,8 @@ const Course = ({
     resource_url: "",
   });
 
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const removeCourse = (course) => {
+    setValues({ ...values, redirect: true });
   };
 
   const handleClose = () => {
@@ -171,6 +159,12 @@ const Course = ({
     // setCourse(course);
   };
 
+  const publish = () => {
+    let courseData = new FormData();
+    courseData.append("published", true);
+    updateCourse(courseData, user._id);
+  };
+
   return loading || course === null ? (
     <Spinner />
   ) : (
@@ -180,15 +174,19 @@ const Course = ({
           title={course.name}
           subheader={
             <div>
-              <Link to={"/user/" + user._id} className={classes.sub}>
-                By {course.name}
-              </Link>
+              {/* <Link
+                to={"/profile/" + course.instructor[0]._id}
+                
+              > */}
+              <p className="text-black">By {course.instructor[0].name}</p>
+              {/* </Link> */}
+              <br />
               <span className={classes.category}>{course.category}</span>
             </div>
           }
           action={
             <>
-              {user && user._id === course._id && (
+              {user && user._id === course.instructor[0]._id && (
                 <span className={classes.action}>
                   <Link to={"/teach/course/edit/" + course._id}>
                     <IconButton aria-label="Edit" color="secondary">
@@ -202,11 +200,11 @@ const Course = ({
                         variant="outlined"
                         onClick={clickPublish}
                       >
-                        {course.lessons.length == 0
+                        {course.lessons.length === 0
                           ? "Add atleast 1 lesson to publish"
                           : "Publish"}
                       </Button>
-                      {/* <DeleteCourse course={course} onRemove={removeCourse} /> */}
+                      <DeleteCourse course={course} onRemove={removeCourse} />
                     </>
                   ) : (
                     <Button color="primary" variant="outlined">
@@ -262,7 +260,7 @@ const Course = ({
             }
             action={
               user &&
-              user._id == course._id &&
+              user._id === course.instructor[0].user &&
               !course.published && (
                 <span className={classes.action}>
                   <NewLesson courseId={course._id} addLesson={addLesson} />
@@ -303,47 +301,21 @@ const Course = ({
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" variant="contained">
+          <Button onClick={handleClose} color="secondary" variant="contained">
             Cancel
           </Button>
-          {/* <Button onClick={publish} color="secondary" variant="contained">
+          <Button onClick={publish} color="primary" variant="contained">
             Publish
-          </Button> */}
-          {/* <CourseItem course={course} showActions={false} />
-    <span className={classes.action}>
-      <NewLesson courseId={course._id} addLesson={addLesson} />
-    </span> */}
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
-// {!published ? (
-//   <>
-//     {/* <Button color="secondary" variant="outlined" onClick={clickPublish}>
-//       {course.lessons.length === 0
-//         ? "Add atleast 1 lesson to publish"
-//         : "Publish"}
-//     </Button> */}
-//     {!auth.loading && user === auth.user._id && (
-//       <button
-//         onClick={() => deleteCourse(_id)}
-//         type="button"
-//         className="btn btn-danger"
-//       >
-//         <i className="fas fa-times" />
-//       </button>
-//     )}
-//   </>
-// ) : (
-//   <Button color="primary" variant="outlined">
-//     Published
-//   </Button>
-// )}
 
 Course.propTypes = {
   getCourse: PropTypes.func.isRequired,
-  deleteCourse: PropTypes.func.isRequired,
+  updateCourse: PropTypes.func.isRequired,
   course: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -353,4 +325,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCourse, deleteCourse })(Course);
+export default connect(mapStateToProps, {
+  getCourse,
+  updateCourse,
+})(Course);

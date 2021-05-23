@@ -13,7 +13,7 @@ router.post(
   "/",
   auth,
   // check("courseName", "Text is required").notEmpty(),
-  // check("category", "Please specify the type of event").notEmpty(),
+  check("category", "Please specify the type of event").notEmpty(),
   // check(
   //   "description",
   //   "Please give a description with at least 20 characters"
@@ -29,9 +29,7 @@ router.post(
       const user = await User.findById(req.user.id).select("-password");
 
       const newCourse = new Course({
-        user: req.user.id,
         name: courseName,
-        avatar: user.avatar,
         description,
         category,
         image,

@@ -1,8 +1,42 @@
 let enrollmodel = require("../../models/Enrollment");
-let coursemodel = require("../../models/Course");
-let usermodel = require("../../models/User");
-let express = require("express");
-let router = express.Router();
+
+const express = require("express");
+const router = express.Router();
+const { check, validationResult } = require("express-validator");
+const auth = require("../../middleware/auth");
+
+const Course = require("../../models/Course");
+const User = require("../../models/User");
+const Enroll = require("../../models/Enrollment");
+const checkObjectId = require("../../middleware/checkObjectId");
+
+// @route    POST api/posts
+// @desc     Create a post
+// @access   Private
+router.post("/new/:courseId", auth, checkObjectId("id"), async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    const course = await Course.findById(req.user.id).select("-password");
+
+    const newEnrollment = new Enrollment({
+      course: req.body.text,
+      name: user.name,
+      avatar: user.avatar,
+      user: req.user.id,
+    });
+
+    await course.save();
+    res.json(course.lessons);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 router.get("/enrollments", (req, res, next) => {
   enrollmodel

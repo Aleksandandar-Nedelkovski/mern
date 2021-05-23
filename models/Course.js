@@ -27,7 +27,25 @@ const CourseSchema = new Schema({
     required: "Category is required",
   },
 
-  instructor: { user: { type: Schema.Types.ObjectId } },
+  instructor: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+      name: {
+        type: String,
+      },
+      avatar: {
+        type: String,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+
   published: {
     type: Boolean,
     default: false,

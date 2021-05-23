@@ -17,4 +17,4 @@ const EnrollmentSchema = new mongoose.Schema({
   completed: Date,
 });
 
-module.exports = Enrollment = mongoose.model("Enrollment", EnrollmentSchema);
+module.exports = mongoose.model("enrollment", EnrollmentSchema);
