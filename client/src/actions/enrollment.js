@@ -39,6 +39,7 @@ export const createEnrollment = (id) => async (dispatch) => {
       type: CREATE_ENROLLMENT,
       payload: res.data,
     });
+    dispatch(setAlert("CREATE_ENROLLMENT", "success"));
   } catch (err) {
     dispatch({
       type: ENROLLMENT_ERROR,

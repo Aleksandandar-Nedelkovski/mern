@@ -23,6 +23,9 @@ import CheckCircle from "@material-ui/icons/CheckCircle";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import { CardContent } from "@material-ui/core";
 
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
     maxWidth: 800,
@@ -117,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Enrollment({ match, auth: { user } }) {
+function Enrollment({ match, auth: { user } }) {
   const classes = useStyles();
   const [enrollment, setEnrollment] = useState({
     course: { instructor: [] },
@@ -377,3 +380,16 @@ export default function Enrollment({ match, auth: { user } }) {
     </div>
   );
 }
+
+Enrollment.propTypes = {
+  // createEnrollment: PropTypes.func.isRequired,
+  courseId: PropTypes.string.isRequired,
+  course: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  course: state.course,
+});
+
+export default connect(mapStateToProps)(Enrollment);

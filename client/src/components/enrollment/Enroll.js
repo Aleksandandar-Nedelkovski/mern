@@ -1,28 +1,22 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
 import { createEnrollment } from "../../actions/enrollment";
 import { Redirect } from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-  form: {
-    minWidth: 500,
-  },
-}));
+import { connect } from "react-redux";
 
 function Enroll(props) {
-  const classes = useStyles();
   const [values, setValues] = useState({
     enrollmentId: "",
     error: "",
     redirect: false,
   });
-  console.log("====================================");
-  console.log("props", props);
-  console.log("====================================");
+
   const clickEnroll = () => {
     createEnrollment(props.courseId);
+    console.log("====================================");
+    console.log(props.courseId);
+    console.log("====================================");
   };
 
   if (values.redirect) {
@@ -38,7 +32,14 @@ function Enroll(props) {
 }
 
 Enroll.propTypes = {
+  createEnrollment: PropTypes.func.isRequired,
   courseId: PropTypes.string.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default Enroll;
+const mapStateToProps = (state) => ({
+  course: state.course,
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { createEnrollment })(Enroll);

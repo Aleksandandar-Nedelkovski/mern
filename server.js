@@ -30,6 +30,7 @@ app.use("/api/subscribe", require("./routes/api/subscribe"));
 // Set static folder
 app.use(express.static("client/build"));
 app.use("/uploads", express.static("uploads"));
+app.use("/uploads/thumbnails", express.static("uploads/thumbnails"));
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));

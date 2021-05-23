@@ -7,31 +7,43 @@ const auth = require("../../middleware/auth");
 
 const Course = require("../../models/Course");
 const User = require("../../models/User");
-const Enroll = require("../../models/Enrollment");
 const checkObjectId = require("../../middleware/checkObjectId");
+const Enrollment = require("../../models/Enrollment");
 
-// @route    POST api/posts
-// @desc     Create a post
+// @route    POST api/enrollments/new/:id
+// @desc     Create enrollment
 // @access   Private
-router.post("/new/:courseId", auth, checkObjectId("id"), async (req, res) => {
+router.post("/new/:id", [auth, checkObjectId("id")], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
   try {
-    const user = await User.findById(req.user.id).select("-password");
-    const course = await Course.findById(req.user.id).select("-password");
+    if (!course) {
+      return res.status(404).json({ msg: "Course not found" });
+    }
 
-    const newEnrollment = new Enrollment({
-      course: req.body.text,
-      name: user.name,
-      avatar: user.avatar,
-      user: req.user.id,
+    // Check user
+    if (course.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "User not authorized" });
+    }
+    const user = await User.findById(req.user.id).select("-password");
+    const course = await Course.findById(req.params.id);
+
+    const newEnrollment = {
+      course: req.course,
+      student: user.id,
+    };
+
+    newEnrollment.lessonStatus = req.course.lessons.map((lesson) => {
+      return { lesson: lesson, complete: false };
     });
 
-    await course.save();
-    res.json(course.lessons);
+    const enrollment = new Enrollment(newEnrollment);
+
+    let result = await enrollment.save();
+    res.json(result);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
