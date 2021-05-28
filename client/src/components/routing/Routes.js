@@ -23,18 +23,21 @@ import Groups from "../groups/Groups";
 import Study from "../study/Study";
 import AdminDashboard from "../admin/AdminDashboard";
 import CreateGroup from "../groups/CreateGroup";
+import Courses from "../course/Courses";
 
+// Event
 import Event from "../event/Event";
 import CreateEvent from "../createEvent/CreateEvent";
 import EditEvent from "../editEvent/EditEvent";
 
+// Course
 import NewCourse from "../course/NewCourse";
 import Course from "../course/Course";
-import Courses from "../course/Courses";
 import MyCourses from "../course/MyCourses";
 import EditCourse from "../course/EditCourse";
 import Enrollment from "../enrollment/Enrollment";
 
+// Video
 import UploadVideoPage from "../video/UploadVideo";
 import AllVideos from "../video/AllVideos";
 import DetailVideoPage from "../video/DetailVideoPage";
@@ -59,11 +62,7 @@ const Routes = (props) => {
         <PrivateRoute exact path="/posts" component={Posts} />
         <PrivateRoute exact path="/posts/:id" component={Post} />
         <PrivateRoute exact path="/events" component={Events} />
-        <PrivateRoute
-          exact
-          path="/prizedashboard-store"
-          component={PrizeStore}
-        />
+        <PrivateRoute exact path="/prize-store" component={PrizeStore} />
         <PrivateRoute
           exact
           path="/admin/dashboard"
@@ -79,23 +78,28 @@ const Routes = (props) => {
           component={HomeChallenges}
         />
 
+        <PrivateRoute exact path="/courses" component={Courses} />
         <PrivateRoute exact path="/event/:eventId" component={Event} />
         <PrivateRoute exact path="/create-event" component={CreateEvent} />
         <PrivateRoute exact path="/edit-event/:id" component={EditEvent} />
 
-        <PrivateRoute path="/teach/course/new" component={NewCourse} />
+        <PrivateRoute exact path="/courses/:courseId" component={Course} />
+        <PrivateRoute
+          exact
+          path="/teach/courses/:courseId"
+          component={Course}
+        />
+        <PrivateRoute exact path="/teach/courses" component={MyCourses} />
+        <PrivateRoute exact path="/teach/course/new" component={NewCourse} />
         <PrivateRoute
           path="/teach/course/edit/:courseId"
           component={EditCourse}
         />
-        <PrivateRoute path="/teach/courses" component={MyCourses} />
-
-        {/* <Route path="/course/:courseId" component={Courses} />
-        <PrivateRoute path="/teach/course/:courseId" component={Courses} /> */}
-        <PrivateRoute exact path="/courses" component={Courses} />
-        <PrivateRoute exact path="/courses/:id" component={Course} />
-
-        <PrivateRoute path="/learn/:enrollmentId" component={Enrollment} />
+        <PrivateRoute
+          exact
+          path="/learn/:enrollmentId"
+          component={Enrollment}
+        />
 
         <PrivateRoute exact path="/video/upload" component={UploadVideoPage} />
         <PrivateRoute exact path="/videos" component={AllVideos} />

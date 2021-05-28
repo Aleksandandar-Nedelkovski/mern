@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -18,6 +21,8 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Link, Redirect } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
+
+import { getCourse, updateCourse } from "../../actions/course";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -78,7 +83,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditCourse({ match, auth: { user } }) {
+function EditCourse({ match, auth: { user }, getCourse, updateCourse }) {
+  useEffect(() => {
+    getCourse(match.params.id);
+  }, [getCourse, match.params.id]);
+
   const classes = useStyles();
   const [course, setCourse] = useState({
     name: "",
@@ -92,22 +101,7 @@ export default function EditCourse({ match, auth: { user } }) {
     redirect: false,
     error: "",
   });
-  useEffect(() => {
-    const abortController = new AbortController();
-    // const signal = abortController.signal;
 
-    // read({ courseId: match.params.courseId }, signal).then((data) => {
-    //   if (data.error) {
-    //     setValues({ ...values, error: data.error });
-    //   } else {
-    //     data.image = "";
-    //     setCourse(data);
-    //   }
-    // });
-    return function cleanup() {
-      abortController.abort();
-    };
-  }, [match.params.courseId, values]);
   const handleChange = (name) => (event) => {
     const value = name === "image" ? event.target.files[0] : event.target.value;
     setCourse({ ...course, [name]: value });
@@ -136,20 +130,6 @@ export default function EditCourse({ match, auth: { user } }) {
     course.image && courseData.append("image", course.image);
     course.category && courseData.append("category", course.category);
     courseData.append("lessons", JSON.stringify(course.lessons));
-
-    // update(
-    //   {
-    //     courseId: match.params.courseId,
-    //   },
-    //   courseData
-    // ).then((data) => {
-    //   if (data && data.error) {
-    //     console.log(data.error);
-    //     setValues({ ...values, error: data.error });
-    //   } else {
-    //     setValues({ ...values, redirect: true });
-    //   }
-    // });
   };
   if (values.redirect) {
     return <Redirect to={"/teach/course/" + course._id} />;
@@ -343,3 +323,20 @@ export default function EditCourse({ match, auth: { user } }) {
     </div>
   );
 }
+
+EditCourse.propTypes = {
+  getCourse: PropTypes.func.isRequired,
+  updateCourse: PropTypes.func.isRequired,
+  course: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  course: state.course,
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {
+  getCourse,
+  updateCourse,
+})(EditCourse);

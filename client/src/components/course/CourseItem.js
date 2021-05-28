@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-// import formatDate from "../../utils/formatDate";
 import { connect } from "react-redux";
-import { deleteCourse, getCourse } from "../../actions/course";
-import { makeStyles } from "@material-ui/core/styles";
+import { deleteCourse } from "../../actions/course";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import Enroll from "./../enrollment/Enroll";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  card: {
+    width: "90%",
+    margin: "auto",
+    marginTop: 20,
+    marginBottom: theme.spacing(2),
+    padding: 20,
+    backgroundColor: "#ffffff",
+  },
+  extraTop: {
+    marginTop: theme.spacing(12),
+  },
   title: {
     padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(
       2
@@ -23,44 +32,54 @@ const useStyles = makeStyles((theme) => ({
   gridList: {
     width: "100%",
     minHeight: 200,
-    padding: "16px 0 0px",
+    padding: "16px 0 10px",
   },
   tile: {
     textAlign: "center",
-    border: "1px solid #cecece",
-    backgroundColor: "#04040c",
   },
   image: {
     height: "100%",
   },
   tileBar: {
-    backgroundColor: "rgba(0, 0, 0, 0.85)",
+    backgroundColor: "rgba(0, 0, 0, 0.72)",
     textAlign: "left",
   },
-  tileTitle: {
-    fontSize: "1.1em",
-    marginBottom: "5px",
-    color: "#fffde7",
-    display: "block",
+  enrolledTitle: {
+    color: "#efefef",
+    marginBottom: 5,
   },
   action: {
     margin: "0 10px",
   },
+  enrolledCard: {
+    backgroundColor: "#616161",
+  },
+  divider: {
+    marginBottom: 16,
+    backgroundColor: "rgb(157, 157, 157)",
+  },
+  noTitle: {
+    color: "lightgrey",
+    marginBottom: 12,
+    marginLeft: 8,
+  },
 }));
 
 const CourseItem = ({
+  deleteCourse,
   auth,
-  course: { _id, name, description, category, user, published, lessons },
+  course: { _id, name, category },
+  showActions,
 }) => {
   const classes = useStyles();
 
   return (
     <GridList cellHeight={220} className={classes.gridList} cols={2}>
       <GridListTile className={classes.tile} style={{ padding: 0 }}>
-        <Link to={`/courses/${_id}`}>
+        <Link to={"/courses/" + _id}>
           <img
             className={classes.image}
-            src={"/api/courses/photo/" + _id}
+            src={require("../../img/logo.png").default}
             alt={name}
           />
         </Link>
@@ -68,13 +87,15 @@ const CourseItem = ({
           className={classes.tileBar}
           title={
             <Link to={"/courses/" + _id} className={classes.tileTitle}>
-              {description}
+              {name}
             </Link>
           }
           subtitle={<span>{category}</span>}
-          actionIcon={
-            <div className={classes.action}>{<Enroll courseId={_id} />}</div>
-          }
+          // actionIcon={
+          //   <div className={classes.action}>
+          //     <Enroll courseId={_id} />
+          //   </div>
+          // }
         />
       </GridListTile>
     </GridList>
@@ -88,6 +109,7 @@ CourseItem.defaultProps = {
 CourseItem.propTypes = {
   course: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  deleteCourse: PropTypes.func.isRequired,
   showActions: PropTypes.bool,
 };
 
@@ -95,4 +117,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(CourseItem);
+export default connect(mapStateToProps, { deleteCourse })(CourseItem);

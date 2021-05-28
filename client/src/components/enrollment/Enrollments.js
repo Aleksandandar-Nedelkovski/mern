@@ -6,6 +6,8 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import CompletedIcon from "@material-ui/icons/VerifiedUser";
 import InProgressIcon from "@material-ui/icons/DonutLarge";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -50,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Enrollments(props) {
+function Enrollments(props) {
   const classes = useStyles();
   return (
     <div>
@@ -87,3 +89,14 @@ export default function Enrollments(props) {
     </div>
   );
 }
+
+Enrollments.propTypes = {
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  course: state.course,
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Enrollments);

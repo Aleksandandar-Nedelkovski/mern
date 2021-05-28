@@ -1,39 +1,21 @@
 import api from "../utils/api";
 import { setAlert } from "./alert";
 import {
-  GET_POSTS,
-  POST_ERROR,
-  UPDATE_LIKES,
-  DELETE_POST,
-  ADD_POST,
-  GET_POST,
-  ADD_COMMENT,
-  REMOVE_COMMENT,
   CREATE_ENROLLMENT,
   ENROLLMENT_ERROR,
+  GET_ENROLLMENT,
+  ENROLLMENT_STATS,
+  STATS_ENROLLMENT_ERROR,
+  LIST_ENROLLED,
+  LIST_ENROLLED_ERROR,
+  ENROLLMENT_COMPLETE,
+  ENROLLMENT_COMPLETE_ERROR,
 } from "./types";
 
-// Get posts
-export const getPosts = () => async (dispatch) => {
+// Add enrollment
+export const createEnrollment = (courseId, formData) => async (dispatch) => {
   try {
-    const res = await api.get("/posts");
-
-    dispatch({
-      type: GET_POSTS,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Add like
-export const createEnrollment = (id) => async (dispatch) => {
-  try {
-    const res = await api.post(`/enrollments/new/${id}`);
+    const res = await api.post(`/enrollment/new/${courseId}`, formData);
 
     dispatch({
       type: CREATE_ENROLLMENT,
@@ -48,111 +30,67 @@ export const createEnrollment = (id) => async (dispatch) => {
   }
 };
 
-// Remove like
-export const removeLike = (id) => async (dispatch) => {
+// Get enrollment
+export const getEnrollment = (enrollmentId) => async (dispatch) => {
   try {
-    const res = await api.put(`/posts/unlike/${id}`);
-
+    const res = await api.get(`/enrollment/${enrollmentId}`);
     dispatch({
-      type: UPDATE_LIKES,
-      payload: { id, likes: res.data },
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Delete post
-export const deletePost = (id) => async (dispatch) => {
-  try {
-    await api.delete(`/posts/${id}`);
-
-    dispatch({
-      type: DELETE_POST,
-      payload: id,
-    });
-
-    dispatch(setAlert("Post Removed", "success"));
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Add post
-export const addPost = (formData) => async (dispatch) => {
-  try {
-    const res = await api.post("/posts", formData);
-
-    dispatch({
-      type: ADD_POST,
-      payload: res.data,
-    });
-
-    dispatch(setAlert("Post Created", "success"));
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Get post
-export const getPost = (id) => async (dispatch) => {
-  try {
-    const res = await api.get(`/posts/${id}`);
-
-    dispatch({
-      type: GET_POST,
+      type: GET_ENROLLMENT,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: POST_ERROR,
+      type: ENROLLMENT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Add comment
-export const addComment = (postId, formData) => async (dispatch) => {
+// listEnrolled
+export const listEnrolled = () => async (dispatch) => {
   try {
-    const res = await api.post(`/posts/comment/${postId}`, formData);
+    const res = await api.get(`/enrollment}`);
 
     dispatch({
-      type: ADD_COMMENT,
+      type: LIST_ENROLLED,
       payload: res.data,
     });
-
-    dispatch(setAlert("Comment Added", "success"));
   } catch (err) {
     dispatch({
-      type: POST_ERROR,
+      type: LIST_ENROLLED_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Delete comment
-export const deleteComment = (postId, commentId) => async (dispatch) => {
+// complete
+export const complete = (id) => async (dispatch) => {
   try {
-    await api.delete(`/posts/comment/${postId}/${commentId}`);
+    const res = await api.get(`/enrollment/complete${id}`);
 
     dispatch({
-      type: REMOVE_COMMENT,
-      payload: commentId,
+      type: ENROLLMENT_COMPLETE,
+      payload: res.data,
     });
-
-    dispatch(setAlert("Comment Removed", "success"));
   } catch (err) {
     dispatch({
-      type: POST_ERROR,
+      type: ENROLLMENT_COMPLETE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const enrollmentStats = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`/enrollment/stats${id}`);
+
+    dispatch({
+      type: ENROLLMENT_STATS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: STATS_ENROLLMENT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

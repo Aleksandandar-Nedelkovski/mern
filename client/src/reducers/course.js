@@ -1,8 +1,8 @@
 import {
   GET_COURSES,
-  GET_COURSE,
-  ADD_COURSE,
   COURSE_ERROR,
+  ADD_COURSE,
+  GET_COURSE,
   GET_DEFAULT_PHOTO,
 } from "../actions/types";
 

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
+
 const Course = require("../../models/Course");
 const User = require("../../models/User");
 const checkObjectId = require("../../middleware/checkObjectId");
@@ -20,7 +21,7 @@ router.post(
   // ).isLength({ min: 20 }),
   async (req, res) => {
     const errors = validationResult(req);
-    const { courseName, description, category, image } = req.body;
+    const { name, description, category, image } = req.body;
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -29,7 +30,8 @@ router.post(
       const user = await User.findById(req.user.id).select("-password");
 
       const newCourse = new Course({
-        name: courseName,
+        user: req.user.id,
+        name,
         description,
         category,
         image,

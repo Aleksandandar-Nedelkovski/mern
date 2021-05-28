@@ -59,46 +59,54 @@ const EventsList = ({ events: { events, loading }, getEvents }) => {
 
   return events !== null && !loading ? (
     <Fragment>
-      {events.map((event) => (
-        <Card
-          component={Link}
-          to={`/event/${event._id}`}
-          key={event._id}
-          className={classes.card}
-        >
-          <div className={classes.mediaContainer}>
-            <img
-              // src={require(`../../img/${event.type}.jpg`)}
-              src={require(`../../img/event/concert.jpg`)}
-              className={classes.cardMedia}
-              alt=""
-            />
-          </div>
-          <div className={classes.mediaDetails}>
-            <Typography variant="h4" color="secondary">
-              {event.eventName}
-            </Typography>
-            <Typography variant="body1">
-              created <Moment format="DD/MM/YYYY">{event.date}</Moment> by{" "}
-              {event.user}
-            </Typography>
-          </div>
-        </Card>
-      ))}
+      <div className="min-h-screen flex flex-col">
+        {events.map((event) => (
+          <Card
+            component={Link}
+            to={`/event/${event._id}`}
+            key={event._id}
+            className={classes.card}
+          >
+            <div className={classes.mediaContainer}>
+              <img
+                // src={require(`../../img/${event.type}.jpg`)}
+                src={require(`../../img/event/concert.jpg`)}
+                className={classes.cardMedia}
+                alt=""
+              />
+            </div>
+            <div className={classes.mediaDetails}>
+              <Typography variant="h4" color="secondary">
+                {event.eventName}
+              </Typography>
+              <Typography variant="body1">
+                created <Moment format="DD/MM/YYYY">{event.date}</Moment> by{" "}
+                {event.user}
+              </Typography>
+            </div>
+          </Card>
+        ))}
+      </div>
     </Fragment>
   ) : (
     <Fragment>
-      <Typography variant="h2" color="primary" style={{ marginBottom: "3rem" }}>
-        No events for now ...
-      </Typography>
-      <Button
-        component={Link}
-        to="/create-event"
-        variant="contained"
-        color="primary"
-      >
-        Get started
-      </Button>
+      <div className="min-h-screen flex flex-col">
+        <Typography
+          variant="h2"
+          color="primary"
+          style={{ marginBottom: "3rem" }}
+        >
+          No events for now ...
+        </Typography>
+        <Button
+          component={Link}
+          to="/create-event"
+          variant="contained"
+          color="primary"
+        >
+          Get started
+        </Button>
+      </div>
     </Fragment>
   );
 };

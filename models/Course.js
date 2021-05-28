@@ -9,6 +9,9 @@ const LessonSchema = new Schema({
 module.exports = mongoose.model("lesson", LessonSchema);
 
 const CourseSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+  },
   name: {
     type: String,
     trim: true,
@@ -31,7 +34,6 @@ const CourseSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: "User",
       },
       name: {
         type: String,
@@ -51,7 +53,7 @@ const CourseSchema = new Schema({
     default: false,
   },
   lessons: [LessonSchema],
-  created: {
+  date: {
     type: Date,
     default: Date.now,
   },

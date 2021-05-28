@@ -1,16 +1,17 @@
 import {
-  GET_COURSES,
-  GET_COURSE,
-  ADD_ENROLLMENT,
-  COURSE_ERROR,
-  GET_DEFAULT_PHOTO,
+  CREATE_ENROLLMENT,
+  GET_ENROLLMENT,
+  GET_ENROLLMENTS,
 } from "../actions/types";
 
 const initialState = {
+  enrollments: [],
+  enrollment: null,
   course: "",
   student: null,
   lessonStatus: [],
   enrolled: false,
+  loading: true,
   error: {},
 };
 
@@ -18,34 +19,22 @@ function enrollmentReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_COURSES:
+    case GET_ENROLLMENTS:
       return {
         ...state,
-        courses: payload,
+        enrollments: payload,
         loading: false,
       };
-    case GET_COURSE:
+    case GET_ENROLLMENT:
       return {
         ...state,
-        course: payload,
+        enrollment: payload,
         loading: false,
       };
-    case GET_DEFAULT_PHOTO:
-      return {
-        ...state,
-        course: payload,
-        loading: false,
-      };
-    case ADD_ENROLLMENT:
+    case CREATE_ENROLLMENT:
       return {
         ...state,
         enrollments: [payload, ...state.enrollments],
-        loading: false,
-      };
-    case COURSE_ERROR:
-      return {
-        ...state,
-        error: payload,
         loading: false,
       };
     default:

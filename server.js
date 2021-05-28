@@ -19,7 +19,7 @@ app.use("/api/groups", require("./routes/api/groups"));
 app.use("/api/events", require("./routes/api/events"));
 app.use("/api/category", require("./routes/api/category"));
 app.use("/api/courses", require("./routes/api/courses"));
-app.use("/api/enrollments", require("./routes/api/enroll"));
+app.use("/api/enrollment", require("./routes/api/enrollment"));
 app.use("/api/lecture", require("./routes/api/lecture"));
 app.use("/api/videos", require("./routes/api/videos"));
 app.use("/api/comment", require("./routes/api/comment"));

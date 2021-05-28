@@ -9,7 +9,7 @@ import peer from "./peer";
 import category from "./category";
 import course from "./course";
 import video from "./video";
-import enroll from "./enroll-reducer";
+import enrollment from "./enroll-reducer";
 
 export default combineReducers({
   alert,
@@ -22,5 +22,5 @@ export default combineReducers({
   category,
   course,
   video,
-  enroll,
+  enrollment,
 });

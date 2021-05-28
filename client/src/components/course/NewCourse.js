@@ -49,13 +49,13 @@ const useStyles = makeStyles((theme) => ({
 const NewCourse = ({ addCourse, auth: { user } }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
-    courseName: "",
+    name: "",
     description: "",
     image: "",
     category: "",
     redirect: false,
   });
-  const { courseName, description, image, category } = formData;
+  const { name, image, description, category } = formData;
 
   const handleChange = (name) => (event) => {
     const value = name === "image" ? event.target.files[0] : event.target.value;
@@ -68,73 +68,75 @@ const NewCourse = ({ addCourse, auth: { user } }) => {
   };
 
   return (
-    <Card className={classes.card}>
-      <form onSubmit={handleSubmit}>
-        <CardContent>
-          <Typography variant="h6" className={classes.title}>
-            New Course
-          </Typography>
-          <br />
-          <input
-            accept="image/*"
-            onChange={handleChange("image")}
-            className={classes.input}
-            id="icon-button-file"
-            type="file"
-          />
-          <label htmlFor="icon-button-file">
-            <Button variant="contained" color="secondary" component="span">
-              Upload Photo
-              <FileUpload />
+    <div className="min-h-screen flex flex-col">
+      <Card className={classes.card}>
+        <form onSubmit={handleSubmit}>
+          <CardContent>
+            <Typography variant="h6" className={classes.title}>
+              New Course
+            </Typography>
+            <br />
+            <input
+              accept="image/*"
+              onChange={handleChange("image")}
+              className={classes.input}
+              id="icon-button-file"
+              type="file"
+            />
+            <label htmlFor="icon-button-file">
+              <Button variant="contained" color="secondary" component="span">
+                Upload Photo
+                <FileUpload />
+              </Button>
+            </label>{" "}
+            <span className={classes.filename}>{image ? image.name : ""}</span>
+            <br />
+            <TextField
+              id="name"
+              label="Name"
+              className={classes.textField}
+              value={name}
+              onChange={handleChange("name")}
+              margin="normal"
+            />
+            <br />
+            <TextField
+              id="multiline-flexible"
+              label="Description"
+              multiline
+              rows="2"
+              value={description}
+              onChange={handleChange("description")}
+              className={classes.textField}
+              margin="normal"
+            />
+            <br />
+            <TextField
+              id="category"
+              label="Category"
+              className={classes.textField}
+              value={category}
+              onChange={handleChange("category")}
+              margin="normal"
+            />
+            <br />
+          </CardContent>
+          <CardActions>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              className={classes.submit}
+            >
+              Submit
             </Button>
-          </label>{" "}
-          <span className={classes.filename}>{image ? image.name : ""}</span>
-          <br />
-          <TextField
-            id="name"
-            label="Name"
-            className={classes.textField}
-            value={courseName}
-            onChange={handleChange("courseName")}
-            margin="normal"
-          />
-          <br />
-          <TextField
-            id="multiline-flexible"
-            label="Description"
-            multiline
-            rows="2"
-            value={description}
-            onChange={handleChange("description")}
-            className={classes.textField}
-            margin="normal"
-          />
-          <br />
-          <TextField
-            id="category"
-            label="Category"
-            className={classes.textField}
-            value={category}
-            onChange={handleChange("category")}
-            margin="normal"
-          />
-          <br />
-        </CardContent>
-        <CardActions>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            className={classes.submit}
-          >
-            Submit
-          </Button>
-          <Link to="/teach/courses" className={classes.submit}>
-            <Button variant="contained">Cancel</Button>
-          </Link>
-        </CardActions>
-      </form>
-    </Card>
+            <Link to="/teach/courses" className={classes.submit}>
+              <Button variant="contained">Cancel</Button>
+            </Link>
+          </CardActions>
+        </form>
+      </Card>
+    </div>
   );
 };
 

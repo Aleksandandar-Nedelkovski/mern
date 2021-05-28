@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import Coursetem from "./CourseItem";
+import Typography from "@material-ui/core/Typography";
+// import Courses from "./Courses";
+import CourseItem from "./CourseItem";
+import Enrollments from "../enrollment/Enrollments";
+import Spinner from "../layout/Spinner";
+
+import { listEnrolled } from "../../actions/enrollment";
 import { getCourses } from "../../actions/course";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,37 +69,66 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Courses = ({ getCourses, course: { courses } }) => {
-  useEffect(() => {
-    getCourses();
-  }, [getCourses]);
-
+const Courses = ({
+  getCourses,
+  listEnrolled,
+  course: { courses, loading },
+}) => {
   const classes = useStyles();
   const [enrolled] = useState([]);
+  useEffect(() => {
+    getCourses();
+    listEnrolled();
+  }, [getCourses, listEnrolled]);
 
   return (
-    <div className={classes.extraTop}>
-      <Card className={classes.card}>
-        <Typography variant="h5" component="h2">
-          All Courses
-        </Typography>
-        {courses.length !== 0 && courses.length !== enrolled.length ? (
-          <div className="courses">
-            {courses.map((course) => (
-              <Coursetem key={course._id} course={course} />
-            ))}
-          </div>
+    <Fragment>
+      <div className="min-h-screen flex flex-col">
+        {loading ? (
+          <Spinner />
         ) : (
-          <Typography variant="body1" className={classes.noTitle}>
-            No new courses.
-          </Typography>
+          <Fragment>
+            <Card className={`${classes.card} ${classes.enrolledCard}`}>
+              <Typography
+                variant="h6"
+                component="h2"
+                className={classes.enrolledTitle}
+              >
+                Courses you are enrolled in
+              </Typography>
+              {enrolled.length !== 0 ? (
+                <Enrollments enrollments={enrolled} />
+              ) : (
+                <Typography variant="body1" className={classes.noTitle}>
+                  No courses.
+                </Typography>
+              )}
+            </Card>
+            <Card className={classes.card}>
+              <Typography variant="h5" component="h2">
+                All Courses
+              </Typography>
+              <div className="courses">
+                {courses.length !== 0 && courses.length !== enrolled.length ? (
+                  courses.map((course) => (
+                    <CourseItem key={course._id} course={course} />
+                  ))
+                ) : (
+                  <Typography variant="body1" className={classes.noTitle}>
+                    No new courses.
+                  </Typography>
+                )}
+              </div>
+            </Card>
+          </Fragment>
         )}
-      </Card>
-    </div>
+      </div>
+    </Fragment>
   );
 };
 
 Courses.propTypes = {
+  listEnrolled: PropTypes.func.isRequired,
   getCourses: PropTypes.func.isRequired,
   course: PropTypes.object.isRequired,
 };
@@ -103,4 +137,7 @@ const mapStateToProps = (state) => ({
   course: state.course,
 });
 
-export default connect(mapStateToProps, { getCourses })(Courses);
+export default connect(mapStateToProps, {
+  listEnrolled,
+  getCourses,
+})(Courses);
