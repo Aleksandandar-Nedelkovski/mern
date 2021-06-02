@@ -73,7 +73,7 @@ function MyCourses({ getCourses, course: { courses } }) {
           <List dense>
             {courses.map((course, i) => {
               return (
-                <Link to={"/teach/course/" + course._id} key={i}>
+                <Link to={"/courses/" + course._id} key={i}>
                   <ListItem button>
                     <ListItemAvatar>
                       <Avatar

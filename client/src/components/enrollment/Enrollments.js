@@ -6,7 +6,6 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import CompletedIcon from "@material-ui/icons/VerifiedUser";
 import InProgressIcon from "@material-ui/icons/DonutLarge";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +56,7 @@ function Enrollments(props) {
   return (
     <div>
       <GridList cellHeight={120} className={classes.gridList} cols={4}>
-        {props.enrollments.map((course, i) => (
+        {/* {props.enrollments.map((course, i) => (
           <GridListTile key={i} className={classes.tile}>
             <Link to={"/learn/" + course._id}>
               <img
@@ -84,19 +83,18 @@ function Enrollments(props) {
               }
             />
           </GridListTile>
-        ))}
+        ))} */}
       </GridList>
     </div>
   );
 }
 
-Enrollments.propTypes = {
-  auth: PropTypes.object.isRequired,
-};
+// Enrollments.propTypes = {
+//   auth: PropTypes.object.isRequired,
+// };
 
 const mapStateToProps = (state) => ({
   course: state.course,
-  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(Enrollments);

@@ -68,4 +68,22 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// @route    GET api/enrollment/stats/:courseId
+// @desc     Get enrollment stats
+// @access   Private
+router.get("/stats/:id", auth, checkObjectId("id"), async (req, res) => {
+  try {
+    const enrollment = await Course.findById(req.params.id);
+    if (!enrollment) {
+      return res.status(404).json({ msg: "Course not found" });
+    }
+    await enrollment.save();
+
+    res.json(enrollment);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

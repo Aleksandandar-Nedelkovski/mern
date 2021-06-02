@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewLesson({ addLesson, course: { course }, props }) {
+function NewLesson({ addLesson, course: { course }, history }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ function NewLesson({ addLesson, course: { course }, props }) {
   };
   const clickSubmit = (e) => {
     e.preventDefault();
-    addLesson(formData, course._id);
+    addLesson(course._id, formData, history);
     setOpen(false);
   };
 
@@ -109,12 +109,10 @@ function NewLesson({ addLesson, course: { course }, props }) {
 
 NewLesson.propTypes = {
   addLesson: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
   course: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
   course: state.course,
 });
 

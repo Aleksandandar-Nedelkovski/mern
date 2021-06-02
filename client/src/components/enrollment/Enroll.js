@@ -1,36 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import { createEnrollment } from "../../actions/enrollment";
-// import { Redirect } from "react-router-dom";
+import { addEnrollment } from "../../actions/course";
 import { connect } from "react-redux";
 
-function Enroll({ createEnrollment, course: { course } }) {
+function Enroll({ addEnrollment, courseId, course: { course }, history }) {
   const [formData] = useState({
-    enrollmentId: "",
-    course: course._id,
-    student: course.user,
-    lessonsArray: [],
+    courseId,
+    studentId: course.user,
+    lessonsArray: course.lessons,
     enrolled: Date.now,
-    redirect: false,
   });
-
-  const { student, lessonsArray, enrolled } = formData;
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    createEnrollment(course._id, formData);
+    addEnrollment(courseId, formData, history);
   };
 
   return (
     <Button variant="contained" color="secondary" onClick={clickSubmit}>
-      Enroll{" "}
+      Enroll
     </Button>
   );
 }
 
 Enroll.propTypes = {
-  createEnrollment: PropTypes.func.isRequired,
+  addEnrollment: PropTypes.func.isRequired,
   course: PropTypes.object.isRequired,
 };
 
@@ -38,4 +33,4 @@ const mapStateToProps = (state) => ({
   course: state.course,
 });
 
-export default connect(mapStateToProps, { createEnrollment })(Enroll);
+export default connect(mapStateToProps, { addEnrollment })(Enroll);

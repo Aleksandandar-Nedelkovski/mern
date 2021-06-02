@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getCourse, updateCourse, deleteCourse } from "../../actions/course";
+import {
+  getCourse,
+  updateCourse,
+  deleteCourse,
+  enrollmentStats,
+} from "../../actions/course";
 import LessonForm from "./LessonForm";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -13,7 +18,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Enroll from "./../enrollment/Enroll";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import { makeStyles } from "@material-ui/core/styles";
 
 import CardMedia from "@material-ui/core/CardMedia";
 import PeopleIcon from "@material-ui/icons/Group";
@@ -28,85 +32,23 @@ import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import Edit from "@material-ui/icons/Edit";
-
-const useStyles = makeStyles((theme) => ({
-  root: theme.mixins.gutters({
-    maxWidth: 800,
-    margin: "auto",
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(12),
-  }),
-  flex: {
-    display: "flex",
-    marginBottom: 20,
-  },
-  card: {
-    padding: "24px 40px 40px",
-  },
-  subheading: {
-    margin: "10px",
-    color: theme.palette.openTitle,
-  },
-  details: {
-    margin: "16px",
-  },
-  sub: {
-    display: "block",
-    margin: "3px 0px 5px 0px",
-    fontSize: "0.9em",
-  },
-  media: {
-    height: 190,
-    display: "inline-block",
-    width: "100%",
-    marginLeft: "16px",
-  },
-  icon: {
-    verticalAlign: "sub",
-  },
-  category: {
-    color: "#5c5c5c",
-    fontSize: "0.9em",
-    padding: "3px 5px",
-    backgroundColor: "#dbdbdb",
-    borderRadius: "0.2em",
-    marginTop: 5,
-  },
-  action: {
-    margin: "10px 0px",
-    display: "flex",
-    justifyContent: "flex-end",
-  },
-  statSpan: {
-    margin: "7px 10px 0 10px",
-    alignItems: "center",
-    color: "#616161",
-    display: "inline-flex",
-    "& svg": {
-      marginRight: 10,
-      color: "#b6ab9a",
-    },
-  },
-  enroll: {
-    float: "right",
-  },
-}));
+import { CourseStyles } from "./CourseStyle";
 
 const Course = ({
   getCourse,
-  // updateCourse,
+  enrollmentStats,
   auth,
   course: { course, loading },
   match,
-  showActions,
+  history,
 }) => {
-  const classes = useStyles();
-  const [stats] = useState({});
+  const classes = CourseStyles();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getCourse(match.params.courseId);
-  }, [getCourse, match.params.courseId]);
+    enrollmentStats(match.params.courseId);
+  }, [getCourse, enrollmentStats, match.params.courseId]);
 
   const publish = () => {
     let courseData = new FormData();
@@ -177,10 +119,14 @@ const Course = ({
                 {course.published && (
                   <div>
                     <span className={classes.statSpan}>
-                      <PeopleIcon /> {stats.totalEnrolled} enrolled{" "}
+                      <PeopleIcon />
+                      {/* {stats.totalEnrolled}  */}
+                      enrolled{" "}
                     </span>
                     <span className={classes.statSpan}>
-                      <CompletedIcon /> {stats.totalCompleted} completed{" "}
+                      <CompletedIcon />
+                      {/* {stats.totalCompleted} */}
+                      completed{" "}
                     </span>
                   </div>
                 )}
@@ -201,7 +147,7 @@ const Course = ({
 
               {course.published && (
                 <div className={classes.enroll}>
-                  <Enroll courseId={course._id} />
+                  <Enroll courseId={course._id} history={history} />
                 </div>
               )}
             </div>
@@ -223,7 +169,7 @@ const Course = ({
                 !auth.loading &&
                 course.user === auth.user._id && (
                   <span className={classes.action}>
-                    <LessonForm course={course._id} />
+                    <LessonForm course={course._id} history={history} />
                   </span>
                 )
               }
@@ -281,7 +227,7 @@ Course.defaultProps = {
 
 Course.propTypes = {
   getCourse: PropTypes.func.isRequired,
-  updateCourse: PropTypes.func.isRequired,
+  enrollmentStats: PropTypes.func.isRequired,
   course: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deleteCourse: PropTypes.func.isRequired,
@@ -289,7 +235,8 @@ Course.propTypes = {
 
 const mapStateToProps = (state) => ({
   course: state.course,
+  enrollment: state.enrollment,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCourse })(Course);
+export default connect(mapStateToProps, { getCourse, enrollmentStats })(Course);

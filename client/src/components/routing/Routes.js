@@ -95,11 +95,7 @@ const Routes = (props) => {
           path="/teach/course/edit/:courseId"
           component={EditCourse}
         />
-        <PrivateRoute
-          exact
-          path="/learn/:enrollmentId"
-          component={Enrollment}
-        />
+        <PrivateRoute exact path="/learn/:courseId" component={Enrollment} />
 
         <PrivateRoute exact path="/video/upload" component={UploadVideoPage} />
         <PrivateRoute exact path="/videos" component={AllVideos} />

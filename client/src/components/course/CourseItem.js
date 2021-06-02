@@ -27,10 +27,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.openTitle,
   },
   media: {
-    minHeight: 400,
-  },
-  gridList: {
-    width: "100%",
+    minHeight: 400, // actionIcon={
+    //   <div className={classes.action}>
+    //     <Enroll courseId={_id} />
+    //   </div>
+    // }
     minHeight: 200,
     padding: "16px 0 10px",
   },
@@ -65,12 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CourseItem = ({
-  deleteCourse,
-  auth,
-  course: { _id, name, category },
-  showActions,
-}) => {
+const CourseItem = ({ course: { _id, name, category } }) => {
   const classes = useStyles();
 
   return (
@@ -91,30 +87,15 @@ const CourseItem = ({
             </Link>
           }
           subtitle={<span>{category}</span>}
-          // actionIcon={
-          //   <div className={classes.action}>
-          //     <Enroll courseId={_id} />
-          //   </div>
-          // }
         />
       </GridListTile>
     </GridList>
   );
 };
 
-CourseItem.defaultProps = {
-  showActions: true,
-};
-
 CourseItem.propTypes = {
   course: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
   deleteCourse: PropTypes.func.isRequired,
-  showActions: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps, { deleteCourse })(CourseItem);
+export default connect(null, { deleteCourse })(CourseItem);

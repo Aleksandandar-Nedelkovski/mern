@@ -10,6 +10,9 @@ import {
   ADD_LESSON,
   LESSON_ERROR,
   REMOVE_LESSON,
+  ADD_ENROLLMENT,
+  ENROLLMENT_ERROR,
+  GET_ENROLLMENT,
 } from "./types";
 
 // get courses
@@ -103,10 +106,10 @@ export const updateCourse = (id) => async (dispatch) => {
   }
 };
 
-// Add course
-export const addLesson = (formData, id) => async (dispatch) => {
+// Add lesson
+export const addLesson = (courseId, formData, history) => async (dispatch) => {
   try {
-    const res = await api.post(`/courses/${id}/lesson/new`, formData);
+    const res = await api.post(`/courses/lesson/${courseId}`, formData);
 
     dispatch({
       type: ADD_LESSON,
@@ -114,12 +117,31 @@ export const addLesson = (formData, id) => async (dispatch) => {
     });
 
     dispatch(setAlert("Lesson Created", "success"));
+    history.push(`/courses/${res.data._id}`);
   } catch (err) {
     dispatch({
       type: LESSON_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
     dispatch(setAlert("NO NO Lesson", "danger"));
+  }
+};
+
+// Delete lesson
+export const deleteLesson = (courseId, lessonId) => async (dispatch) => {
+  try {
+    await api.delete(`/courses/lesson/${courseId}/${lessonId}`);
+    dispatch({
+      type: REMOVE_LESSON,
+      payload: lessonId,
+    });
+
+    dispatch(setAlert("Lesson Removed", "success"));
+  } catch (err) {
+    dispatch({
+      type: LESSON_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };
 
@@ -142,20 +164,78 @@ export const listPublished = (id) => async (dispatch) => {
   }
 };
 
-// Delete comment
-export const deleteLesson = (courseId, lessonId) => async (dispatch) => {
+// Add enrollment
+export const addEnrollment = (courseId, formData, history) => async (
+  dispatch
+) => {
   try {
-    await api.delete(`/posts/comment/${courseId}/${lessonId}`);
+    const res = await api.post(`/courses/enrollment/${courseId}`, formData);
 
     dispatch({
-      type: REMOVE_LESSON,
-      payload: lessonId,
+      type: ADD_ENROLLMENT,
+      payload: res.data,
     });
 
-    dispatch(setAlert("Comment Removed", "success"));
+    dispatch(setAlert("Enrollment Added", "success"));
+    history.push(`/learn/${res.data._id}`);
   } catch (err) {
     dispatch({
-      type: LESSON_ERROR,
+      type: ENROLLMENT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// enrollmentStats
+export const enrollmentStats = (courseId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/courses/enrollment/${courseId}`);
+
+    dispatch({
+      type: ADD_ENROLLMENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ENROLLMENT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// listEnrolled
+export const listEnrolled = (courseId, formData) => async (dispatch) => {
+  try {
+    const res = await api.post(`/courses/enrollment/${courseId}`, formData);
+
+    dispatch({
+      type: ADD_ENROLLMENT,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("Enrollment Added", "success"));
+  } catch (err) {
+    dispatch({
+      type: ENROLLMENT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// getEnrollment
+export const getEnrollment = (courseId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/courses/enrollment/${courseId}`);
+
+    dispatch({
+      type: GET_ENROLLMENT,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("GET_ENROLLMENT", "success"));
+  } catch (err) {
+    dispatch({
+      type: ENROLLMENT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

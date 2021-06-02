@@ -5,6 +5,8 @@ const auth = require("../../middleware/auth");
 
 const Course = require("../../models/Course");
 const User = require("../../models/User");
+// const Lesson = require("../../models/Lesson");
+const Enrollment = require("../../models/Enrollment");
 const checkObjectId = require("../../middleware/checkObjectId");
 
 // @route    POST api/courses
@@ -38,7 +40,6 @@ router.post(
         instructor: {
           user: req.user.id,
           name: user.name,
-          avatar: user.avatar,
         },
       });
 
@@ -105,11 +106,11 @@ router.get("/photo", auth, async (req, res, next) => {
   next();
 });
 
-// @route    POST api/courses/:id/lesson/new
+// @route    POST api/courses/lesson/:id
 // @desc     Comment on a post
 // @access   Private
 router.post(
-  "/:id/lesson/new",
+  "/lesson/:id",
   auth,
   checkObjectId("id"),
   check("title", "Title is required").notEmpty(),
@@ -128,7 +129,6 @@ router.post(
         content: req.body.content,
         resource_url: req.body.resource_url,
         name: user.name,
-        avatar: user.avatar,
         user: req.user.id,
       };
 
@@ -143,5 +143,33 @@ router.post(
     }
   }
 );
+
+// @route    POST api/courses/enrollment/:id
+// @desc     Create enrollment
+// @access   Private
+router.post("/enrollment/:id", auth, checkObjectId("id"), async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    const course = await Course.findById(req.params.id);
+    const newEnrollment = new Enrollment({
+      courseId: req.params.id,
+      studentId: user,
+      lessonStatus: req.body.lessonsArray,
+      enrolled: req.body.enrolled,
+    });
+
+    course.enrollments.unshift(newEnrollment);
+    await course.save();
+    res.json(course);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;

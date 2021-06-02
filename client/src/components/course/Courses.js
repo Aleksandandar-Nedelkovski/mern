@@ -9,8 +9,7 @@ import CourseItem from "./CourseItem";
 import Enrollments from "../enrollment/Enrollments";
 import Spinner from "../layout/Spinner";
 
-import { listEnrolled } from "../../actions/enrollment";
-import { getCourses } from "../../actions/course";
+import { getCourses, listEnrolled } from "../../actions/course";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -72,15 +71,16 @@ const useStyles = makeStyles((theme) => ({
 const Courses = ({
   getCourses,
   listEnrolled,
+  // enrolled,
   course: { courses, loading },
 }) => {
   const classes = useStyles();
-  const [enrolled] = useState([]);
   useEffect(() => {
     getCourses();
     listEnrolled();
   }, [getCourses, listEnrolled]);
 
+  const [enrolled, setEnrolled] = useState({});
   return (
     <Fragment>
       <div className="min-h-screen flex flex-col">
@@ -131,10 +131,12 @@ Courses.propTypes = {
   listEnrolled: PropTypes.func.isRequired,
   getCourses: PropTypes.func.isRequired,
   course: PropTypes.object.isRequired,
+  enrolled: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   course: state.course,
+  enrolled: state.enrolled,
 });
 
 export default connect(mapStateToProps, {

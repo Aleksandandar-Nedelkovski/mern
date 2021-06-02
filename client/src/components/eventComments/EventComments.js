@@ -84,7 +84,7 @@ const EventComments = ({ event, auth, deleteComment, addComment }) => {
             <div>
               <Typography variant="body1">{text}</Typography>
               <Typography variant="caption" className={classes.commentDate}>
-                Created on{" "}
+                Posted on{" "}
                 <span>{<Moment format="DD/MM/YYYY">{date}</Moment>}</span>
               </Typography>
             </div>

@@ -24,6 +24,7 @@ import {
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import EventComments from "../../components/eventComments/EventComments";
+import Moment from "react-moment";
 
 const Event = ({
   auth,
@@ -101,7 +102,7 @@ const Event = ({
             variant="contained"
             color="secondary"
           >
-            <i className="fas fa-eraser"></i> Withdraw
+            <i className="fas fa-eraser"></i> Cancel
           </Button>
         </div>
       );
@@ -122,13 +123,11 @@ const Event = ({
               <Typography variant="body1">
                 Date:{" "}
                 <span>
-                  {event.date}
-                  {/* <Moment format="DD/MM/YYYY">{event.date}</Moment> */}
-                </span>
+                  <Moment format="LL">{event.date}</Moment>
+                </span>{" "}
                 Time:{" "}
                 <span>
-                  {event.time}
-                  {/* <Moment format="hh:mm">{event.time}</Moment> */}
+                  <Moment format="LT">{event.time}</Moment>
                 </span>
               </Typography>
             </div>

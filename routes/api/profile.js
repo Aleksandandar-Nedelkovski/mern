@@ -7,7 +7,6 @@ const checkObjectId = require("../../middleware/checkObjectId");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
-const Group = require("../../models/Group");
 const Post = require("../../models/Post");
 
 // @route    GET api/profile/me
@@ -272,56 +271,6 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
 // @route  GET api/profile/invites
 // @desc   Get the groups that sent an invite
 // @access Private
-router.get("/invites", auth, async (req, res) => {
-  try {
-    /* Get user & profile and check if profile exists */
-    const profile = await Profile.findOne({ user: req.user.id });
-    if (!profile) {
-      return res
-        .status(404)
-        .json({ msg: "Profile has not been created yet, make one" });
-    }
-
-    /* Get the groups that sent invites and return */
-    const groups = await Group.find({ _id: { $in: profile.invites } });
-    res.json(groups);
-    console.log("groups", groups);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
-  }
-});
-
-// @route  GET api/profile/groups
-// @desc   Gets all groups that the user is in
-// @access Private
-router.get("/groups", auth, async (req, res) => {
-  try {
-    // const groups = await Group.find({ "members.user": req.user.id.toString() });
-    const groups = await Group.find({ "members.user": req.user.id.toString() });
-
-    res.json(groups);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
-  }
-});
-
-// @route  GET api/profile/groupsAsHost
-// @desc   Get all the groups in which the user hosts
-// @access Private
-router.get("/groupsAsHost", auth, async (req, res) => {
-  try {
-    const groups = await Group.find({
-      members: { $elemMatch: { user: req.user.id, host: true } },
-    });
-    res.json(groups);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
-  }
-});
-
 // @route  GET api/profile/byCourse/:courses
 // @desc   Get all profiles by the user's courses
 // @access Private

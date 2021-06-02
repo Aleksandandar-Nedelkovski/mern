@@ -1,5 +1,5 @@
 import {
-  CREATE_ENROLLMENT,
+  ADD_ENROLLMENT,
   GET_ENROLLMENT,
   GET_ENROLLMENTS,
 } from "../actions/types";
@@ -31,7 +31,7 @@ function enrollmentReducer(state = initialState, action) {
         enrollment: payload,
         loading: false,
       };
-    case CREATE_ENROLLMENT:
+    case ADD_ENROLLMENT:
       return {
         ...state,
         enrollments: [payload, ...state.enrollments],

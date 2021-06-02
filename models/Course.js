@@ -1,16 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const LessonSchema = new Schema({
-  title: String,
-  content: String,
-  resource_url: String,
-});
-module.exports = mongoose.model("lesson", LessonSchema);
-
 const CourseSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
+    ref: "user",
   },
   name: {
     type: String,
@@ -38,21 +32,48 @@ const CourseSchema = new Schema({
       name: {
         type: String,
       },
-      avatar: {
-        type: String,
+    },
+  ],
+  lessons: [
+    {
+      lesson: {
+        type: Schema.Types.ObjectId,
+        ref: "lesson",
       },
-      date: {
+      complete: Boolean,
+    },
+  ],
+  enrollments: [
+    {
+      courseId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "course",
+      },
+      studentId: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+      lessonStatus: [
+        {
+          lesson: {
+            type: Schema.Types.ObjectId,
+            ref: "lesson",
+          },
+          complete: Boolean,
+        },
+      ],
+      completed: Date,
+      updated: Date,
+      enrolled: {
         type: Date,
         default: Date.now,
       },
     },
   ],
-
   published: {
     type: Boolean,
     default: false,
   },
-  lessons: [LessonSchema],
   date: {
     type: Date,
     default: Date.now,

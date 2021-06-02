@@ -15,15 +15,10 @@ app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/posts", require("./routes/api/posts"));
-app.use("/api/groups", require("./routes/api/groups"));
 app.use("/api/events", require("./routes/api/events"));
-app.use("/api/category", require("./routes/api/category"));
 app.use("/api/courses", require("./routes/api/courses"));
-app.use("/api/enrollment", require("./routes/api/enrollment"));
-app.use("/api/lecture", require("./routes/api/lecture"));
 app.use("/api/videos", require("./routes/api/videos"));
 app.use("/api/comment", require("./routes/api/comment"));
-app.use("/api/subscribe", require("./routes/api/subscribe"));
 
 // Serve static assets in production
 //if (process.env.NODE_ENV === "production") {
