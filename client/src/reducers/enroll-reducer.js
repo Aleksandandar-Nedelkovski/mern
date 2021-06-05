@@ -8,9 +8,6 @@ const initialState = {
   enrollments: [],
   enrollment: null,
   course: "",
-  student: null,
-  lessonStatus: [],
-  enrolled: false,
   loading: true,
   error: {},
 };

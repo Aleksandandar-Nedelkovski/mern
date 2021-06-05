@@ -15,6 +15,9 @@ const CourseSchema = new Schema({
     data: Buffer,
     contentType: String,
   },
+  filePath: {
+    type: String,
+  },
   description: {
     type: String,
     trim: true,
@@ -36,11 +39,12 @@ const CourseSchema = new Schema({
   ],
   lessons: [
     {
-      lesson: {
+      user: {
         type: Schema.Types.ObjectId,
-        ref: "lesson",
       },
-      complete: Boolean,
+      title: String,
+      content: String,
+      resource_url: String,
     },
   ],
   enrollments: [

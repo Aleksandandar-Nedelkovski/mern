@@ -58,10 +58,13 @@ export const learnStyles = makeStyles((theme) => ({
   },
   drawer: {
     width: 240,
+    height: "100%",
     flexShrink: 0,
   },
   drawerPaper: {
     width: 240,
+    // height: "100%",
+    // marginTop: 110,
     backgroundColor: "#616161",
   },
   content: {

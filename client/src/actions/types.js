@@ -99,6 +99,8 @@ export const EVENT_ERROR = "EVENT_ERROR";
 export const GET_VIDEO = "GET_VIDEO";
 export const GET_VIDEOS = "GET_VIDEOS";
 export const VIDEO_ERROR = "VIDEO_ERROR";
+export const UPLOAD_VIDEO = "UPLOAD_VIDEO";
+export const UPLOAD_VIDEO_ERROR = "UPLOAD_VIDEO_ERROR";
 
 //enroll
 

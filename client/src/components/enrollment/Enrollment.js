@@ -109,7 +109,6 @@ const Enrollment = ({
               <ListItemAvatar>
                 <Avatar className={classes.avatar}>{index + 1}</Avatar>
               </ListItemAvatar>
-              {console.log(lesson[index])}
               <ListItemText primary={lesson[index]} />
               <ListItemSecondaryAction>
                 {lesson.complete ? (

@@ -3,7 +3,7 @@ import { Card, Avatar, Col, Typography, Row } from "antd";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
-import { getVideos } from "../../actions/video";
+// import { getVideos } from "../../actions/video";
 // import { makeStyles } from "@material-ui/core/styles";
 // import { Link } from "react-router-dom";
 // import Moment from "react-moment";
@@ -52,11 +52,11 @@ const { Title } = Typography;
 //   },
 // }));
 
-function AllVideos({ getVideos, video: { videos, loading } }) {
-  useEffect(() => {
-    getVideos();
-  }, [getVideos]);
-  console.log("All videos", videos);
+function AllVideos({ video: { videos, loading } }) {
+  // useEffect(() => {
+  //   getVideos();
+  // }, [getVideos]);
+  // console.log("All videos", videos);
 
   // axios.get("/api/video/getVideos").then((response) => {
   //   if (response.data.success) {
@@ -157,7 +157,6 @@ function AllVideos({ getVideos, video: { videos, loading } }) {
 }
 
 AllVideos.propTypes = {
-  getVideos: PropTypes.func.isRequired,
   video: PropTypes.object.isRequired,
 };
 
@@ -165,4 +164,4 @@ const mapStateToProps = (state) => ({
   video: state.video,
 });
 
-export default connect(mapStateToProps, { getVideos })(AllVideos);
+export default connect(mapStateToProps)(AllVideos);

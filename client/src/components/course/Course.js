@@ -36,7 +36,6 @@ import { CourseStyles } from "./CourseStyle";
 
 const Course = ({
   getCourse,
-  enrollmentStats,
   auth,
   course: { course, loading },
   match,
@@ -48,7 +47,7 @@ const Course = ({
   useEffect(() => {
     getCourse(match.params.courseId);
     enrollmentStats(match.params.courseId);
-  }, [getCourse, enrollmentStats, match.params.courseId]);
+  }, [getCourse, match.params.courseId]);
 
   const publish = () => {
     let courseData = new FormData();
@@ -121,7 +120,7 @@ const Course = ({
                     <span className={classes.statSpan}>
                       <PeopleIcon />
                       {/* {stats.totalEnrolled}  */}
-                      enrolled{" "}
+                      {course.enrollments.length} enrolled
                     </span>
                     <span className={classes.statSpan}>
                       <CompletedIcon />
@@ -227,7 +226,6 @@ Course.defaultProps = {
 
 Course.propTypes = {
   getCourse: PropTypes.func.isRequired,
-  enrollmentStats: PropTypes.func.isRequired,
   course: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deleteCourse: PropTypes.func.isRequired,
@@ -235,8 +233,7 @@ Course.propTypes = {
 
 const mapStateToProps = (state) => ({
   course: state.course,
-  enrollment: state.enrollment,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCourse, enrollmentStats })(Course);
+export default connect(mapStateToProps, { getCourse })(Course);

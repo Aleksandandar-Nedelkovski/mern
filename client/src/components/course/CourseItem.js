@@ -27,11 +27,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.openTitle,
   },
   media: {
-    minHeight: 400, // actionIcon={
-    //   <div className={classes.action}>
-    //     <Enroll courseId={_id} />
-    //   </div>
-    // }
     minHeight: 200,
     padding: "16px 0 10px",
   },

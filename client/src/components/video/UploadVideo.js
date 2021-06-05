@@ -160,10 +160,6 @@ function UploadVideoPage({ auth: { user } }) {
                 src={`http://localhost:5000/${Thumbnail}`.default()}
                 alt="success"
               />
-              {/* <img
-              src={`http://localhost:5000/${Thumbnail}.default()`}
-              alt="success"
-            /> */}
             </div>
           )}
         </div>

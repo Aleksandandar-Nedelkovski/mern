@@ -13,6 +13,8 @@ import {
   ADD_ENROLLMENT,
   ENROLLMENT_ERROR,
   GET_ENROLLMENT,
+  UPLOAD_VIDEO,
+  UPLOAD_VIDEO_ERROR,
 } from "./types";
 
 // get courses
@@ -123,7 +125,7 @@ export const addLesson = (courseId, formData, history) => async (dispatch) => {
       type: LESSON_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-    dispatch(setAlert("NO NO Lesson", "danger"));
+    dispatch(setAlert("Error", "danger"));
   }
 };
 
@@ -204,16 +206,14 @@ export const enrollmentStats = (courseId) => async (dispatch) => {
 };
 
 // listEnrolled
-export const listEnrolled = (courseId, formData) => async (dispatch) => {
+export const listEnrolled = (courseId) => async (dispatch) => {
   try {
-    const res = await api.post(`/courses/enrollment/${courseId}`, formData);
+    const res = await api.post(`/courses/enrollment/${courseId}`);
 
     dispatch({
       type: ADD_ENROLLMENT,
       payload: res.data,
     });
-
-    dispatch(setAlert("Enrollment Added", "success"));
   } catch (err) {
     dispatch({
       type: ENROLLMENT_ERROR,
@@ -238,5 +238,25 @@ export const getEnrollment = (courseId) => async (dispatch) => {
       type: ENROLLMENT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+  }
+};
+
+// getEnrollment
+export const uploadVideo = (courseId, formData) => async (dispatch) => {
+  try {
+    const res = await api.get(`/courses/${courseId}/video/upload`, formData);
+
+    dispatch({
+      type: UPLOAD_VIDEO,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("UPLOAD_VIDEO", "success"));
+  } catch (err) {
+    dispatch({
+      type: UPLOAD_VIDEO_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    dispatch(setAlert("UPLOAD_VIDEO_ERROR", "danger"));
   }
 };
