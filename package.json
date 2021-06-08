@@ -19,6 +19,7 @@
     "config": "^3.3.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "express-validator": "^6.8.1",
     "fluent-ffmpeg": "^2.1.2",
     "formidable": "^1.2.2",

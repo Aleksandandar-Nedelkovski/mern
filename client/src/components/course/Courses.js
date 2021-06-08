@@ -80,7 +80,8 @@ const Courses = ({
     listEnrolled();
   }, [getCourses, listEnrolled]);
 
-  const [enrolled, setEnrolled] = useState({});
+  const [enrolled] = useState({});
+  // const [enrolled, setEnrolled] = useState({});
   return (
     <Fragment>
       <div className="min-h-screen flex flex-col">

@@ -1,8 +1,10 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const path = require("path");
+const fileUpload = require("express-fileupload");
 
 const app = express();
+app.use(fileUpload());
 
 // Connect Database
 connectDB();
@@ -20,6 +22,23 @@ app.use("/api/courses", require("./routes/api/courses"));
 app.use("/api/videos", require("./routes/api/videos"));
 app.use("/api/comment", require("./routes/api/comment"));
 
+// Upload Endpoint
+app.post("/upload", (req, res) => {
+  if (req.files === null) {
+    return res.status(400).json({ msg: "No file uploaded" });
+  }
+
+  const file = req.files.file;
+
+  file.mv(`${__dirname}/uploads/${file.name}`, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send(err);
+    }
+
+    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+  });
+});
 // Serve static assets in production
 //if (process.env.NODE_ENV === "production") {
 // Set static folder

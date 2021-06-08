@@ -44,7 +44,8 @@ const CourseSchema = new Schema({
       },
       title: String,
       content: String,
-      resource_url: String,
+      video: String,
+      resourceUrl: String,
     },
   ],
   enrollments: [

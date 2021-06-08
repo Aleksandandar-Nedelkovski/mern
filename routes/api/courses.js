@@ -103,30 +103,6 @@ router.get("/:id", auth, checkObjectId("id"), async (req, res) => {
   }
 });
 
-// @route    GET api/courses/defaultphoto
-// @desc     Get all courses
-// @access   Private
-router.get("/defaultphoto ", auth, async (req, res) => {
-  try {
-    const defaultPhoto = res.sendFile(process.cwd() + defaultImage);
-    res.json(defaultPhoto);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
-
-// @route    GET api/courses/photo
-// @desc     Get all courses
-// @access   Private
-router.get("/photo", auth, async (req, res, next) => {
-  if (req.course.image.data) {
-    res.set("Content-Type", req.course.image.contentType);
-    return res.send(req.course.image.data);
-  }
-  next();
-});
-
 // @route    POST api/courses/lesson/:id
 // @desc     Comment on a post
 // @access   Private
@@ -148,7 +124,8 @@ router.post(
       const newLesson = {
         title: req.body.title,
         content: req.body.content,
-        resource_url: req.body.resource_url,
+        resourceUrl: req.body.resourceUrl,
+        video: req.body.video,
         name: user.name,
         user: req.user.id,
       };
@@ -164,44 +141,6 @@ router.post(
     }
   }
 );
-// // @route    POST api/courses/lesson/:id
-// // @desc     Comment on a post
-// // @access   Private
-// router.post(
-//   "/lesson/:id",
-//   auth,
-//   checkObjectId("id"),
-//   check("title", "Title is required").notEmpty(),
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-
-//     try {
-//       const user = await User.findById(req.user.id).select("-password");
-//       const course = await Course.findById(req.params.id);
-
-//       const newLesson = {
-//         title: req.body.Title,
-//         content: req.body.Content,
-//         resource_url: req.body.ResourceUrl,
-//         filePath: req.body.filePath,
-//         name: user.name,
-//         user: req.user.id,
-//       };
-
-//       course.lessons.unshift(newLesson);
-
-//       await course.save();
-
-//       res.json(course.lessons);
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send("Server Error");
-//     }
-//   }
-// );
 
 // @route    POST api/courses/enrollment/:id
 // @desc     Create enrollment
@@ -231,61 +170,4 @@ router.post("/enrollment/:id", auth, checkObjectId("id"), async (req, res) => {
   }
 });
 
-// @route    POST api/courses/video/uploadfiles
-// @desc     Upload a file
-// @access   Private
-// router.post("/video/uploadfiles", auth, async (req, res) => {
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({ errors: errors.array() });
-//   }
-//   try {
-//     return res.json({
-//       success: true,
-//       filePath: res.req.file.path,
-//       fileName: res.req.file.filename,
-//     });
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
-router.post(
-  "/:id/video/upload",
-  auth,
-  checkObjectId("id"),
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      const course = await Course.findById(req.params.id);
-
-      const newVideo = {
-        filePath: req.body.filePath,
-      };
-
-      course.lessons.unshift(newVideo);
-      await course.save();
-      res.json(course.lessons);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
-  }
-);
-
-// //videos/uploadVideo
-// router.post("/video/upload", (req, res) => {
-//   const video = new Video(req.body);
-
-//   video.save((err, video) => {
-//     if (err) return res.status(400).json({ success: false, err });
-//     return res.status(200).json({
-//       success: true,
-//     });
-//   });
-// });
 module.exports = router;
