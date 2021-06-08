@@ -21,12 +21,10 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "express-validator": "^6.8.1",
-    "fluent-ffmpeg": "^2.1.2",
     "formidable": "^1.2.2",
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.8",
-    "multer": "^1.4.2",
     "normalize-url": "^5.3.0"
   },
   "devDependencies": {

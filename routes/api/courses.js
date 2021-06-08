@@ -5,30 +5,9 @@ const auth = require("../../middleware/auth");
 
 const Course = require("../../models/Course");
 const User = require("../../models/User");
-// const Lesson = require("../../models/Lesson");
-const Video = require("../../models/Video");
 
 const Enrollment = require("../../models/Enrollment");
 const checkObjectId = require("../../middleware/checkObjectId");
-const multer = require("multer");
-
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`);
-  },
-  fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    if (ext !== ".mp4") {
-      return cb(res.status(400).end("only jpg, png, mp4 is allowed"), false);
-    }
-    cb(null, true);
-  },
-});
-
-var upload = multer({ storage: storage }).single("file");
 
 // @route    POST api/courses
 // @desc     Create a course
