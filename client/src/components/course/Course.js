@@ -103,7 +103,7 @@ const Course = ({
                           onClick={clickPublish}
                         >
                           {course.lessons.length === 0
-                            ? "Add atleast 1 lesson to publish"
+                            ? "Add at least 1 lesson to publish"
                             : "Publish"}
                         </Button>
                         <button course={course} onClick={deleteCourse} />

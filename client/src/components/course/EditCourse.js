@@ -19,124 +19,82 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Link, Redirect } from "react-router-dom";
+// import { Link, Redirect } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 
 import { getCourse, updateCourse } from "../../actions/course";
+import { CourseStyles } from "./CourseStyle";
 
-const useStyles = makeStyles((theme) => ({
-  root: theme.mixins.gutters({
-    maxWidth: 800,
-    margin: "auto",
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(12),
-  }),
-  flex: {
-    display: "flex",
-    marginBottom: 20,
-  },
-  card: {
-    padding: "24px 40px 40px",
-  },
-  subheading: {
-    margin: "10px",
-    color: theme.palette.openTitle,
-  },
-  details: {
-    margin: "16px",
-  },
-  upArrow: {
-    border: "2px solid #f57c00",
-    marginLeft: 3,
-    marginTop: 10,
-    padding: 4,
-  },
-  sub: {
-    display: "block",
-    margin: "3px 0px 5px 0px",
-    fontSize: "0.9em",
-  },
-  media: {
-    height: 250,
-    display: "inline-block",
-    width: "50%",
-    marginLeft: "16px",
-  },
-  icon: {
-    verticalAlign: "sub",
-  },
-  textfield: {
-    width: 350,
-  },
-  action: {
-    margin: "8px 24px",
-    display: "inline-block",
-  },
-  input: {
-    display: "none",
-  },
-  filename: {
-    marginLeft: "10px",
-  },
-  list: {
-    backgroundColor: "#f3f3f3",
-  },
-}));
-
-function EditCourse({ match, auth: { user }, getCourse, updateCourse }) {
+function EditCourse({
+  getCourse,
+  auth: { user },
+  course: { course },
+  match,
+  history,
+}) {
   useEffect(() => {
     getCourse(match.params.id);
   }, [getCourse, match.params.id]);
 
-  const classes = useStyles();
-  const [course, setCourse] = useState({
-    name: "",
-    description: "",
-    image: "",
-    category: "",
-    instructor: {},
-    lessons: [],
-  });
-  const [values] = useState({
-    redirect: false,
-    error: "",
-  });
+  const classes = CourseStyles();
 
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [category, setCategory] = useState("");
+  const [resourceUrl, setResourceUrl] = useState("");
+  const [lessons, setLessons] = useState("");
+
+  const handleTitle = (e) => {
+    e.preventDefault();
+    setTitle(e.target.value);
+  };
+
+  const handleChangeCategory = (event) => {
+    setCategory(event.target.value);
+  };
+
+  const handleContent = (event) => {
+    setContent(event.target.value);
+  };
+
+  const handleResourceUrl = (event) => {
+    setResourceUrl(event.target.value);
+  };
   const handleChange = (name) => (event) => {
     const value = name === "image" ? event.target.files[0] : event.target.value;
-    setCourse({ ...course, [name]: value });
+    setLessons({ ...course, [name]: value });
   };
   const handleLessonChange = (name, index) => (event) => {
     const lessons = course.lessons;
     lessons[index][name] = event.target.value;
-    setCourse({ ...course, lessons: lessons });
+    setLessons({ ...course, lessons: lessons });
   };
   const deleteLesson = (index) => (event) => {
     const lessons = course.lessons;
     lessons.splice(index, 1);
-    setCourse({ ...course, lessons: lessons });
+    setLessons({ ...course, lessons: lessons });
   };
-  const moveUp = (index) => (event) => {
+
+  const moveUp = (index) => () => {
     const lessons = course.lessons;
     const moveUp = lessons[index];
     lessons[index] = lessons[index - 1];
     lessons[index - 1] = moveUp;
-    setCourse({ ...course, lessons: lessons });
+    setLessons({ ...course, lessons: lessons });
   };
-  const clickSubmit = () => {
-    let courseData = new FormData();
-    course.name && courseData.append("name", course.name);
-    course.description && courseData.append("description", course.description);
-    course.image && courseData.append("image", course.image);
-    course.category && courseData.append("category", course.category);
-    courseData.append("lessons", JSON.stringify(course.lessons));
+  const clickSubmit = (e) => {
+    e.preventDefault();
+
+    const variables = {
+      title: title,
+      content: content,
+      category: category,
+      resourceUrl: resourceUrl,
+    };
+    updateCourse(course._id, variables, history);
   };
-  if (values.redirect) {
-    return <Redirect to={"/teach/course/" + course._id} />;
-  }
-  const imageUrl = course._id
-    ? `/api/courses/photo/${course._id}?${new Date().getTime()}`
-    : "/api/courses/defaultphoto";
+
+  const imageUrl = require("../../img/logo.png").default;
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
@@ -148,17 +106,15 @@ function EditCourse({ match, auth: { user }, getCourse, updateCourse }) {
               type="text"
               fullWidth
               value={course.name}
-              onChange={handleChange("name")}
+              onChange={handleTitle}
             />
           }
           subheader={
             <div>
-              <Link
-                to={"/user/" + course.instructor._id}
-                className={classes.sub}
-              >
-                By {course.instructor.name}
-              </Link>
+              {/* <p className="text-black">
+                By {course.instructor[0].name} <br />
+              </p> */}
+              By {course.instructor[0].name}
               {
                 <TextField
                   margin="dense"
@@ -166,14 +122,14 @@ function EditCourse({ match, auth: { user }, getCourse, updateCourse }) {
                   type="text"
                   fullWidth
                   value={course.category}
-                  onChange={handleChange("category")}
+                  onChange={handleChangeCategory}
                 />
               }
             </div>
           }
           action={
             user &&
-            user._id === course.instructor._id && (
+            user._id === course.user && (
               <span className={classes.action}>
                 <Button
                   variant="contained"
@@ -201,11 +157,11 @@ function EditCourse({ match, auth: { user }, getCourse, updateCourse }) {
               type="text"
               className={classes.textfield}
               value={course.description}
-              onChange={handleChange("description")}
+              onChange={handleContent}
             />
             <br />
             <br />
-            <input
+            {/* <input
               accept="image/*"
               onChange={handleChange("image")}
               className={classes.input}
@@ -217,11 +173,11 @@ function EditCourse({ match, auth: { user }, getCourse, updateCourse }) {
                 Change Photo
                 <FileUpload />
               </Button>
-            </label>{" "}
-            <span className={classes.filename}>
+            </label>{" "} */}
+            {/* <span className={classes.filename}>
               {course.image ? course.image.name : ""}
             </span>
-            <br />
+            <br /> */}
           </div>
         </div>
         <Divider />
@@ -287,7 +243,7 @@ function EditCourse({ match, auth: { user }, getCourse, updateCourse }) {
                               label="Resource link"
                               type="text"
                               fullWidth
-                              value={lesson.resource_url}
+                              value={lesson.resourceUrl}
                               onChange={handleLessonChange(
                                 "resource_url",
                                 index
@@ -297,7 +253,7 @@ function EditCourse({ match, auth: { user }, getCourse, updateCourse }) {
                           </>
                         }
                       />
-                      {!course.published && (
+                      {course.published && (
                         <ListItemSecondaryAction>
                           <IconButton
                             edge="end"
