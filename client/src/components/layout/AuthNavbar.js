@@ -12,7 +12,7 @@ const AuthNavbar = ({ auth: { isAuthenticated, user }, logout }) => {
       <li>
         <Link to="/profiles">
           <i className="fas fa-users" />{" "}
-          <span className="hide-sm">Parents</span>
+          <span className="hide-sm">Profiles</span>
         </Link>
       </li>
       <li>
@@ -21,34 +21,11 @@ const AuthNavbar = ({ auth: { isAuthenticated, user }, logout }) => {
           <span className="hide-sm">Posts</span>
         </Link>
       </li>
-      <li>
-        <Link to="/prize-store">
-          <i className="fas fa-shopping-cart" />{" "}
-          <span className="hide-sm">Prize Store</span>
-        </Link>
-      </li>
+    
       <li>
         <Link to="/events">
           <i className="fas fa-calendar-week" />{" "}
           <span className="hide-sm">Events</span>
-        </Link>
-      </li>
-      <li>
-        <Link to="/home-challenges">
-          <i className="fas fa-running" />{" "}
-          <span className="hide-sm">Home Challenges</span>
-        </Link>
-      </li>
-      <li>
-        <Link to={"/profile"}>
-          <i className="fas fa-user" />
-          <span className="hide-sm">Profile</span>
-        </Link>
-      </li>
-      <li>
-        <Link to="/dashboard">
-          <i className="fas fa-address-card" />{" "}
-          <span className="hide-sm">Dashboard</span>
         </Link>
       </li>
       <li>

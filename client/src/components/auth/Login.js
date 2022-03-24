@@ -33,6 +33,9 @@ const Login = ({ login, isAuthenticated }) => {
             <p className="lead">
               <i className="fas fa-user" /> Sign Into Your BUILT Account
             </p>
+            <p >To view a demo profile, use the following credentials:</p>
+            <p >Email: alex@mail.com</p>
+            <p >Password: 123456</p>
             <form className="form" onSubmit={onSubmit}>
               <div className="form-group">
                 <input

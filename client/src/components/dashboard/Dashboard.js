@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getCurrentProfile } from "../../actions/profile";
-import GridDashboard from "./GridDashboard";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -38,7 +37,7 @@ const Dashboard = ({
         </div>
         {profile !== null ? (
           <Fragment>
-            <GridDashboard />
+            Dashboard 
           </Fragment>
         ) : (
           <Fragment>
